@@ -2,6 +2,12 @@ package nl.novi.theartroom.dtos;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.URL;
+
 
 import java.util.Date;
 
@@ -10,15 +16,38 @@ public class ArtworkInputDto {
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotBlank
+    @Size(max = 255)
     private String title;
+
+    @NotBlank
+    @Size(max = 255)
     private String artist;
+
+    @NotBlank
     private String description;
+
+    @NotBlank
     private String type;
+
+    @NotBlank
     private String dimensions;
+
+    @Positive
     private Double buyingPrice;
+
+    @Positive
     private Double sellingPrice;
+
+    @PastOrPresent
     private Date dateCreated;
+
+    @Size(max = 100)
     private String edition;
+
+    @Size(max = 255)
+    @URL
     private String imageUrl;
 
     public Long getId() {

@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 
 import java.util.Date;
 
-// TODO Uitzoeken welke informatie waar wordt opgeslagen. In dto's of in models?
+    // TODO Uitzoeken welke informatie waar wordt opgeslagen. In dto's of in models?
     // Waar moeten gegevens die niet direct op het object van een artwork slaan, zoals prijs, voorraad, datum post gecreerd, etc.
 
 @Entity
