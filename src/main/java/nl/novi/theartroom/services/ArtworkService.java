@@ -3,6 +3,7 @@ package nl.novi.theartroom.services;
 import nl.novi.theartroom.dtos.ArtworkDto;
 import nl.novi.theartroom.dtos.ArtworkInputDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
+import nl.novi.theartroom.mappers.ArtworkTypeMapper;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.repositories.ArtworkRepository;
 import org.springframework.stereotype.Service;
@@ -42,8 +43,8 @@ public class ArtworkService {
     }
 
     public void saveArtwork(ArtworkInputDto dto) {
-        Artwork artwork = toArtwork(dto);
-        artworkRepository.save(artwork);
+        Artwork Artwork = ArtworkTypeMapper.mapArtworkType(dto);
+        artworkRepository.save(Artwork);
     }
 
     public void updateArtwork(Long id, ArtworkInputDto dto) {
@@ -66,19 +67,17 @@ public class ArtworkService {
 
     //TODO Mappers naar aparte mappers map verplaatsen
 
-    private ArtworkDto toDto(Artwork artwork) {
+    private ArtworkDto toDto(Artwork Artwork) {
         ArtworkDto dto = new ArtworkDto();
-        dto.setId(artwork.getId());
-        dto.setTitle(artwork.getTitle());
-        dto.setArtist(artwork.getArtist());
-        dto.setDescription(artwork.getDescription());
-        dto.setType(artwork.getType());
-        dto.setDimensions(artwork.getDimensions());
-        dto.setBuyingPrice(artwork.getBuyingPrice());
-        dto.setSellingPrice(artwork.getSellingPrice());
-        dto.setDateCreated(artwork.getDateCreated());
-        dto.setEdition(artwork.getEdition());
-        dto.setImageUrl(artwork.getImageUrl());
+        dto.setId(Artwork.getId());
+        dto.setTitle(Artwork.getTitle());
+        dto.setArtist(Artwork.getArtist());
+        dto.setDescription(Artwork.getDescription());
+        dto.setDateCreated(Artwork.getDateCreated());
+        dto.setGalleryBuyingPrice(Artwork.getGalleryBuyingPrice());
+        dto.setEdition(Artwork.getEdition());
+        dto.setImageUrl(Artwork.getImageUrl());
+        dto.setArtworkType(Artwork.getArtworkType());
 
         return dto;
     }
@@ -87,41 +86,35 @@ public class ArtworkService {
         return toArtwork(dto, new Artwork());
     }
 
-    private Artwork toArtwork(ArtworkInputDto dto, Artwork artwork) {
+    private Artwork toArtwork(ArtworkInputDto dto, Artwork Artwork) {
         if (dto.getId() != null) {
-            artwork.setId(dto.getId());
+            Artwork.setId(dto.getId());
         }
         if (dto.getTitle() != null) {
-            artwork.setTitle(dto.getTitle());
+            Artwork.setTitle(dto.getTitle());
         }
         if (dto.getArtist() != null) {
-            artwork.setArtist(dto.getArtist());
+            Artwork.setArtist(dto.getArtist());
         }
         if (dto.getDescription() != null) {
-            artwork.setDescription(dto.getDescription());
-        }
-        if (dto.getType() != null) {
-            artwork.setType(dto.getType());
-        }
-        if (dto.getDimensions() != null) {
-            artwork.setDimensions(dto.getDimensions());
-        }
-        if (dto.getBuyingPrice() != null) {
-            artwork.setBuyingPrice(dto.getBuyingPrice());
-        }
-        if (dto.getSellingPrice() != null) {
-            artwork.setSellingPrice(dto.getSellingPrice());
+            Artwork.setDescription(dto.getDescription());
         }
         if (dto.getDateCreated() != null) {
-            artwork.setDateCreated(dto.getDateCreated());
+            Artwork.setDateCreated(dto.getDateCreated());
+        }
+        if (dto.getGalleryBuyingPrice() != null) {
+            Artwork.setGalleryBuyingPrice(dto.getGalleryBuyingPrice());
         }
         if (dto.getEdition() != null) {
-            artwork.setEdition(dto.getEdition());
+            Artwork.setEdition(dto.getEdition());
         }
         if (dto.getImageUrl() != null) {
-            artwork.setImageUrl(dto.getImageUrl());
+            Artwork.setImageUrl(dto.getImageUrl());
+        }
+        if (dto.getArtworkType() != null) {
+            Artwork.setArtworkType(dto.getArtworkType());
         }
 
-        return artwork;
+        return Artwork;
     }
 }

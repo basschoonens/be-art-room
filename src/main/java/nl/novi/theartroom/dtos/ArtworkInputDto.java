@@ -2,11 +2,6 @@ package nl.novi.theartroom.dtos;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.URL;
 
 
 import java.util.Date;
@@ -16,39 +11,54 @@ public class ArtworkInputDto {
     @Id
     @GeneratedValue
     private Long id;
-
-    @NotBlank
-    @Size(max = 255)
     private String title;
-
-    @NotBlank
-    @Size(max = 255)
     private String artist;
-
-    @NotBlank
     private String description;
-
-    @NotBlank
-    private String type;
-
-    @NotBlank
-    private String dimensions;
-
-    @Positive
-    private Double buyingPrice;
-
-    @Positive
-    private Double sellingPrice;
-
-    @PastOrPresent
-    private Date dateCreated;
-
-    @Size(max = 100)
+    private Integer dateCreated;
+    private Double galleryBuyingPrice;
     private String edition;
-
-    @Size(max = 255)
-    @URL
     private String imageUrl;
+    private String artworkType;
+
+    // Painting fields
+    private String paintingPaintType;
+    private String paintingSurface;
+    private String paintingMaterial;
+    private Integer paintingDimensionsWidthInCm;
+    private Integer paintingDimensionsHeightInCm;
+
+    // Drawing fields
+    private String drawingDrawType;
+    private String drawingSurface;
+    private String drawingMaterial;
+    private Integer drawingDimensionsWidthInCm;
+    private Integer drawingDimensionsHeightInCm;
+
+
+    public ArtworkInputDto() {
+    }
+
+    public ArtworkInputDto(Long id, String title, String artist, String description, Integer dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+        this.id = id;
+        this.title = title;
+        this.artist = artist;
+        this.description = description;
+        this.dateCreated = dateCreated;
+        this.galleryBuyingPrice = galleryBuyingPrice;
+        this.edition = edition;
+        this.imageUrl = imageUrl;
+        this.artworkType = artworkType;
+        this.paintingPaintType = paintingPaintType;
+        this.paintingSurface = paintingSurface;
+        this.paintingMaterial = paintingMaterial;
+        this.paintingDimensionsWidthInCm = paintingDimensionsWidthInCm;
+        this.paintingDimensionsHeightInCm = paintingDimensionsHeightInCm;
+        this.drawingDrawType = drawingDrawType;
+        this.drawingSurface = drawingSurface;
+        this.drawingMaterial = drawingMaterial;
+        this.drawingDimensionsWidthInCm = drawingDimensionsWidthInCm;
+        this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
+    }
 
     public Long getId() {
         return id;
@@ -82,44 +92,20 @@ public class ArtworkInputDto {
         this.description = description;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDimensions() {
-        return dimensions;
-    }
-
-    public void setDimensions(String dimensions) {
-        this.dimensions = dimensions;
-    }
-
-    public Double getBuyingPrice() {
-        return buyingPrice;
-    }
-
-    public void setBuyingPrice(Double buyingPrice) {
-        this.buyingPrice = buyingPrice;
-    }
-
-    public Double getSellingPrice() {
-        return sellingPrice;
-    }
-
-    public void setSellingPrice(Double sellingPrice) {
-        this.sellingPrice = sellingPrice;
-    }
-
-    public Date getDateCreated() {
+    public Integer getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Integer dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Double getGalleryBuyingPrice() {
+        return galleryBuyingPrice;
+    }
+
+    public void setGalleryBuyingPrice(Double galleryBuyingPrice) {
+        this.galleryBuyingPrice = galleryBuyingPrice;
     }
 
     public String getEdition() {
@@ -137,4 +123,93 @@ public class ArtworkInputDto {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public String getArtworkType() {
+        return artworkType;
+    }
+
+    public void setArtworkType(String artworkType) {
+        this.artworkType = artworkType;
+    }
+
+    public String getPaintingPaintType() {
+        return paintingPaintType;
+    }
+
+    public void setPaintingPaintType(String paintingPaintType) {
+        this.paintingPaintType = paintingPaintType;
+    }
+
+    public String getPaintingSurface() {
+        return paintingSurface;
+    }
+
+    public void setPaintingSurface(String paintingSurface) {
+        this.paintingSurface = paintingSurface;
+    }
+
+    public String getPaintingMaterial() {
+        return paintingMaterial;
+    }
+
+    public void setPaintingMaterial(String paintingMaterial) {
+        this.paintingMaterial = paintingMaterial;
+    }
+
+    public Integer getPaintingDimensionsWidthInCm() {
+        return paintingDimensionsWidthInCm;
+    }
+
+    public void setPaintingDimensionsWidthInCm(Integer paintingDimensionsWidthInCm) {
+        this.paintingDimensionsWidthInCm = paintingDimensionsWidthInCm;
+    }
+
+    public Integer getPaintingDimensionsHeightInCm() {
+        return paintingDimensionsHeightInCm;
+    }
+
+    public void setPaintingDimensionsHeightInCm(Integer paintingDimensionsHeightInCm) {
+        this.paintingDimensionsHeightInCm = paintingDimensionsHeightInCm;
+    }
+
+    public String getDrawingDrawType() {
+        return drawingDrawType;
+    }
+
+    public void setDrawingDrawType(String drawingDrawType) {
+        this.drawingDrawType = drawingDrawType;
+    }
+
+    public String getDrawingSurface() {
+        return drawingSurface;
+    }
+
+    public void setDrawingSurface(String drawingSurface) {
+        this.drawingSurface = drawingSurface;
+    }
+
+    public String getDrawingMaterial() {
+        return drawingMaterial;
+    }
+
+    public void setDrawingMaterial(String drawingMaterial) {
+        this.drawingMaterial = drawingMaterial;
+    }
+
+    public Integer getDrawingDimensionsWidthInCm() {
+        return drawingDimensionsWidthInCm;
+    }
+
+    public void setDrawingDimensionsWidthInCm(Integer drawingDimensionsWidthInCm) {
+        this.drawingDimensionsWidthInCm = drawingDimensionsWidthInCm;
+    }
+
+    public Integer getDrawingDimensionsHeightInCm() {
+        return drawingDimensionsHeightInCm;
+    }
+
+    public void setDrawingDimensionsHeightInCm(Integer drawingDimensionsHeightInCm) {
+        this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
+    }
+
 }

@@ -20,8 +20,6 @@ public class ArtworkController {
         this.artworkService = artworkService;
     }
 
-    //TODO Uitzoeken adhv voorbeeld API welke opties er zijn voor de mappings.
-
     @GetMapping()
     public ResponseEntity<List<ArtworkDto>> getAllArtworks() {
         return ResponseEntity.ok(artworkService.getAllArtworks());

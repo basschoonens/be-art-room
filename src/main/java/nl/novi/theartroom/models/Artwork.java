@@ -1,17 +1,11 @@
 package nl.novi.theartroom.models;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
-    // TODO Uitzoeken welke informatie waar wordt opgeslagen. In dto's of in models?
-    // Waar moeten gegevens die niet direct op het object van een artwork slaan, zoals prijs, voorraad, datum post gecreerd, etc.
-
 @Entity
 @Table(name = "artworks")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Artwork {
 
     @Id
@@ -20,15 +14,11 @@ public class Artwork {
     private String title;
     private String artist;
     private String description;
-    private String type;
-    private String dimensions;
-    private Double buyingPrice;
-    private Double sellingPrice;
-    private Date dateCreated;
+    private Integer dateCreated;
+    private Double galleryBuyingPrice;
     private String edition;
     private String imageUrl;
-
-    // Private String Category, Medium, dateModified, Datepublished, isFeatured, isAvailable, isSold,  ; toevoegen ??
+    private String artworkType;
 
     public Artwork() {
     }
@@ -38,25 +28,21 @@ public class Artwork {
             String title,
             String artist,
             String description,
-            String type,
-            String dimensions,
-            Double buyingPrice,
-            Double sellingPrice,
-            Date dateCreated,
+            Integer dateCreated,
+            Double galleryBuyingPrice,
             String edition,
-            String imageUrl
+            String imageUrl,
+            String artworkType
     ) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.description = description;
-        this.type = type;
-        this.dimensions = dimensions;
-        this.buyingPrice = buyingPrice;
-        this.sellingPrice = sellingPrice;
         this.dateCreated = dateCreated;
+        this.galleryBuyingPrice = galleryBuyingPrice;
         this.edition = edition;
         this.imageUrl = imageUrl;
+        this.artworkType = artworkType;
     }
 
     public Long getId() {
@@ -91,49 +77,24 @@ public class Artwork {
         this.description = description;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDimensions() {
-        return dimensions;
-    }
-
-    public void setDimensions(String dimensions) {
-        this.dimensions = dimensions;
-    }
-
-    public Double getBuyingPrice() {
-        return buyingPrice;
-    }
-
-    public void setBuyingPrice(Double buyingPrice) {
-        this.buyingPrice = buyingPrice;
-    }
-
-    public Double getSellingPrice() {
-        return sellingPrice;
-    }
-
-    public void setSellingPrice(Double sellingPrice) {
-        this.sellingPrice = sellingPrice;
-    }
-
-    public Date getDateCreated() {
+    public Integer getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Integer dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Double getGalleryBuyingPrice() {
+        return galleryBuyingPrice;
+    }
+
+    public void setGalleryBuyingPrice(Double galleryBuyingPrice) {
+        this.galleryBuyingPrice = galleryBuyingPrice;
     }
 
     public String getEdition() {
         return edition;
-
     }
 
     public void setEdition(String edition) {
@@ -147,4 +108,13 @@ public class Artwork {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public String getArtworkType() {
+        return artworkType;
+    }
+
+    public void setArtworkType(String artworkType) {
+        this.artworkType = artworkType;
+    }
+
 }
