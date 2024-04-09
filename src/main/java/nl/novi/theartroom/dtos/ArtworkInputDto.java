@@ -1,15 +1,7 @@
 package nl.novi.theartroom.dtos;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
-
-import java.util.Date;
-
 public class ArtworkInputDto {
 
-    @Id
-    @GeneratedValue
     private Long id;
     private String title;
     private String artist;

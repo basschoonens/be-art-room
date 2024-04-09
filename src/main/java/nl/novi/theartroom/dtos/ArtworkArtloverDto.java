@@ -1,43 +1,28 @@
-package nl.novi.theartroom.models;
-import jakarta.persistence.*;
+package nl.novi.theartroom.dtos;
 
-@Entity
-@Table(name = "artworks")
-@Inheritance(strategy = InheritanceType.JOINED)
-public class Artwork {
+public class ArtworkArtloverDto {
 
-    @Id
-    @GeneratedValue
     private Long id;
     private String title;
     private String artist;
     private String description;
     private Integer dateCreated;
-    private Double galleryBuyingPrice;
     private String edition;
     private String imageUrl;
     private String artworkType;
 
-    public Artwork() {
+    private PaintingOutputDto paintingOutputDto;
+    private DrawingOutputDto drawingOutputDto;
+
+    public ArtworkArtloverDto() {
     }
 
-    public Artwork(
-            Long id,
-            String title,
-            String artist,
-            String description,
-            Integer dateCreated,
-            Double galleryBuyingPrice,
-            String edition,
-            String imageUrl,
-            String artworkType
-    ) {
+    public ArtworkArtloverDto(Long id, String title, String artist, String description, Integer dateCreated, String edition, String imageUrl, String artworkType) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.description = description;
         this.dateCreated = dateCreated;
-        this.galleryBuyingPrice = galleryBuyingPrice;
         this.edition = edition;
         this.imageUrl = imageUrl;
         this.artworkType = artworkType;
@@ -83,14 +68,6 @@ public class Artwork {
         this.dateCreated = dateCreated;
     }
 
-    public Double getGalleryBuyingPrice() {
-        return galleryBuyingPrice;
-    }
-
-    public void setGalleryBuyingPrice(Double galleryBuyingPrice) {
-        this.galleryBuyingPrice = galleryBuyingPrice;
-    }
-
     public String getEdition() {
         return edition;
     }
@@ -115,4 +92,19 @@ public class Artwork {
         this.artworkType = artworkType;
     }
 
+    public PaintingOutputDto getPaintingOutputDto() {
+        return paintingOutputDto;
+    }
+
+    public void setPaintingOutputDto(PaintingOutputDto paintingOutputDto) {
+        this.paintingOutputDto = paintingOutputDto;
+    }
+
+    public DrawingOutputDto getDrawingOutputDto() {
+        return drawingOutputDto;
+    }
+
+    public void setDrawingOutputDto(DrawingOutputDto drawingOutputDto) {
+        this.drawingOutputDto = drawingOutputDto;
+    }
 }

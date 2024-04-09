@@ -1,6 +1,6 @@
 package nl.novi.theartroom.controllers;
 
-import nl.novi.theartroom.dtos.ArtworkDto;
+import nl.novi.theartroom.dtos.ArtworkArtloverDto;
 import nl.novi.theartroom.dtos.ArtworkInputDto;
 import nl.novi.theartroom.services.ArtworkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +21,13 @@ public class ArtworkController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<ArtworkDto>> getAllArtworks() {
+    public ResponseEntity<List<ArtworkArtloverDto>> getAllArtworks() {
         return ResponseEntity.ok(artworkService.getAllArtworks());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ArtworkDto> getArtworkById(@PathVariable Long id) {
-        ArtworkDto artwork = artworkService.getArtworkById(id);
+    public ResponseEntity<ArtworkArtloverDto> getArtworkById(@PathVariable Long id) {
+        ArtworkArtloverDto artwork = artworkService.getArtworkById(id);
 
         return ResponseEntity.ok(artwork);
     }
@@ -39,7 +39,7 @@ public class ArtworkController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ArtworkDto> updateArtwork(@PathVariable Long id, @RequestBody ArtworkInputDto artwork) {
+    public ResponseEntity<ArtworkArtloverDto> updateArtwork(@PathVariable Long id, @RequestBody ArtworkInputDto artwork) {
         artworkService.updateArtwork(id, artwork);
         return ResponseEntity.noContent().build();
     }

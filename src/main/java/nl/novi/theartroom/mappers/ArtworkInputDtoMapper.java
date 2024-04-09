@@ -7,8 +7,9 @@ import nl.novi.theartroom.models.Painting;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ArtworkTypeMapper {
+public class ArtworkInputDtoMapper {
 
+    // INPUT MAPPER METHODS
     public static Artwork mapArtworkType(ArtworkInputDto artworkInputDto) {
 
         Artwork artwork;
@@ -27,6 +28,7 @@ public class ArtworkTypeMapper {
         artwork.setGalleryBuyingPrice(artworkInputDto.getGalleryBuyingPrice());
         artwork.setEdition(artworkInputDto.getEdition());
         artwork.setImageUrl(artworkInputDto.getImageUrl());
+        artwork.setArtworkType(artworkInputDto.getArtworkType());
 
         return artwork;
     }
@@ -45,10 +47,12 @@ public class ArtworkTypeMapper {
     private static Drawing mapToDrawing(ArtworkInputDto artworkInputDto) {
         Drawing drawing = new Drawing();
         drawing.setDrawingDrawType(artworkInputDto.getDrawingDrawType());
+        drawing.setDrawingSurface(artworkInputDto.getDrawingSurface());
         drawing.setDrawingMaterial(artworkInputDto.getDrawingMaterial());
         drawing.setDrawingDimensionsWidthInCm(artworkInputDto.getDrawingDimensionsWidthInCm());
         drawing.setDrawingDimensionsHeightInCm(artworkInputDto.getDrawingDimensionsHeightInCm());
 
         return drawing;
     }
+
 }

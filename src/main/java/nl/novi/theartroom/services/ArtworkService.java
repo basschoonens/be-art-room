@@ -1,9 +1,10 @@
 package nl.novi.theartroom.services;
 
-import nl.novi.theartroom.dtos.ArtworkDto;
+import nl.novi.theartroom.dtos.ArtworkArtloverDto;
 import nl.novi.theartroom.dtos.ArtworkInputDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
-import nl.novi.theartroom.mappers.ArtworkTypeMapper;
+import nl.novi.theartroom.mappers.ArtworkArtloverDtoMapper;
+import nl.novi.theartroom.mappers.ArtworkInputDtoMapper;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.repositories.ArtworkRepository;
 import org.springframework.stereotype.Service;
@@ -21,29 +22,33 @@ public class ArtworkService {
         this.artworkRepository = artworkRepository;
     }
 
-    public List<ArtworkDto> getAllArtworks() {
+    // Artworks Mappings new
+
+    public List<ArtworkArtloverDto> getAllArtworks() {
         List<Artwork> artworks = artworkRepository.findAll();
-        List<ArtworkDto> artworkDtos = new ArrayList<>();
+        List<ArtworkArtloverDto> artworkDtos = new ArrayList<>();
 
         for (Artwork artwork : artworks) {
-            ArtworkDto dto = toDto(artwork);
+            ArtworkArtloverDto dto = ArtworkArtloverDtoMapper.toArtworkArtloverDto(artwork);
             artworkDtos.add(dto);
         }
 
         return artworkDtos;
     }
 
-    public ArtworkDto getArtworkById(Long id) {
+    public ArtworkArtloverDto getArtworkById(Long id) {
         Optional<Artwork> optionalArtwork = artworkRepository.findById(id);
         if (optionalArtwork.isEmpty()) {
             throw new RecordNotFoundException("Artwork with id " + id + " not found.");
         } else {
-            return toDto(optionalArtwork.get());
+            return ArtworkArtloverDtoMapper.toArtworkArtloverDto(optionalArtwork.get());
         }
     }
 
+    // Artworks Mappings old
+
     public void saveArtwork(ArtworkInputDto dto) {
-        Artwork Artwork = ArtworkTypeMapper.mapArtworkType(dto);
+        Artwork Artwork = ArtworkInputDtoMapper.mapArtworkType(dto);
         artworkRepository.save(Artwork);
     }
 
@@ -63,27 +68,6 @@ public class ArtworkService {
         } else {
             artworkRepository.delete(artworkFound.get());
         }
-    }
-
-    //TODO Mappers naar aparte mappers map verplaatsen
-
-    private ArtworkDto toDto(Artwork Artwork) {
-        ArtworkDto dto = new ArtworkDto();
-        dto.setId(Artwork.getId());
-        dto.setTitle(Artwork.getTitle());
-        dto.setArtist(Artwork.getArtist());
-        dto.setDescription(Artwork.getDescription());
-        dto.setDateCreated(Artwork.getDateCreated());
-        dto.setGalleryBuyingPrice(Artwork.getGalleryBuyingPrice());
-        dto.setEdition(Artwork.getEdition());
-        dto.setImageUrl(Artwork.getImageUrl());
-        dto.setArtworkType(Artwork.getArtworkType());
-
-        return dto;
-    }
-
-    private Artwork toArtwork(ArtworkInputDto dto) {
-        return toArtwork(dto, new Artwork());
     }
 
     private Artwork toArtwork(ArtworkInputDto dto, Artwork Artwork) {
