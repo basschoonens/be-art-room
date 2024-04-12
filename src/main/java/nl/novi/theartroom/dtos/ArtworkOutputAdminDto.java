@@ -1,11 +1,11 @@
 package nl.novi.theartroom.dtos;
 
-public class ArtworkAdminDto {
+public class ArtworkOutputAdminDto {
         private Long id;
         private String title;
         private String artist;
         private String description;
-    private Integer dateCreated;
+        private Integer dateCreated;
         private Double galleryBuyingPrice;
         private String edition;
         private String imageUrl;
@@ -26,10 +26,10 @@ public class ArtworkAdminDto {
         private Integer drawingDimensionsHeightInCm;
 
 
-        public ArtworkAdminDto() {
+        public ArtworkOutputAdminDto() {
         }
 
-        public ArtworkAdminDto(Long id, String title, String artist, String description, Integer dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+        public ArtworkOutputAdminDto(Long id, String title, String artist, String description, Integer dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
             this.id = id;
             this.title = title;
             this.artist = artist;

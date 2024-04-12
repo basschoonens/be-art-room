@@ -1,7 +1,5 @@
 package nl.novi.theartroom.dtos;
 
-import nl.novi.theartroom.models.Painting;
-
 public class PaintingOutputDto {
 
     private String paintingPaintType;

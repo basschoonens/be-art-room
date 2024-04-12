@@ -1,38 +1,44 @@
 package nl.novi.theartroom.mappers;
 
-import nl.novi.theartroom.dtos.ArtworkArtloverDto;
+import nl.novi.theartroom.dtos.ArtworkOutputArtloverDto;
 import nl.novi.theartroom.dtos.DrawingOutputDto;
 import nl.novi.theartroom.dtos.PaintingOutputDto;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.models.Drawing;
 import nl.novi.theartroom.models.Painting;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class ArtworkArtloverDtoMapper {
 
-    public static ArtworkArtloverDto toArtworkArtloverDto(Artwork artwork) {
+    public static ArtworkOutputArtloverDto toArtworkArtloverDto(Artwork artwork) {
 
-        ArtworkArtloverDto artworkArtloverDto = new ArtworkArtloverDto();
-        artworkArtloverDto.setId(artwork.getId());
-        artworkArtloverDto.setTitle(artwork.getTitle());
-        artworkArtloverDto.setArtist(artwork.getArtist());
-        artworkArtloverDto.setDescription(artwork.getDescription());
-        artworkArtloverDto.setDateCreated(artwork.getDateCreated());
-        artworkArtloverDto.setEdition(artwork.getEdition());
-        artworkArtloverDto.setImageUrl(artwork.getImageUrl());
-        artworkArtloverDto.setArtworkType(artwork.getArtworkType());
+        ArtworkOutputArtloverDto artworkOutputArtloverDto = new ArtworkOutputArtloverDto();
+        artworkOutputArtloverDto.setId(artwork.getId());
+        artworkOutputArtloverDto.setTitle(artwork.getTitle());
+        artworkOutputArtloverDto.setArtist(artwork.getArtist());
+        artworkOutputArtloverDto.setDescription(artwork.getDescription());
+        artworkOutputArtloverDto.setDateCreated(artwork.getDateCreated());
+        artworkOutputArtloverDto.setEdition(artwork.getEdition());
+        artworkOutputArtloverDto.setImageUrl(artwork.getImageUrl());
+        artworkOutputArtloverDto.setArtworkType(artwork.getArtworkType());
+
+        // TODO uitzoeken welke excepties hier gegooid kunnen worden
 
         if ("painting".equalsIgnoreCase(artwork.getArtworkType())) {
             PaintingOutputDto paintingDto = new PaintingOutputDto();
             mapPaintingFields((Painting) artwork, paintingDto);
-            artworkArtloverDto.setPaintingOutputDto(paintingDto);
+            artworkOutputArtloverDto.setPaintingOutputDto(paintingDto);
         } else if ("drawing".equalsIgnoreCase(artwork.getArtworkType())) {
             DrawingOutputDto drawingDto = new DrawingOutputDto();
             mapDrawingFields((Drawing) artwork, drawingDto);
-            artworkArtloverDto.setDrawingOutputDto(drawingDto);
+            artworkOutputArtloverDto.setDrawingOutputDto(drawingDto);
+//        } else {
+//            throw new IllegalArgumentException("Invalid artwork type: " + artwork.getArtworkType());
+//            throw new ClassCastException("Invalid artwork type: " + artwork.getArtworkType());
         }
 
-        return artworkArtloverDto;
+        return artworkOutputArtloverDto;
     }
 
     public static void mapDrawingFields(Drawing drawing, DrawingOutputDto drawingOutputDto) {

@@ -1,6 +1,6 @@
 package nl.novi.theartroom.dtos;
 
-public class ArtworkArtloverDto {
+public class ArtworkOutputArtloverDto {
 
     private Long id;
     private String title;
@@ -14,10 +14,10 @@ public class ArtworkArtloverDto {
     private PaintingOutputDto paintingOutputDto;
     private DrawingOutputDto drawingOutputDto;
 
-    public ArtworkArtloverDto() {
+    public ArtworkOutputArtloverDto() {
     }
 
-    public ArtworkArtloverDto(Long id, String title, String artist, String description, Integer dateCreated, String edition, String imageUrl, String artworkType) {
+    public ArtworkOutputArtloverDto(Long id, String title, String artist, String description, Integer dateCreated, String edition, String imageUrl, String artworkType) {
         this.id = id;
         this.title = title;
         this.artist = artist;
