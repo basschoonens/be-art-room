@@ -1,11 +1,13 @@
 package nl.novi.theartroom.services;
 
+import jakarta.transaction.Transactional;
 import nl.novi.theartroom.dtos.ArtworkOutputArtloverDto;
 import nl.novi.theartroom.dtos.ArtworkInputDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
 import nl.novi.theartroom.mappers.ArtworkArtloverDtoMapper;
 import nl.novi.theartroom.mappers.ArtworkInputDtoMapper;
 import nl.novi.theartroom.models.Artwork;
+import nl.novi.theartroom.models.Rating;
 import nl.novi.theartroom.repositories.ArtworkRepository;
 import org.springframework.stereotype.Service;
 
@@ -64,5 +66,27 @@ public class ArtworkService {
         } else {
             artworkRepository.delete(artworkFound.get());
         }
+    }
+
+
+    // Add rating to artwork
+    @Transactional
+    public void addRatingToArtwork(Long artworkId, int stars) {
+        // Find the artwork by its ID
+        Optional<Artwork> optionalArtwork = artworkRepository.findById(artworkId);
+        if (optionalArtwork.isEmpty()) {
+            throw new RecordNotFoundException("Artwork with id " + artworkId + " not found.");
+        }
+
+        // Create a new Rating object
+        Rating rating = new Rating();
+        rating.setStars(stars);
+        rating.setArtwork(optionalArtwork.get());
+
+        // Add the rating to the artwork's list of ratings
+        optionalArtwork.get().getRatings().add(rating);
+
+        // Save the artwork (this will cascade the save operation to the new rating as well)
+        artworkRepository.save(optionalArtwork.get());
     }
 }

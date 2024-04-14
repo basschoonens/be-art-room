@@ -50,4 +50,10 @@ public class ArtworkController {
         return ResponseEntity.noContent().build();
     }
 
+    // Add rating to artwork
+    @PostMapping("/{artworkId}/ratings")
+    public ResponseEntity<Void> addRatingToArtwork(@PathVariable Long artworkId, @RequestParam int stars) {
+        artworkService.addRatingToArtwork(artworkId, stars);
+        return ResponseEntity.created(null).build();
+    }
 }
