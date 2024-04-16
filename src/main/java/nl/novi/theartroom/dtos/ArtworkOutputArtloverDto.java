@@ -1,5 +1,7 @@
 package nl.novi.theartroom.dtos;
 
+import java.util.List;
+
 public class ArtworkOutputArtloverDto {
 
     private Long id;
@@ -10,14 +12,14 @@ public class ArtworkOutputArtloverDto {
     private String edition;
     private String imageUrl;
     private String artworkType;
-
+    private List<RatingDto> ratings;
     private PaintingOutputDto paintingOutputDto;
     private DrawingOutputDto drawingOutputDto;
 
     public ArtworkOutputArtloverDto() {
     }
 
-    public ArtworkOutputArtloverDto(Long id, String title, String artist, String description, Integer dateCreated, String edition, String imageUrl, String artworkType) {
+    public ArtworkOutputArtloverDto(Long id, String title, String artist, String description, Integer dateCreated, String edition, String imageUrl, String artworkType, List<RatingDto> ratings, PaintingOutputDto paintingOutputDto, DrawingOutputDto drawingOutputDto) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -26,6 +28,9 @@ public class ArtworkOutputArtloverDto {
         this.edition = edition;
         this.imageUrl = imageUrl;
         this.artworkType = artworkType;
+        this.ratings = ratings;
+        this.paintingOutputDto = paintingOutputDto;
+        this.drawingOutputDto = drawingOutputDto;
     }
 
     public Long getId() {
@@ -107,4 +112,13 @@ public class ArtworkOutputArtloverDto {
     public void setDrawingOutputDto(DrawingOutputDto drawingOutputDto) {
         this.drawingOutputDto = drawingOutputDto;
     }
+
+    public List<RatingDto> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<RatingDto> ratings) {
+        this.ratings = ratings;
+    }
+
 }

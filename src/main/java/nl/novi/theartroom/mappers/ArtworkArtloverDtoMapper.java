@@ -3,10 +3,13 @@ package nl.novi.theartroom.mappers;
 import nl.novi.theartroom.dtos.ArtworkOutputArtloverDto;
 import nl.novi.theartroom.dtos.DrawingOutputDto;
 import nl.novi.theartroom.dtos.PaintingOutputDto;
+import nl.novi.theartroom.dtos.RatingDto;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.models.Drawing;
 import nl.novi.theartroom.models.Painting;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ArtworkArtloverDtoMapper {
@@ -22,6 +25,11 @@ public class ArtworkArtloverDtoMapper {
         artworkOutputArtloverDto.setEdition(artwork.getEdition());
         artworkOutputArtloverDto.setImageUrl(artwork.getImageUrl());
         artworkOutputArtloverDto.setArtworkType(artwork.getArtworkType());
+
+        if (artwork.getRatings() != null) {
+            List<RatingDto> ratingDtos = RatingDtoMapper.toRatingOutputDtoList(artwork.getRatings());
+            artworkOutputArtloverDto.setRatings(ratingDtos);
+        }
 
         // TODO uitzoeken welke excepties hier gegooid kunnen worden
 
@@ -56,4 +64,6 @@ public class ArtworkArtloverDtoMapper {
         paintingOutputDto.setPaintingDimensionsWidthInCm(painting.getPaintingDimensionsWidthInCm());
         paintingOutputDto.setPaintingDimensionsHeightInCm(painting.getPaintingDimensionsHeightInCm());
     }
+
+
 }

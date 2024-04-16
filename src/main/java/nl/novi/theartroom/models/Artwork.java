@@ -20,12 +20,8 @@ public class Artwork {
     private String edition;
     private String imageUrl;
     private String artworkType;
-
-    @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Rating> ratings = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "artwork")
+    List<Rating> ratings = new ArrayList<>();
 
     public Artwork() {
     }
@@ -39,7 +35,8 @@ public class Artwork {
             Double galleryBuyingPrice,
             String edition,
             String imageUrl,
-            String artworkType
+            String artworkType,
+            List<Rating> ratings
     ) {
         this.id = id;
         this.title = title;
@@ -50,6 +47,7 @@ public class Artwork {
         this.edition = edition;
         this.imageUrl = imageUrl;
         this.artworkType = artworkType;
+        this.ratings = ratings;
     }
 
     public Long getId() {

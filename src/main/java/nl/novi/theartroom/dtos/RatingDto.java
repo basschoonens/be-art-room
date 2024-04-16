@@ -2,61 +2,50 @@ package nl.novi.theartroom.dtos;
 
 public class RatingDto {
 
-    private long id;
-    private int rating;
+    private Long id;
+    private Long artworkId;
+    private Integer rating;
     private String comment;
-    private long artworkId;
-
-//    private long userId;
 
     public RatingDto() {
     }
 
-    public RatingDto(long id, int rating, String comment, long artworkId, long userId) {
+    public RatingDto(Long id, Long artworkId, Integer rating, String comment) {
         this.id = id;
+        this.artworkId = artworkId;
         this.rating = rating;
         this.comment = comment;
-        this.artworkId = artworkId;
-//        this.userId = userId;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public int getRating() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getArtworkId() {
+        return artworkId;
+    }
+
+    public void setArtworkId(Long artworkId) {
+        this.artworkId = artworkId;
+    }
+
+    public Integer getRating() {
         return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 
     public String getComment() {
         return comment;
     }
 
-    public long getArtworkId() {
-        return artworkId;
-    }
-
-//    public long getUserId() {
-//        return userId;
-//    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
     public void setComment(String comment) {
         this.comment = comment;
     }
-
-    public void setArtworkId(long artworkId) {
-        this.artworkId = artworkId;
-    }
-
-//    public void setUserId(long userId) {
-//        this.userId = userId;
-//    }
 }
