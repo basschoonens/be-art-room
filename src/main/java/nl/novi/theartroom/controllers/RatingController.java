@@ -35,13 +35,13 @@ public class RatingController {
     }
 
     @PostMapping()
-    public ResponseEntity<Void> addRating(@RequestBody Rating rating) {
+    public ResponseEntity<Void> addRating(@RequestBody RatingDto rating) {
         ratingService.addRating(rating);
         return ResponseEntity.created(null).build();
     }
 
     @PutMapping("/{ratingId}")
-    public ResponseEntity<Void> updateRating(@PathVariable Long ratingId, @RequestBody Rating rating) {
+    public ResponseEntity<Void> updateRating(@PathVariable Long ratingId, @RequestBody RatingDto rating) {
         ratingService.updateRating(ratingId, rating);
         return ResponseEntity.noContent().build();
     }

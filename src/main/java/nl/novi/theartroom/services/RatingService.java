@@ -36,17 +36,30 @@ public class RatingService {
                 .orElseThrow(() -> new RecordNotFoundException("Rating with id " + ratingId + " not found."));
     }
 
-    public void addRating(Rating rating) {
-        ratingRepository.save(rating);
+    public void addRating(RatingDto rating) {
+        Rating newRating = RatingDtoMapper.toRating(rating);
+        ratingRepository.save(newRating);
     }
 
-    public void updateRating(Long ratingId, Rating rating) {
+//    public void updateRating(Long ratingId, Rating rating) {
+//        Optional<Rating> ratingFound = ratingRepository.findById(ratingId);
+//        if (ratingFound.isEmpty()) {
+//            throw new RecordNotFoundException("Rating with id " + ratingId + " not found.");
+//        } else {
+//            rating.setId(ratingId);
+//            ratingRepository.save(rating);
+//        }
+//    }
+
+    public void updateRating(Long ratingId, RatingDto ratingDto) {
         Optional<Rating> ratingFound = ratingRepository.findById(ratingId);
+
         if (ratingFound.isEmpty()) {
             throw new RecordNotFoundException("Rating with id " + ratingId + " not found.");
         } else {
-            rating.setId(ratingId);
-            ratingRepository.save(rating);
+            Rating ratingToUpdate = RatingDtoMapper.toRating(ratingDto);
+            ratingToUpdate.setId(ratingId);
+            ratingRepository.save(ratingToUpdate);
         }
     }
 
@@ -59,10 +72,10 @@ public class RatingService {
     }
 
     @Transactional
-    public void addRatingToArtwork(Long artworkId, int stars, String comment) {
+    public void addRatingToArtwork(Long artworkId, int rated, String comment) {
         Artwork artwork = findArtworkById(artworkId);
         Rating rating = new Rating();
-        rating.setRating(stars);
+        rating.setRating(rated);
         rating.setComment(comment);
         rating.setArtwork(artwork);
         ratingRepository.save(rating);
