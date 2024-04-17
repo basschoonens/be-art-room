@@ -19,9 +19,11 @@ import java.util.Optional;
 public class ArtworkService {
 
     private final ArtworkRepository artworkRepository;
+    private final RatingService ratingService;
 
-    public ArtworkService(ArtworkRepository artworkRepository) {
+    public ArtworkService(ArtworkRepository artworkRepository, RatingService ratingService) {
         this.artworkRepository = artworkRepository;
+        this.ratingService = ratingService;
     }
 
     public List<ArtworkOutputArtloverDto> getAllArtworks() {
@@ -30,6 +32,8 @@ public class ArtworkService {
 
         for (Artwork artwork : artworks) {
             ArtworkOutputArtloverDto dto = ArtworkArtloverDtoMapper.toArtworkArtloverDto(artwork);
+            double averageRating = ratingService.calculateAverageRatingForArtwork(artwork.getId());
+            dto.setAverageRating(averageRating);
             artworkDtos.add(dto);
         }
 
@@ -41,7 +45,12 @@ public class ArtworkService {
         if (optionalArtwork.isEmpty()) {
             throw new RecordNotFoundException("Artwork with id " + id + " not found.");
         } else {
-            return ArtworkArtloverDtoMapper.toArtworkArtloverDto(optionalArtwork.get());
+            Artwork artwork = optionalArtwork.get();
+            double averageRating = ratingService.calculateAverageRatingForArtwork(id);
+            ArtworkOutputArtloverDto dto = ArtworkArtloverDtoMapper.toArtworkArtloverDto(artwork);
+            dto.setAverageRating(averageRating);
+
+            return dto;
         }
     }
 

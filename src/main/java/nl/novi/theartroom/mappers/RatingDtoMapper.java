@@ -7,13 +7,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RatingDtoMapper {
-
     public static RatingDto toRatingOutputDto(Rating rating) {
         RatingDto ratingDto = new RatingDto();
-        ratingDto.setId(rating.getId());
-        ratingDto.setArtworkId(rating.getArtwork().getId());
-        ratingDto.setRating(rating.getStars());
-        ratingDto.setComment(rating.getCommentText());
+        ratingDto.setRating(rating.getRating());
+        ratingDto.setComment(rating.getComment());
 
         return ratingDto;
     }

@@ -16,14 +16,6 @@ public class Rating {
     @JoinColumn(name = "artwork_id")
     Artwork artwork;
 
-    public Artwork getArtwork() {
-        return artwork;
-    }
-
-    public void setArtwork(Artwork artwork) {
-        this.artwork = artwork;
-    }
-
     //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "artlover_id", nullable = false)
 //    private Artlover artlover;
@@ -35,9 +27,9 @@ public class Rating {
     // Als je buiten de range van 1 - 5 gaat, krijg je een validation exception !!
 
     @Min(1) @Max(5)
-    private int stars;
+    private int rating;
 
-    private String commentText;
+    private String comment;
 
     public Long getId() {
         return id;
@@ -47,20 +39,28 @@ public class Rating {
         this.id = id;
     }
 
-    public int getStars() {
-        return stars;
+    public int getRating() {
+        return rating;
     }
 
-    public void setStars(int rating) {
-        this.stars = rating;
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
-    public String getCommentText() {
-        return commentText;
+    public String getComment() {
+        return comment;
     }
 
-    public void setCommentText(String commentText) {
-        this.commentText = commentText;
+    public void setComment(String commentText) {
+        this.comment = commentText;
+    }
+
+    public Artwork getArtwork() {
+        return artwork;
+    }
+
+    public void setArtwork(Artwork artwork) {
+        this.artwork = artwork;
     }
 
 }

@@ -1,9 +1,6 @@
 package nl.novi.theartroom.controllers;
 
-import nl.novi.theartroom.dtos.ArtworkOutputArtloverDto;
-import nl.novi.theartroom.dtos.ArtworkInputDto;
-import nl.novi.theartroom.dtos.RatingAverageOutputDto;
-import nl.novi.theartroom.dtos.RatingDto;
+import nl.novi.theartroom.dtos.*;
 import nl.novi.theartroom.models.Rating;
 import nl.novi.theartroom.services.ArtworkService;
 import nl.novi.theartroom.services.RatingService;
@@ -28,6 +25,13 @@ public class ArtworkController {
 
     @GetMapping()
     public ResponseEntity<List<ArtworkOutputArtloverDto>> getAllArtworks() {
+        List<ArtworkOutputArtloverDto> artworks = artworkService.getAllArtworks();
+
+        for (ArtworkOutputArtloverDto artwork : artworks) {
+            double averageRating = ratingService.calculateAverageRatingForArtwork(artwork.getId());
+            artwork.setAverageRating(averageRating);
+        }
+
         return ResponseEntity.ok(artworkService.getAllArtworks());
     }
 
@@ -67,7 +71,7 @@ public class ArtworkController {
 
     @PostMapping("/{artworkId}/ratings")
     public ResponseEntity<Void> addRatingToArtwork(@PathVariable Long artworkId, @RequestBody Rating rating) {
-        ratingService.addRatingToArtwork(artworkId, rating.getStars(), rating.getCommentText());
+        ratingService.addRatingToArtwork(artworkId, rating.getRating(), rating.getComment());
         return ResponseEntity.created(null).build();
     }
 

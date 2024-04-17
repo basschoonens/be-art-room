@@ -62,8 +62,8 @@ public class RatingService {
     public void addRatingToArtwork(Long artworkId, int stars, String comment) {
         Artwork artwork = findArtworkById(artworkId);
         Rating rating = new Rating();
-        rating.setStars(stars);
-        rating.setCommentText(comment);
+        rating.setRating(stars);
+        rating.setComment(comment);
         rating.setArtwork(artwork);
         ratingRepository.save(rating);
     }
@@ -84,8 +84,7 @@ public class RatingService {
             return 0.0;
         }
 
-        double totalRating = ratings.stream().mapToInt(Rating::getStars).sum();
+        double totalRating = ratings.stream().mapToInt(Rating::getRating).sum();
         return (double) totalRating / ratings.size();
     }
-
 }

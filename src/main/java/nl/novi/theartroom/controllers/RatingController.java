@@ -15,12 +15,12 @@ public class RatingController {
 
     private final RatingService ratingService;
 
+    // TODO Aan het einde van de opdracht alle niet gebruikte CRUD methods verwijderen.
+
     @Autowired
     public RatingController(RatingService ratingService) {
         this.ratingService = ratingService;
     }
-
-    // TODO: GetAllRatings geeft een infinite loop. Deze nog herstellen.
 
     @GetMapping()
     public ResponseEntity<List<RatingDto>> getAllRatings() {
@@ -51,5 +51,4 @@ public class RatingController {
         ratingService.deleteRating(ratingId);
         return ResponseEntity.noContent().build();
     }
-
 }

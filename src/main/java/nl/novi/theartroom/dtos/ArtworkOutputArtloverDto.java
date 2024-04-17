@@ -13,13 +13,14 @@ public class ArtworkOutputArtloverDto {
     private String imageUrl;
     private String artworkType;
     private List<RatingDto> ratings;
+    private double averageRating;
     private PaintingOutputDto paintingOutputDto;
     private DrawingOutputDto drawingOutputDto;
 
     public ArtworkOutputArtloverDto() {
     }
 
-    public ArtworkOutputArtloverDto(Long id, String title, String artist, String description, Integer dateCreated, String edition, String imageUrl, String artworkType, List<RatingDto> ratings, PaintingOutputDto paintingOutputDto, DrawingOutputDto drawingOutputDto) {
+    public ArtworkOutputArtloverDto(Long id, String title, String artist, String description, Integer dateCreated, String edition, String imageUrl, String artworkType, List<RatingDto> ratings, double averageRating, PaintingOutputDto paintingOutputDto, DrawingOutputDto drawingOutputDto) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -29,6 +30,7 @@ public class ArtworkOutputArtloverDto {
         this.imageUrl = imageUrl;
         this.artworkType = artworkType;
         this.ratings = ratings;
+        this.averageRating = averageRating;
         this.paintingOutputDto = paintingOutputDto;
         this.drawingOutputDto = drawingOutputDto;
     }
@@ -121,4 +123,11 @@ public class ArtworkOutputArtloverDto {
         this.ratings = ratings;
     }
 
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
 }
