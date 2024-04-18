@@ -1,7 +1,7 @@
 package nl.novi.theartroom.config;
 
-import nl.novi.techiteasy1121.filter.JwtRequestFilter;
-import nl.novi.techiteasy1121.services.CustomUserDetailsService;
+import nl.novi.theartroom.filter.JwtRequestFilter;
+import nl.novi.theartroom.services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -64,24 +64,24 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                 // Wanneer je deze uncomments, staat je hele security open. Je hebt dan alleen nog een jwt nodig.
-//                .requestMatchers("/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/cimodules").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/cimodules/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/remotecontrollers").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/remotecontrollers/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/televisions").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/televisions/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/wallbrackets").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/wallbrackets/**").hasRole("ADMIN")
-                // Je mag meerdere paths tegelijk definieren
-                .requestMatchers("/cimodules", "/remotecontrollers", "/televisions", "/wallbrackets").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/authenticated").authenticated()
-                .requestMatchers("/authenticate").permitAll()
-                .anyRequest().denyAll()
+                .requestMatchers("/**").permitAll()
+//                .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.POST, "/cimodules").hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.DELETE, "/cimodules/**").hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.POST, "/remotecontrollers").hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.DELETE, "/remotecontrollers/**").hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.POST, "/televisions").hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.DELETE, "/televisions/**").hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.POST, "/wallbrackets").hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.DELETE, "/wallbrackets/**").hasRole("ADMIN")
+//                // Je mag meerdere paths tegelijk definieren
+//                .requestMatchers("/cimodules", "/remotecontrollers", "/televisions", "/wallbrackets").hasAnyRole("ADMIN", "USER")
+//                .requestMatchers("/authenticated").authenticated()
+//                .requestMatchers("/authenticate").permitAll()
+//                .anyRequest().denyAll()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

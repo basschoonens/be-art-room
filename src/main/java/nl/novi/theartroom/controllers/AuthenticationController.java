@@ -1,9 +1,9 @@
 package nl.novi.theartroom.controllers;
 
-import nl.novi.techiteasy1121.dtos.AuthenticationRequest;
-import nl.novi.techiteasy1121.dtos.AuthenticationResponse;
-import nl.novi.techiteasy1121.services.CustomUserDetailsService;
-import nl.novi.techiteasy1121.utils.JwtUtil;
+import nl.novi.theartroom.dtos.AuthenticationRequest;
+import nl.novi.theartroom.dtos.AuthenticationResponse;
+import nl.novi.theartroom.services.CustomUserDetailsService;
+import nl.novi.theartroom.utils.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

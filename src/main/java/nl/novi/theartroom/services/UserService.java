@@ -1,11 +1,11 @@
 package nl.novi.theartroom.services;
 
-import nl.novi.techiteasy1121.dtos.UserDto;
-import nl.novi.techiteasy1121.exceptions.RecordNotFoundException;
-import nl.novi.techiteasy1121.models.Authority;
-import nl.novi.techiteasy1121.models.User;
-import nl.novi.techiteasy1121.repositories.UserRepository;
-import nl.novi.techiteasy1121.utils.RandomStringGenerator;
+import nl.novi.theartroom.dtos.UserDto;
+import nl.novi.theartroom.exceptions.RecordNotFoundException;
+import nl.novi.theartroom.models.Authority;
+import nl.novi.theartroom.models.User;
+import nl.novi.theartroom.repositories.UserRepository;
+import nl.novi.theartroom.utils.RandomStringGenerator;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 

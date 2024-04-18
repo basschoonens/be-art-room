@@ -1,9 +1,10 @@
 package nl.novi.theartroom.controllers;
 
-import nl.novi.techiteasy1121.dtos.UserDto;
-import nl.novi.techiteasy1121.exceptions.BadRequestException;
-import nl.novi.techiteasy1121.services.UserService;
+import nl.novi.theartroom.dtos.UserDto;
+import nl.novi.theartroom.exceptions.BadRequestException;
+import nl.novi.theartroom.services.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -17,9 +18,11 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping(value = "")
@@ -40,12 +43,26 @@ public class UserController {
 
     }
 
+//    @PostMapping(value = "")
+//    public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {;
+//
+//        // Let op: het password van een nieuwe gebruiker wordt in deze code nog niet encrypted opgeslagen.
+//        // Je kan dus (nog) niet inloggen met een nieuwe user.
+//
+//        String newUsername = userService.createUser(dto);
+//        userService.addAuthority(newUsername, "ROLE_USER");
+//
+//        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+//                .buildAndExpand(newUsername).toUri();
+//
+//        return ResponseEntity.created(location).build();
+//    }
+
+    // Wordt de admin hard gecodeerd?
+
     @PostMapping(value = "")
-    public ResponseEntity<UserDto> createKlant(@RequestBody UserDto dto) {;
-
-        // Let op: het password van een nieuwe gebruiker wordt in deze code nog niet encrypted opgeslagen.
-        // Je kan dus (nog) niet inloggen met een nieuwe user.
-
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         String newUsername = userService.createUser(dto);
         userService.addAuthority(newUsername, "ROLE_USER");
 
@@ -56,7 +73,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/{username}")
-    public ResponseEntity<UserDto> updateKlant(@PathVariable("username") String username, @RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable("username") String username, @RequestBody UserDto dto) {
 
         userService.updateUser(username, dto);
 
@@ -64,7 +81,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{username}")
-    public ResponseEntity<Object> deleteKlant(@PathVariable("username") String username) {
+    public ResponseEntity<Object> deleteUser(@PathVariable("username") String username) {
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }

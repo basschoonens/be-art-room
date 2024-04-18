@@ -1,6 +1,6 @@
 package nl.novi.theartroom.dtos;
 
-import nl.novi.techiteasy1121.models.Authority;
+import nl.novi.theartroom.models.Authority;
 
 import java.util.Set;
 

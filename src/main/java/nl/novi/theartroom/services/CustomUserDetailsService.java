@@ -1,8 +1,8 @@
 package nl.novi.theartroom.services;
 
 
-import nl.novi.techiteasy1121.dtos.UserDto;
-import nl.novi.techiteasy1121.models.Authority;
+import nl.novi.theartroom.dtos.UserDto;
+import nl.novi.theartroom.models.Authority;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
