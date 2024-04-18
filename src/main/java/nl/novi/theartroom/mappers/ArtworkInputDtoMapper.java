@@ -38,6 +38,8 @@ public class ArtworkInputDtoMapper {
         return artwork;
     }
 
+    // TODO updateArtwork method verder uitzoeken en uitwerken zodat ik de juiste gegevens kan updaten en exception kan gooien als het type niet klopt. Exception werkt nu niet want ik kan artworkType ook naar ieder ander random text aanpassen.
+
 //    private static Artwork updateArtwork(ArtworkInputDto dto, Artwork artwork) {
 //            setCommonFields(artwork, dto);
 //            if ("painting".equalsIgnoreCase(dto.getArtworkType())) {
@@ -48,8 +50,6 @@ public class ArtworkInputDtoMapper {
 //                throw new IllegalArgumentException("Invalid artwork type: " + dto.getArtworkType());
 //            }
 //    }
-
-    // TODO updateArtwork method verder uitzoeken en uitwerken zodat ik de juiste gegevens kan updaten en exception kan gooien als het type niet klopt. Exception werkt nu niet want ik kan artworkType ook naar ieder ander random text aanpassen.
 
     private static Artwork updateArtwork(ArtworkInputDto dto, Artwork artwork) {
         setCommonFields(artwork, dto);

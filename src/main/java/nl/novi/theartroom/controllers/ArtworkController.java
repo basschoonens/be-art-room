@@ -59,27 +59,4 @@ public class ArtworkController {
         return ResponseEntity.noContent().build();
     }
 
-    // Add rating to artwork
-    // TODO Nog bedenken of dit op de goede plek staat.
-
-    @GetMapping("/{artworkId}/ratings")
-    public ResponseEntity<List<RatingDto>> getRatingsForArtwork(@PathVariable Long artworkId) {
-        List<RatingDto> ratings = ratingService.getRatingsForArtwork(artworkId);
-
-        return ResponseEntity.ok(ratings);
-    }
-
-    @PostMapping("/{artworkId}/ratings")
-    public ResponseEntity<Void> addRatingToArtwork(@PathVariable Long artworkId, @RequestBody RatingDto rating) {
-        ratingService.addRatingToArtwork(artworkId, rating.getRating(), rating.getComment());
-        return ResponseEntity.created(null).build();
-    }
-
-    // Get an average rating for an artwork
-    @GetMapping("/{artworkId}/ratings/average")
-    public ResponseEntity<RatingAverageOutputDto> getAverageRatingForArtwork(@PathVariable Long artworkId) {
-        double averageRating = ratingService.calculateAverageRatingForArtwork(artworkId);
-        RatingAverageOutputDto outputDto = new RatingAverageOutputDto(averageRating);
-        return ResponseEntity.ok(outputDto);
-    }
 }
