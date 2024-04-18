@@ -53,6 +53,9 @@ public class RatingController {
         return ResponseEntity.noContent().build();
     }
 
+    // TODO Kijken of het handiger is deze weg te halen aangezien de ratings voor een artwork al meegeven worden bij een Artwork Get request.
+    // TODO Individuele user rating nog maken zodra er User functionaliteit is.
+
     @GetMapping("/{artworkId}/ratings")
     public ResponseEntity<List<RatingDto>> getRatingsForArtwork(@PathVariable Long artworkId) {
         List<RatingDto> ratings = ratingService.getRatingsForArtwork(artworkId);
@@ -66,7 +69,8 @@ public class RatingController {
         return ResponseEntity.created(null).build();
     }
 
-    // Get an average rating for an artwork
+    // TODO Kijken of het handiger is deze weg te halen aangezien de average meegeven wordt bij een Artwork Get request.
+
     @GetMapping("/{artworkId}/ratings/average")
     public ResponseEntity<RatingAverageOutputDto> getAverageRatingForArtwork(@PathVariable Long artworkId) {
         double averageRating = ratingService.calculateAverageRatingForArtwork(artworkId);

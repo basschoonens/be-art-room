@@ -1,7 +1,6 @@
 package nl.novi.theartroom.controllers;
 
 import nl.novi.theartroom.dtos.*;
-import nl.novi.theartroom.models.Rating;
 import nl.novi.theartroom.services.ArtworkService;
 import nl.novi.theartroom.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
