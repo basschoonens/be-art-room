@@ -1,8 +1,12 @@
 package nl.novi.theartroom.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+import java.util.List;
 
 @Entity
+@Table(name = "drawings")
 public class Drawing extends Artwork {
 
     private String drawingDrawType;
@@ -14,8 +18,8 @@ public class Drawing extends Artwork {
     public Drawing() {
     }
 
-    public Drawing(Long id, String title, String artist, String description, Integer dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
-        super(id, title, artist, description, dateCreated, galleryBuyingPrice, edition, imageUrl, "drawing");
+    public Drawing(Long id, String title, String artist, String description, Integer dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, List<Rating> ratings, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+        super(id, title, artist, description, dateCreated, galleryBuyingPrice, edition, imageUrl, artworkType, ratings);
         this.drawingDrawType = drawingDrawType;
         this.drawingSurface = drawingSurface;
         this.drawingMaterial = drawingMaterial;

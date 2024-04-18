@@ -1,6 +1,9 @@
 package nl.novi.theartroom.models;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "artworks")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -17,6 +20,8 @@ public class Artwork {
     private String edition;
     private String imageUrl;
     private String artworkType;
+    @OneToMany(mappedBy = "artwork")
+    List<Rating> ratings = new ArrayList<>();
 
     public Artwork() {
     }
@@ -30,7 +35,8 @@ public class Artwork {
             Double galleryBuyingPrice,
             String edition,
             String imageUrl,
-            String artworkType
+            String artworkType,
+            List<Rating> ratings
     ) {
         this.id = id;
         this.title = title;
@@ -41,6 +47,7 @@ public class Artwork {
         this.edition = edition;
         this.imageUrl = imageUrl;
         this.artworkType = artworkType;
+        this.ratings = ratings;
     }
 
     public Long getId() {
@@ -115,4 +122,11 @@ public class Artwork {
         this.artworkType = artworkType;
     }
 
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
 }

@@ -1,8 +1,9 @@
 package nl.novi.theartroom.controllers;
 
-import nl.novi.theartroom.dtos.ArtworkOutputArtloverDto;
-import nl.novi.theartroom.dtos.ArtworkInputDto;
+import nl.novi.theartroom.dtos.*;
+import nl.novi.theartroom.models.Rating;
 import nl.novi.theartroom.services.ArtworkService;
+import nl.novi.theartroom.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,21 +15,29 @@ import java.util.List;
 public class ArtworkController {
 
     private final ArtworkService artworkService;
+    private final RatingService ratingService;
 
     @Autowired
-    public ArtworkController(ArtworkService artworkService) {
+    public ArtworkController(ArtworkService artworkService, RatingService ratingService) {
         this.artworkService = artworkService;
+        this.ratingService = ratingService;
     }
 
     @GetMapping()
     public ResponseEntity<List<ArtworkOutputArtloverDto>> getAllArtworks() {
+        List<ArtworkOutputArtloverDto> artworks = artworkService.getAllArtworks();
+
+        for (ArtworkOutputArtloverDto artwork : artworks) {
+            double averageRating = ratingService.calculateAverageRatingForArtwork(artwork.getId());
+            artwork.setAverageRating(averageRating);
+        }
+
         return ResponseEntity.ok(artworkService.getAllArtworks());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ArtworkOutputArtloverDto> getArtworkById(@PathVariable Long id) {
         ArtworkOutputArtloverDto artwork = artworkService.getArtworkById(id);
-
         return ResponseEntity.ok(artwork);
     }
 
