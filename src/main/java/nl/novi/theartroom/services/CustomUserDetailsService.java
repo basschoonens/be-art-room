@@ -23,9 +23,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.userService = userService;
     }
 
-//    @Autowired
-//    private AuthorityService authorityService;
-
     @Override
     public UserDetails loadUserByUsername(String username) {
         UserDto userDto = userService.getUser(username);

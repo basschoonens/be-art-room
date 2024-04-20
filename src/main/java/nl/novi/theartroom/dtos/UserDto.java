@@ -4,12 +4,13 @@ import nl.novi.theartroom.models.Authority;
 
 import java.util.Set;
 
+    //TODO Authority omzetten naar Roles
+
 public class UserDto {
 
     public String username;
     public String password;
     public Boolean enabled;
-    public String apikey;
     public String email;
     public Set<Authority> authorities;
 
@@ -23,10 +24,6 @@ public class UserDto {
 
     public Boolean getEnabled() {
         return enabled;
-    }
-
-    public String getApikey() {
-        return apikey;
     }
 
     public String getEmail() {
@@ -47,10 +44,6 @@ public class UserDto {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public void setApikey(String apikey) {
-        this.apikey = apikey;
     }
 
     public void setEmail(String email) {

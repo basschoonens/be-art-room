@@ -58,8 +58,6 @@ public class UserController {
 //        return ResponseEntity.created(location).build();
 //    }
 
-    // Wordt de admin hard gecodeerd?
-
     @PostMapping(value = "")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));

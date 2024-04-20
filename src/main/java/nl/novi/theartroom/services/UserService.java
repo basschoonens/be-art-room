@@ -48,8 +48,6 @@ public class UserService {
     }
 
     public String createUser(UserDto userDto) {
-        String randomString = RandomStringGenerator.generateAlphaNumeric(20);
-        userDto.setApikey(randomString);
         User newUser = userRepository.save(toUser(userDto));
         return newUser.getUsername();
     }
@@ -95,7 +93,6 @@ public class UserService {
         dto.username = user.getUsername();
         dto.password = user.getPassword();
         dto.enabled = user.isEnabled();
-        dto.apikey = user.getApikey();
         dto.email = user.getEmail();
         dto.authorities = user.getAuthorities();
 
@@ -109,7 +106,6 @@ public class UserService {
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setEnabled(userDto.getEnabled());
-        user.setApikey(userDto.getApikey());
         user.setEmail(userDto.getEmail());
 
         return user;
