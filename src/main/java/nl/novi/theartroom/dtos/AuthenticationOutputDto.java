@@ -1,10 +1,10 @@
 package nl.novi.theartroom.dtos;
 
-public class AuthenticationResponse {
+public class AuthenticationOutputDto {
 
     private final String jwt;
 
-    public AuthenticationResponse(String jwt) {
+    public AuthenticationOutputDto(String jwt) {
         this.jwt = jwt;
     }
 

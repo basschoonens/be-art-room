@@ -149,4 +149,6 @@ public class Artwork {
     public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
     }
+
+
 }

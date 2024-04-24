@@ -1,7 +1,7 @@
 package nl.novi.theartroom.controllers;
 
-import nl.novi.theartroom.dtos.AuthenticationRequest;
-import nl.novi.theartroom.dtos.AuthenticationResponse;
+import nl.novi.theartroom.dtos.AuthenticationInputDto;
+import nl.novi.theartroom.dtos.AuthenticationOutputDto;
 import nl.novi.theartroom.services.CustomUserDetailsService;
 import nl.novi.theartroom.utils.JwtUtil;
 import org.springframework.http.ResponseEntity;
@@ -30,23 +30,16 @@ public class AuthenticationController {
         this.jwtUtl = jwtUtl;
     }
 
-
-    /*
-        Deze methode geeft de principal (basis user gegevens) terug van de ingelogde gebruiker
-    */
     @GetMapping(value = "/authenticated")
     public ResponseEntity<Object> authenticated(Authentication authentication, Principal principal) {
         return ResponseEntity.ok().body(principal);
     }
 
-    /*
-    Deze methode geeft het JWT token terug wanneer de gebruiker de juiste inloggegevens op geeft.
-     */
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationInputDto authenticationInputDto) throws Exception {
 
-        String username = authenticationRequest.getUsername();
-        String password = authenticationRequest.getPassword();
+        String username = authenticationInputDto.getUsername();
+        String password = authenticationInputDto.getPassword();
 
         try {
             authenticationManager.authenticate(
@@ -62,7 +55,7 @@ public class AuthenticationController {
 
         final String jwt = jwtUtl.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationOutputDto(jwt));
     }
 
 }

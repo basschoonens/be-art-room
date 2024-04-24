@@ -9,8 +9,8 @@ import java.util.Set;
 public class UserDto {
 
     public String username;
+
     public String password;
-    public Boolean enabled;
     public String email;
     public Set<Authority> authorities;
 
@@ -20,10 +20,6 @@ public class UserDto {
 
     public String getPassword() {
         return password;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
     }
 
     public String getEmail() {
@@ -40,10 +36,6 @@ public class UserDto {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
     }
 
     public void setEmail(String email) {

@@ -58,6 +58,8 @@ public class UserController {
 //        return ResponseEntity.created(location).build();
 //    }
 
+    // TODO de password Encoder naar de service verplaatsen.
+
     @PostMapping(value = "")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));

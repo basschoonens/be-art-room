@@ -5,7 +5,8 @@ import nl.novi.theartroom.exceptions.RecordNotFoundException;
 import nl.novi.theartroom.models.Authority;
 import nl.novi.theartroom.models.User;
 import nl.novi.theartroom.repositories.UserRepository;
-import nl.novi.theartroom.utils.RandomStringGenerator;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,11 @@ public class UserService {
 
     public boolean userExists(String username) {
         return userRepository.existsById(username);
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 
     public String createUser(UserDto userDto) {
@@ -92,7 +98,6 @@ public class UserService {
 
         dto.username = user.getUsername();
         dto.password = user.getPassword();
-        dto.enabled = user.isEnabled();
         dto.email = user.getEmail();
         dto.authorities = user.getAuthorities();
 
@@ -105,10 +110,21 @@ public class UserService {
 
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
-        user.setEnabled(userDto.getEnabled());
         user.setEmail(userDto.getEmail());
 
         return user;
+    }
+
+    public String getUsernameFromUser(User user) {
+        return user.getUsername(); // Assuming getUsername() method exists in User class
+    }
+
+    public String getCurrentLoggedInUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getName();
+        }
+        return null;
     }
 
 }

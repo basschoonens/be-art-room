@@ -5,16 +5,14 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
 @Entity
-@Table(name = "ratings")
+@Table(name = "ratings",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_username", "artwork_id"})
+)
 public class Rating {
 
     @Id
     @GeneratedValue
     private Long id;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "artwork_id")
-    Artwork artwork;
 
     //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "artlover_id", nullable = false)
@@ -24,8 +22,19 @@ public class Rating {
 //    @JoinColumn(name = "artist_id", nullable = false)
 //    private Artist artist;
 
-    // Als je buiten de range van 1 - 5 gaat, krijg je een validation exception !!
+    // TODO Koppeling user/artwork/rating
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "artwork_id")
+    Artwork artwork;
 
+    @ManyToOne
+    @JoinColumn(name = "user_username")
+    private User user;
+
+
+    // TODO Koppeling user/artwork/rating
+
+    // Als je buiten de range van 1 - 5 gaat, krijg je een validation exception !!
     @Min(1) @Max(5)
     private int rating;
 
@@ -63,4 +72,11 @@ public class Rating {
         this.artwork = artwork;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

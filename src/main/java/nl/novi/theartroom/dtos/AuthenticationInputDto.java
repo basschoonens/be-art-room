@@ -1,13 +1,13 @@
 package nl.novi.theartroom.dtos;
 
-public class AuthenticationRequest {
+public class AuthenticationInputDto {
 
     private String username;
     private String password;
 
-    public AuthenticationRequest() {
+    public AuthenticationInputDto() {
     }
-    public AuthenticationRequest(String username, String password) {
+    public AuthenticationInputDto(String username, String password) {
         this.username = username;
         this.password = password;
     }

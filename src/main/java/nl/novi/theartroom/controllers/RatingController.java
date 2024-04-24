@@ -3,7 +3,9 @@ package nl.novi.theartroom.controllers;
 import nl.novi.theartroom.dtos.RatingAverageOutputDto;
 import nl.novi.theartroom.dtos.RatingDto;
 import nl.novi.theartroom.models.Rating;
+import nl.novi.theartroom.models.User;
 import nl.novi.theartroom.services.RatingService;
+import nl.novi.theartroom.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +18,14 @@ public class RatingController {
 
     private final RatingService ratingService;
 
+    private final UserService userService;
+
     // TODO Aan het einde van de opdracht alle niet gebruikte CRUD methods verwijderen.
 
     @Autowired
-    public RatingController(RatingService ratingService) {
+    public RatingController(RatingService ratingService, UserService userService) {
         this.ratingService = ratingService;
+        this.userService = userService;
     }
 
     @GetMapping()
@@ -41,11 +46,19 @@ public class RatingController {
         return ResponseEntity.created(null).build();
     }
 
-    @PutMapping("/{ratingId}")
-    public ResponseEntity<Void> updateRating(@PathVariable Long ratingId, @RequestBody RatingDto rating) {
-        ratingService.updateRating(ratingId, rating);
+//    @PutMapping("/{ratingId}")
+//    public ResponseEntity<Void> updateRating(@PathVariable Long ratingId, @RequestBody RatingDto rating) {
+//        ratingService.updateRating(ratingId, rating.getArtworkId(), rating);
+//        return ResponseEntity.noContent().build();
+//    }
+
+    @PutMapping("/{artworkId}/{ratingId}")
+    public ResponseEntity<Void> updateRating(@PathVariable Long artworkId, @PathVariable Long ratingId, @RequestBody RatingDto ratingDto) {
+        ratingService.updateRating(ratingId, artworkId, ratingDto);
         return ResponseEntity.noContent().build();
     }
+
+    // TODO uitzoeken of een delete alleen op basis van ratingId mogelijk is of dat er ook een artworkId nodig is.
 
     @DeleteMapping("/{ratingId}")
     public ResponseEntity<Void> deleteRating(@PathVariable Long ratingId) {
@@ -63,9 +76,16 @@ public class RatingController {
         return ResponseEntity.ok(ratings);
     }
 
+//    @PostMapping("/{artworkId}/ratings")
+//    public ResponseEntity<Void> addRatingToArtwork(@PathVariable Long artworkId, @RequestBody RatingDto rating) {
+//        ratingService.addOrUpdateRatingToArtwork(artworkId, rating.getRating(), rating.getComment());
+//        return ResponseEntity.created(null).build();
+//    }
+
     @PostMapping("/{artworkId}/ratings")
-    public ResponseEntity<Void> addRatingToArtwork(@PathVariable Long artworkId, @RequestBody RatingDto rating) {
-        ratingService.addRatingToArtwork(artworkId, rating.getRating(), rating.getComment());
+    public ResponseEntity<Void> addRatingToArtwork(@PathVariable Long artworkId, @RequestBody RatingDto ratingDto) {
+        String username = userService.getCurrentLoggedInUsername();
+        ratingService.addOrUpdateRatingToArtwork(username, artworkId, ratingDto.getRating(), ratingDto.getComment());
         return ResponseEntity.created(null).build();
     }
 
