@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 
     List<Rating> findByArtworkId(Long artworkId);
-
+    Optional<Rating> findByIdAndArtworkId(Long ratingId, Long artworkId);
     Optional<Rating> findByUserUsernameAndArtworkId(String username, Long artworkId);
+
 }

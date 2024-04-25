@@ -1,6 +1,7 @@
-package nl.novi.theartroom.dtos;
+package nl.novi.theartroom.dtos.artworkdtos;
 
-public class ArtworkOutputArtistDto {
+public class ArtworkInputDto {
+
     private Long id;
     private String title;
     private String artist;
@@ -26,10 +27,10 @@ public class ArtworkOutputArtistDto {
     private Integer drawingDimensionsHeightInCm;
 
 
-    public ArtworkOutputArtistDto() {
+    public ArtworkInputDto() {
     }
 
-    public ArtworkOutputArtistDto(Long id, String title, String artist, String description, Integer dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+    public ArtworkInputDto(Long id, String title, String artist, String description, Integer dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -202,4 +203,5 @@ public class ArtworkOutputArtistDto {
     public void setDrawingDimensionsHeightInCm(Integer drawingDimensionsHeightInCm) {
         this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
     }
+
 }

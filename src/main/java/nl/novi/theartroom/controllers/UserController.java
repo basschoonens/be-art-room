@@ -1,6 +1,6 @@
 package nl.novi.theartroom.controllers;
 
-import nl.novi.theartroom.dtos.UserDto;
+import nl.novi.theartroom.dtos.userdtos.UserDto;
 import nl.novi.theartroom.exceptions.BadRequestException;
 import nl.novi.theartroom.services.UserService;
 import org.springframework.http.ResponseEntity;
@@ -60,11 +60,25 @@ public class UserController {
 
     // TODO de password Encoder naar de service verplaatsen.
 
-    @PostMapping(value = "")
+    @PostMapping(value = "/user")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         String newUsername = userService.createUser(dto);
         userService.addAuthority(newUsername, "ROLE_USER");
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+                .buildAndExpand(newUsername).toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    // TODO HOE MAAK IK EEN ARTIST AAN DIE NAAST ARTIST OOK DE ROL VAN USER HEEFT?
+
+    @PostMapping(value = "/artist")
+    public ResponseEntity<UserDto> createArtist(@RequestBody UserDto dto) {
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+        String newUsername = userService.createUser(dto);
+        userService.addAuthority(newUsername, "ROLE_ARTIST");
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
                 .buildAndExpand(newUsername).toUri();

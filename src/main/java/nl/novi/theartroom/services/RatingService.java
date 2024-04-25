@@ -1,7 +1,8 @@
 package nl.novi.theartroom.services;
 
 import jakarta.transaction.Transactional;
-import nl.novi.theartroom.dtos.RatingDto;
+import nl.novi.theartroom.dtos.ratingdtos.RatingArtistAdminDto;
+import nl.novi.theartroom.dtos.ratingdtos.RatingUserDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
 import nl.novi.theartroom.mappers.RatingDtoMapper;
 import nl.novi.theartroom.models.Artwork;
@@ -22,94 +23,20 @@ public class RatingService {
     private final RatingRepository ratingRepository;
     private final ArtworkRepository artworkRepository;
     private final UserRepository userRepository;
+    private final RatingDtoMapper ratingDtoMapper;
 
-    @Autowired
-    public RatingService(RatingRepository ratingRepository, ArtworkRepository artworkRepository, UserRepository userRepository) {
+    public RatingService(RatingRepository ratingRepository, ArtworkRepository artworkRepository, UserRepository userRepository, RatingDtoMapper ratingDtoMapper) {
         this.ratingRepository = ratingRepository;
         this.artworkRepository = artworkRepository;
         this.userRepository = userRepository;
+        this.ratingDtoMapper = ratingDtoMapper;
     }
 
-    public List<RatingDto> getAllRatings() {
-        List<Rating> ratings = ratingRepository.findAll();
-        return RatingDtoMapper.toRatingOutputDtoList(ratings);
-    }
+// USER RATINGS METHODS
 
-    public Rating getRatingById(Long ratingId) {
-        return ratingRepository.findById(ratingId)
-                .orElseThrow(() -> new RecordNotFoundException("Rating with id " + ratingId + " not found."));
-    }
-
-    public void addRating(RatingDto rating) {
-        Rating newRating = RatingDtoMapper.toRating(rating);
-        ratingRepository.save(newRating);
-    }
-
-//    public void updateRating(Long ratingId, Rating rating) {
-//        Optional<Rating> ratingFound = ratingRepository.findById(ratingId);
-//        if (ratingFound.isEmpty()) {
-//            throw new RecordNotFoundException("Rating with id " + ratingId + " not found.");
-//        } else {
-//            rating.setId(ratingId);
-//            ratingRepository.save(rating);
-//        }
-//    }
-
-    // TODO Create a new updateRating method that connects to Artwork Id and Rating Id
-
-    public void updateRating(Long ratingId, Long artworkId, RatingDto ratingDto) {
-        Optional<Rating> ratingFound = ratingRepository.findById(ratingId);
-        Artwork artwork = findArtworkById(artworkId);
-
-        if (ratingFound.isEmpty()) {
-            throw new RecordNotFoundException("Rating with id " + ratingId + " not found.");
-        } else {
-            Rating existingRating = ratingFound.get();
-            Rating ratingToUpdate = RatingDtoMapper.toRating(ratingDto);
-
-            // Update the fields of the existing rating
-            existingRating.setRating(ratingToUpdate.getRating());
-            existingRating.setComment(ratingToUpdate.getComment());
-            existingRating.setArtwork(artwork); // Update the artwork association
-
-            ratingRepository.save(existingRating);
-        }
-    }
-
-//    public void updateRating(Long ratingId, RatingDto ratingDto) {
-//        Optional<Rating> ratingFound = ratingRepository.findById(ratingId);
-//
-//        if (ratingFound.isEmpty()) {
-//            throw new RecordNotFoundException("Rating with id " + ratingId + " not found.");
-//        } else {
-//            Rating ratingToUpdate = RatingDtoMapper.toRating(ratingDto);
-//            ratingToUpdate.setId(ratingId);
-//            ratingRepository.save(ratingToUpdate);
-//        }
-//    }
-
-    public void deleteRating(Long ratingId) {
-        if (!ratingRepository.existsById(ratingId)) {
-            throw new RecordNotFoundException("Rating with id " + ratingId + " not found.");
-        } else {
-            ratingRepository.deleteById(ratingId);
-        }
-    }
-
-//    @Transactional
-//    public void addRatingToArtwork(Long artworkId, int rated, String comment) {
-//        Artwork artwork = findArtworkById(artworkId);
-//        Rating rating = new Rating();
-//        rating.setRating(rated);
-//        rating.setComment(comment);
-//        rating.setArtwork(artwork);
-//        ratingRepository.save(rating);
-//    }
-
-    // TODO User adds or updates a rating for an artwork
 
     @Transactional
-    public void addOrUpdateRatingToArtwork(String username, Long artworkId, int rated, String comment) {
+    public void addOrUpdateRatingToArtwork(String username, Long artworkId, RatingUserDto ratingUserDto) {
         Optional<Rating> existingRatingOptional = ratingRepository.findByUserUsernameAndArtworkId(username, artworkId);
 
         User user = userRepository.findByUsername(username)
@@ -117,29 +44,77 @@ public class RatingService {
 
         if (existingRatingOptional.isPresent()) {
             Rating existingRating = existingRatingOptional.get();
-            existingRating.setRating(rated);
-            existingRating.setComment(comment);
+            existingRating.setRating(ratingUserDto.getRating());
+            existingRating.setComment(ratingUserDto.getComment());
             ratingRepository.save(existingRating);
         } else {
             Artwork artwork = findArtworkById(artworkId);
             Rating newRating = new Rating();
             newRating.setUser(user);
             newRating.setArtwork(artwork);
-            newRating.setRating(rated);
-            newRating.setComment(comment);
+            newRating.setRating(ratingUserDto.getRating());
+            newRating.setComment(ratingUserDto.getComment());
             ratingRepository.save(newRating);
         }
     }
 
-    public List<RatingDto> getRatingsForArtwork(Long artworkId) {
-        List<Rating> ratings = ratingRepository.findByArtworkId(artworkId);
-        return RatingDtoMapper.toRatingOutputDtoList(ratings);
+    @Transactional
+    public void deleteRatingByUsernameAndArtworkId(String username, Long artworkId) {
+        Optional<Rating> existingRatingOptional = ratingRepository.findByUserUsernameAndArtworkId(username, artworkId);
+        existingRatingOptional.ifPresent(ratingRepository::delete);
     }
 
-    private Artwork findArtworkById(Long artworkId) {
-        return artworkRepository.findById(artworkId)
-                .orElseThrow(() -> new RecordNotFoundException("Artwork with id " + artworkId + " not found."));
+    // ARTIST RATING METHODS
+
+    public List<RatingArtistAdminDto> getRatingsForArtwork(Long artworkId) {
+        List<Rating> ratings = ratingRepository.findByArtworkId(artworkId);
+        return ratingDtoMapper.toRatingArtistAdminDtoList(ratings);
     }
+
+    public void deleteRatingByArtworkIdAndRatingId(Long artworkId, Long ratingId) {
+        Optional<Rating> existingRatingOptional = ratingRepository.findByIdAndArtworkId(ratingId, artworkId);
+        existingRatingOptional.ifPresent(ratingRepository::delete);
+    }
+
+
+    // CRUD operations for Rating
+
+    public List<RatingArtistAdminDto> getAllRatings() {
+        List<Rating> ratings = ratingRepository.findAll();
+        return ratingDtoMapper.toRatingArtistAdminDtoList(ratings);
+    }
+
+    public RatingArtistAdminDto getRatingById(Long ratingId) {
+        Rating rating = ratingRepository.findById(ratingId)
+                .orElseThrow(() -> new RecordNotFoundException("Rating with id " + ratingId + " not found."));
+        return RatingDtoMapper.toRatingArtistAdminDto(rating);
+    }
+
+    public void addRating(RatingUserDto rating) {
+            Rating newRating = ratingDtoMapper.toRatingUserDto(rating);
+            ratingRepository.save(newRating);
+        }
+
+    public void updateRating(Long ratingId, RatingUserDto ratingDto) {
+        Optional<Rating> ratingFound = ratingRepository.findById(ratingId);
+
+        if (ratingFound.isEmpty()) {
+            throw new RecordNotFoundException("Rating with id " + ratingId + " not found.");
+        } else {
+            Rating ratingToUpdate = ratingDtoMapper.toRatingUserDto(ratingDto);
+            ratingToUpdate.setId(ratingId);
+            ratingRepository.save(ratingToUpdate);
+        }
+    }
+
+    public void deleteRating(Long ratingId) {
+        Optional<Rating> ratingFound = ratingRepository.findById(ratingId);
+        ratingFound.ifPresent(ratingRepository::delete);
+    }
+
+    // TODO Waar moet deze komen ?
+
+    // CALCULATIONS
 
     public double calculateAverageRatingForArtwork(Long artworkId) {
         List<Rating> ratings = ratingRepository.findByArtworkId(artworkId);
@@ -150,4 +125,13 @@ public class RatingService {
         double totalRating = ratings.stream().mapToInt(Rating::getRating).sum();
         return (double) totalRating / ratings.size();
     }
+
+    private Artwork findArtworkById(Long artworkId) {
+        return artworkRepository.findById(artworkId)
+                .orElseThrow(() -> new RecordNotFoundException("Artwork with id " + artworkId + " not found."));
+    }
+
+
+
+
 }

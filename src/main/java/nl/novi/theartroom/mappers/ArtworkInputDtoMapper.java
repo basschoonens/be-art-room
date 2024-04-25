@@ -1,6 +1,6 @@
 package nl.novi.theartroom.mappers;
 
-import nl.novi.theartroom.dtos.ArtworkInputDto;
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.models.Drawing;
 import nl.novi.theartroom.models.Painting;

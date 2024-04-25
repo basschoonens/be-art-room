@@ -1,6 +1,6 @@
 package nl.novi.theartroom.services;
 
-import nl.novi.theartroom.dtos.UserDto;
+import nl.novi.theartroom.dtos.userdtos.UserDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
 import nl.novi.theartroom.models.Authority;
 import nl.novi.theartroom.models.User;

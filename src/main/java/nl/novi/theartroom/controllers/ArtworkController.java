@@ -1,6 +1,7 @@
 package nl.novi.theartroom.controllers;
 
-import nl.novi.theartroom.dtos.*;
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtloverDto;
 import nl.novi.theartroom.services.ArtworkService;
 import nl.novi.theartroom.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class ArtworkController {
         this.artworkService = artworkService;
         this.ratingService = ratingService;
     }
+
+    // TODO Calculatie average rating eruit halen en verplaatsten naar aparte service
 
     @GetMapping()
     public ResponseEntity<List<ArtworkOutputArtloverDto>> getAllArtworks() {

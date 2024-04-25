@@ -59,7 +59,11 @@ public class SpringSecurityConfig {
                         auth
 //                .requestMatchers("/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/artworks/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                .requestMatchers(HttpMethod.POST, "/users/*").permitAll()
+                                // Ratings toegankelijkheid goed instellen.
+                .requestMatchers(HttpMethod.GET, "/ratings").hasAnyRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/ratings/{artworkId}/ratings").hasAnyRole("ARTIST", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/ratings/{artworkId}/ratings").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/ratings/**").hasAnyRole("USER", "ARTIST", "ADMIN")
                 .requestMatchers("/order").hasAnyRole("USER", "ARTIST", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/artworks/**").hasAnyRole("ARTIST", "ADMIN")

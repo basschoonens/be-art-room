@@ -1,7 +1,7 @@
 package nl.novi.theartroom.controllers;
 
-import nl.novi.theartroom.dtos.AuthenticationInputDto;
-import nl.novi.theartroom.dtos.AuthenticationOutputDto;
+import nl.novi.theartroom.dtos.userdtos.AuthenticationInputDto;
+import nl.novi.theartroom.dtos.userdtos.AuthenticationOutputDto;
 import nl.novi.theartroom.services.CustomUserDetailsService;
 import nl.novi.theartroom.utils.JwtUtil;
 import org.springframework.http.ResponseEntity;

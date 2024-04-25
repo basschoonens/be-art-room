@@ -1,4 +1,4 @@
-package nl.novi.theartroom.dtos;
+package nl.novi.theartroom.dtos.artworkdtos;
 
 public class ArtworkOutputAdminDto {
         private Long id;

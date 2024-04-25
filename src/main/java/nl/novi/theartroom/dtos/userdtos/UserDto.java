@@ -1,4 +1,4 @@
-package nl.novi.theartroom.dtos;
+package nl.novi.theartroom.dtos.userdtos;
 
 import nl.novi.theartroom.models.Authority;
 
