@@ -1,9 +1,9 @@
 package nl.novi.theartroom.mappers;
 
-import nl.novi.theartroom.dtos.ArtworkOutputArtloverDto;
-import nl.novi.theartroom.dtos.DrawingOutputDto;
-import nl.novi.theartroom.dtos.PaintingOutputDto;
-import nl.novi.theartroom.dtos.RatingDto;
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtloverDto;
+import nl.novi.theartroom.dtos.artworkdtos.DrawingOutputDto;
+import nl.novi.theartroom.dtos.artworkdtos.PaintingOutputDto;
+import nl.novi.theartroom.dtos.ratingdtos.RatingUserDto;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.models.Drawing;
 import nl.novi.theartroom.models.Painting;
@@ -27,8 +27,8 @@ public class ArtworkArtloverDtoMapper {
         artworkOutputArtloverDto.setArtworkType(artwork.getArtworkType());
 
         if (artwork.getRatings() != null) {
-            List<RatingDto> ratingDtos = RatingDtoMapper.toRatingOutputDtoList(artwork.getRatings());
-            artworkOutputArtloverDto.setRatings(ratingDtos);
+            List<RatingUserDto> ratingUserDtos = RatingDtoMapper.toRatingUserDtoList(artwork.getRatings());
+            artworkOutputArtloverDto.setRatings(ratingUserDtos);
         }
 
         // TODO uitzoeken welke excepties hier gegooid kunnen worden

@@ -20,6 +20,26 @@ public class Artwork {
     private String edition;
     private String imageUrl;
     private String artworkType;
+
+    // TODO add a function to automatically see if a painting is square, portrait or landscape
+
+//    public void setArtworkType() {
+//        if (this.imageUrl != null) {
+//            String[] dimensions = this.imageUrl.split("x");
+//            if (dimensions.length == 2) {
+//                int width = Integer.parseInt(dimensions[0]);
+//                int height = Integer.parseInt(dimensions[1]);
+//                if (width == height) {
+//                    this.artworkType = "square";
+//                } else if (width > height) {
+//                    this.artworkType = "landscape";
+//                } else {
+//                    this.artworkType = "portrait";
+//                }
+//            }
+//        }
+//    }
+
     @OneToMany(mappedBy = "artwork")
     List<Rating> ratings = new ArrayList<>();
 
@@ -129,4 +149,6 @@ public class Artwork {
     public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
     }
+
+
 }

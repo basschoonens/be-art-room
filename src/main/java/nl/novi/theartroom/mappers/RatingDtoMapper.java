@@ -1,30 +1,50 @@
 package nl.novi.theartroom.mappers;
 
-import nl.novi.theartroom.dtos.RatingDto;
+import nl.novi.theartroom.dtos.ratingdtos.RatingArtistAdminDto;
+import nl.novi.theartroom.dtos.ratingdtos.RatingUserDto;
 import nl.novi.theartroom.models.Rating;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class RatingDtoMapper {
 
-    public static Rating toRating(RatingDto ratingDto) {
+    // USER RATINGS MAPPERS
+
+    public Rating toRatingUserDto(RatingUserDto ratingUserDto) {
         Rating rating = new Rating();
-        rating.setRating(ratingDto.getRating());
-        rating.setComment(ratingDto.getComment());
+        rating.setRating(ratingUserDto.getRating());
+        rating.setComment(ratingUserDto.getComment());
 
         return rating;
     }
-    public static RatingDto toRatingOutputDto(Rating rating) {
-        RatingDto ratingDto = new RatingDto();
-        ratingDto.setRating(rating.getRating());
-        ratingDto.setComment(rating.getComment());
+    public static RatingUserDto toRatingUserDto(Rating rating) {
+        RatingUserDto ratingUserDto = new RatingUserDto();
+        ratingUserDto.setRating(rating.getRating());
+        ratingUserDto.setComment(rating.getComment());
 
-        return ratingDto;
+        return ratingUserDto;
     }
 
-    public static List<RatingDto> toRatingOutputDtoList(List<Rating> ratings) {
-        return ratings.stream().map(RatingDtoMapper::toRatingOutputDto).collect(Collectors.toList());
+    public static List<RatingUserDto> toRatingUserDtoList(List<Rating> ratings) {
+        return ratings.stream().map(RatingDtoMapper::toRatingUserDto).collect(Collectors.toList());
+    }
+
+    // ARTIST ADMIN RATINGS MAPPERS
+
+    public static RatingArtistAdminDto toRatingArtistAdminDto(Rating rating) {
+        RatingArtistAdminDto ratingArtistAdminDto = new RatingArtistAdminDto();
+        ratingArtistAdminDto.setId(rating.getId());
+        ratingArtistAdminDto.setRating(rating.getRating());
+        ratingArtistAdminDto.setComment(rating.getComment());
+
+        return ratingArtistAdminDto;
+    }
+
+    public List<RatingArtistAdminDto> toRatingArtistAdminDtoList(List<Rating> ratings) {
+        return ratings.stream().map(RatingDtoMapper::toRatingArtistAdminDto).collect(Collectors.toList());
     }
 
 }

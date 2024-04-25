@@ -1,13 +1,11 @@
 package nl.novi.theartroom.services;
 
-import jakarta.transaction.Transactional;
-import nl.novi.theartroom.dtos.ArtworkOutputArtloverDto;
-import nl.novi.theartroom.dtos.ArtworkInputDto;
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtloverDto;
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
 import nl.novi.theartroom.mappers.ArtworkArtloverDtoMapper;
 import nl.novi.theartroom.mappers.ArtworkInputDtoMapper;
 import nl.novi.theartroom.models.Artwork;
-import nl.novi.theartroom.models.Rating;
 import nl.novi.theartroom.repositories.ArtworkRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +23,8 @@ public class ArtworkService {
         this.artworkRepository = artworkRepository;
         this.ratingService = ratingService;
     }
+
+    // TODO Add the total ammount of ratings to the artwork
 
     public List<ArtworkOutputArtloverDto> getAllArtworks() {
         List<Artwork> artworks = artworkRepository.findAll();

@@ -1,14 +1,14 @@
-package nl.novi.theartroom.dtos;
+package nl.novi.theartroom.dtos.ratingdtos;
 
-public class RatingDto {
+public class RatingUserDto {
 
     private Integer rating;
     private String comment;
 
-    public RatingDto() {
+    public RatingUserDto() {
     }
 
-    public RatingDto(Integer rating, String comment) {
+    public RatingUserDto(Integer rating, String comment) {
         this.rating = rating;
         this.comment = comment;
     }

@@ -10,3 +10,10 @@ INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1002, 2, 1001, 'Ve
 
 INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1003, 5, 1002, 'Wow, This looks great');
 INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1004, 2, 1002, 'Very impresive art');
+
+INSERT INTO users (username, password, email) VALUES ('user', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK','user@test.nl');
+INSERT INTO users (username, password, email) VALUES ('admin', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'admin@test.nl');
+
+INSERT INTO authorities (username, authority) VALUES ('user', 'ROLE_USER');
+INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_USER');
+INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN');
