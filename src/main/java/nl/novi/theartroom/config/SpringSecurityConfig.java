@@ -48,6 +48,8 @@ public class SpringSecurityConfig {
         return new ProviderManager(auth);
     }
 
+    // TODO RequestMatchers goed instellen
+
     @Bean
     protected SecurityFilterChain filter (HttpSecurity http) throws Exception {
 
@@ -61,7 +63,7 @@ public class SpringSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/artworks/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/users/*").permitAll()
                                 // Ratings toegankelijkheid goed instellen.
-                .requestMatchers(HttpMethod.GET, "/ratings").hasAnyRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/ratings").hasAnyRole("ARTIST", "ADMIN")
                 .requestMatchers(HttpMethod.GET, "/ratings/{artworkId}/ratings").hasAnyRole("ARTIST", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/ratings/{artworkId}/ratings").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/ratings/**").hasAnyRole("USER", "ARTIST", "ADMIN")
