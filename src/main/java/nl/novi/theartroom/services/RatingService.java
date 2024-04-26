@@ -34,6 +34,7 @@ public class RatingService {
 
 // USER RATINGS METHODS
 
+    // TODO Bij deze methode uitzoeken waarom ik niet via mijn artworkRepository.findById(artworkId) de artwork kan vinden.
 
     @Transactional
     public void addOrUpdateRatingToArtwork(String username, Long artworkId, RatingUserDto ratingUserDto) {
@@ -130,8 +131,5 @@ public class RatingService {
         return artworkRepository.findById(artworkId)
                 .orElseThrow(() -> new RecordNotFoundException("Artwork with id " + artworkId + " not found."));
     }
-
-
-
 
 }
