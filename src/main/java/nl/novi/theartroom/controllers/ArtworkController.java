@@ -1,10 +1,14 @@
 package nl.novi.theartroom.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtloverDto;
 import nl.novi.theartroom.services.ArtworkService;
 import nl.novi.theartroom.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,6 +50,13 @@ public class ArtworkController {
     public ResponseEntity<ArtworkOutputArtloverDto> getArtworkById(@PathVariable Long id) {
         ArtworkOutputArtloverDto artwork = artworkService.getArtworkById(id);
         return ResponseEntity.ok(artwork);
+    }
+
+    // Get Artwork Photo
+
+    @GetMapping("/{id}/photo")
+    public ResponseEntity<byte[]> getArtworkPhoto(@PathVariable("id") Long id, HttpServletRequest request) {
+        return artworkService.getPhotoForArtwork(id);
     }
 
     @PostMapping()

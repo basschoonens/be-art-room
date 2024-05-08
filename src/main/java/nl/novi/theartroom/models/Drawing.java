@@ -3,6 +3,7 @@ package nl.novi.theartroom.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -18,7 +19,7 @@ public class Drawing extends Artwork {
     public Drawing() {
     }
 
-    public Drawing(Long id, String title, String artist, String description, Integer dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, List<Rating> ratings, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+    public Drawing(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, List<Rating> ratings, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
         super(id, title, artist, description, dateCreated, galleryBuyingPrice, edition, imageUrl, artworkType, ratings);
         this.drawingDrawType = drawingDrawType;
         this.drawingSurface = drawingSurface;

@@ -3,6 +3,7 @@ package nl.novi.theartroom.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class Painting extends Artwork {
     public Painting() {
     }
 
-    public Painting(Long id, String title, String artist, String description, Integer dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, List<Rating> ratings, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm) {
+    public Painting(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, List<Rating> ratings, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm) {
         super(id, title, artist, description, dateCreated, galleryBuyingPrice, edition, imageUrl, artworkType, ratings);
         this.paintingPaintType = paintingPaintType;
         this.paintingSurface = paintingSurface;

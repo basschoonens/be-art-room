@@ -1,6 +1,7 @@
 package nl.novi.theartroom.models;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class Artwork {
     private String title;
     private String artist;
     private String description;
-    private Integer dateCreated;
+    private LocalDate dateCreated;
     private Double galleryBuyingPrice;
     private String edition;
     private String imagePath;
@@ -53,7 +54,7 @@ public class Artwork {
             String title,
             String artist,
             String description,
-            Integer dateCreated,
+            LocalDate dateCreated,
             Double galleryBuyingPrice,
             String edition,
             String imagePath,
@@ -104,11 +105,11 @@ public class Artwork {
         this.description = description;
     }
 
-    public Integer getDateCreated() {
+    public LocalDate getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Integer dateCreated) {
+    public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
 

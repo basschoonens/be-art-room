@@ -1,12 +1,14 @@
 package nl.novi.theartroom.dtos.artworkdtos;
 
+import java.time.LocalDate;
+
 public class ArtworkInputDto {
 
     private Long id;
     private String title;
     private String artist;
     private String description;
-    private Integer dateCreated;
+    private LocalDate dateCreated;
     private Double galleryBuyingPrice;
     private String edition;
     private String imageUrl;
@@ -30,7 +32,7 @@ public class ArtworkInputDto {
     public ArtworkInputDto() {
     }
 
-    public ArtworkInputDto(Long id, String title, String artist, String description, Integer dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+    public ArtworkInputDto(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -84,11 +86,11 @@ public class ArtworkInputDto {
         this.description = description;
     }
 
-    public Integer getDateCreated() {
+    public LocalDate getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Integer dateCreated) {
+    public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
 
