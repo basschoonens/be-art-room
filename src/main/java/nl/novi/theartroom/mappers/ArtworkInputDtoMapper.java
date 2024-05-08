@@ -82,7 +82,7 @@ public class ArtworkInputDtoMapper {
             artwork.setEdition(dto.getEdition());
         }
         if (dto.getImageUrl() != null) {
-            artwork.setImageUrl(dto.getImageUrl());
+            artwork.setImagePath(dto.getImageUrl());
         }
         if (dto.getArtworkType() != null) {
             artwork.setArtworkType(dto.getArtworkType());

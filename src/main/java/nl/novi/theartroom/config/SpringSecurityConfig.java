@@ -59,7 +59,7 @@ public class SpringSecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth ->
                         auth
-//                .requestMatchers("/**").permitAll()
+                .requestMatchers("/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/artworks/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/users/*").permitAll()
                                 // Ratings toegankelijkheid goed instellen.

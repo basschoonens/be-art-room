@@ -26,6 +26,9 @@ public class RatingController {
 
     // USER RATINGS METHODS
 
+    // TODO Moet hij een void returnen of niet?
+    // TODO location created URI returnen
+
     @PostMapping("/{artworkId}/ratings")
     public ResponseEntity<Void> addOrUpdateRatingToArtworkByUser(@PathVariable Long artworkId, @RequestBody RatingUserDto ratingUserDto) {
         String username = userService.getCurrentLoggedInUsername();

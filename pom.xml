@@ -10,6 +10,7 @@
     </parent>
     <groupId>nl.novi</groupId>
     <artifactId>the-art-room</artifactId>
+<!--  TODO  // <version>0.0.1-SNAPSHOT</version> // Change this to 0.0.1-->
     <version>0.0.1-SNAPSHOT</version>
     <name>the-art-room</name>
     <description>the-art-room</description>

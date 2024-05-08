@@ -18,8 +18,10 @@ public class Artwork {
     private Integer dateCreated;
     private Double galleryBuyingPrice;
     private String edition;
-    private String imageUrl;
+    private String imagePath;
     private String artworkType;
+
+    // Boolean forSale
 
     // TODO add a function to automatically see if a painting is square, portrait or landscape
 
@@ -54,7 +56,7 @@ public class Artwork {
             Integer dateCreated,
             Double galleryBuyingPrice,
             String edition,
-            String imageUrl,
+            String imagePath,
             String artworkType,
             List<Rating> ratings
     ) {
@@ -65,7 +67,7 @@ public class Artwork {
         this.dateCreated = dateCreated;
         this.galleryBuyingPrice = galleryBuyingPrice;
         this.edition = edition;
-        this.imageUrl = imageUrl;
+        this.imagePath = imagePath;
         this.artworkType = artworkType;
         this.ratings = ratings;
     }
@@ -126,12 +128,12 @@ public class Artwork {
         this.edition = edition;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImagePath(String imageUrl) {
+        this.imagePath = imageUrl;
     }
 
     public String getArtworkType() {

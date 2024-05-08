@@ -116,7 +116,7 @@ public class UserService {
     }
 
     public String getUsernameFromUser(User user) {
-        return user.getUsername(); // Assuming getUsername() method exists in User class
+        return user.getUsername();
     }
 
     public String getCurrentLoggedInUsername() {

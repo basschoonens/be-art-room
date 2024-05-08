@@ -21,7 +21,7 @@ public class ArtworkAdminDtoMapper {
         artworkOutputAdminDto.setGalleryBuyingPrice(artwork.getGalleryBuyingPrice());
         //TODO Hier komen berekening voor de verkoopprijs en promoties, aparte service klasse voor maken.
         artworkOutputAdminDto.setEdition(artwork.getEdition());
-        artworkOutputAdminDto.setImageUrl(artwork.getImageUrl());
+        artworkOutputAdminDto.setImageUrl(artwork.getImagePath());
         artworkOutputAdminDto.setArtworkType(artwork.getArtworkType());
 
         if ("painting".equalsIgnoreCase(artwork.getArtworkType())) {

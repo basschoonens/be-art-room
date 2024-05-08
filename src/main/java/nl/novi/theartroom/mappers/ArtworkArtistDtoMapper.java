@@ -18,7 +18,7 @@ public class ArtworkArtistDtoMapper {
         artworkOutputArtistDto.setDateCreated(artwork.getDateCreated());
         artworkOutputArtistDto.setGalleryBuyingPrice(artwork.getGalleryBuyingPrice());
         artworkOutputArtistDto.setEdition(artwork.getEdition());
-        artworkOutputArtistDto.setImageUrl(artwork.getImageUrl());
+        artworkOutputArtistDto.setImageUrl(artwork.getImagePath());
         artworkOutputArtistDto.setArtworkType(artwork.getArtworkType());
 
         if ("painting".equalsIgnoreCase(artwork.getArtworkType())) {
