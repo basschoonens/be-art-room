@@ -50,7 +50,6 @@ public class ArtworkArtloverDtoMapper {
     }
 
     public static void mapDrawingFields(Drawing drawing, DrawingOutputDto drawingOutputDto) {
-        drawingOutputDto.setDrawingDrawType(drawing.getDrawingDrawType());
         drawingOutputDto.setDrawingSurface(drawing.getDrawingSurface());
         drawingOutputDto.setDrawingMaterial(drawing.getDrawingMaterial());
         drawingOutputDto.setDrawingDimensionsWidthInCm(drawing.getDrawingDimensionsWidthInCm());
@@ -58,7 +57,6 @@ public class ArtworkArtloverDtoMapper {
     }
 
     public static void mapPaintingFields(Painting painting, PaintingOutputDto paintingOutputDto) {
-        paintingOutputDto.setPaintingPaintType(painting.getPaintingPaintType());
         paintingOutputDto.setPaintingSurface(painting.getPaintingSurface());
         paintingOutputDto.setPaintingMaterial(painting.getPaintingMaterial());
         paintingOutputDto.setPaintingDimensionsWidthInCm(painting.getPaintingDimensionsWidthInCm());

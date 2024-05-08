@@ -34,7 +34,6 @@ public class ArtworkAdminDtoMapper {
     }
 
     private static void mapPaintingFields(Painting painting, ArtworkOutputAdminDto artworkOutputAdminDto) {
-        artworkOutputAdminDto.setPaintingPaintType(painting.getPaintingPaintType());
         artworkOutputAdminDto.setPaintingSurface(painting.getPaintingSurface());
         artworkOutputAdminDto.setPaintingMaterial(painting.getPaintingMaterial());
         artworkOutputAdminDto.setPaintingDimensionsWidthInCm(painting.getPaintingDimensionsWidthInCm());
@@ -42,7 +41,6 @@ public class ArtworkAdminDtoMapper {
     }
 
     private static void mapDrawingFields(Drawing drawing, ArtworkOutputAdminDto artworkOutputAdminDto) {
-        artworkOutputAdminDto.setDrawingDrawType(drawing.getDrawingDrawType());
         artworkOutputAdminDto.setDrawingSurface(drawing.getDrawingSurface());
         artworkOutputAdminDto.setDrawingMaterial(drawing.getDrawingMaterial());
         artworkOutputAdminDto.setDrawingDimensionsWidthInCm(drawing.getDrawingDimensionsWidthInCm());

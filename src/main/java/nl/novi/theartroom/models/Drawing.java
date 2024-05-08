@@ -10,7 +10,6 @@ import java.util.List;
 @Table(name = "drawings")
 public class Drawing extends Artwork {
 
-    private String drawingDrawType;
     private String drawingSurface;
     private String drawingMaterial;
     private Integer drawingDimensionsWidthInCm;
@@ -19,21 +18,12 @@ public class Drawing extends Artwork {
     public Drawing() {
     }
 
-    public Drawing(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, List<Rating> ratings, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+    public Drawing(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, List<Rating> ratings, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
         super(id, title, artist, description, dateCreated, galleryBuyingPrice, edition, imageUrl, artworkType, ratings);
-        this.drawingDrawType = drawingDrawType;
         this.drawingSurface = drawingSurface;
         this.drawingMaterial = drawingMaterial;
         this.drawingDimensionsWidthInCm = drawingDimensionsWidthInCm;
         this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
-    }
-
-    public String getDrawingDrawType() {
-        return drawingDrawType;
-    }
-
-    public void setDrawingDrawType(String drawingDrawType) {
-        this.drawingDrawType = drawingDrawType;
     }
 
     public String getDrawingSurface() {

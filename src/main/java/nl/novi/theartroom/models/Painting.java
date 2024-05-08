@@ -4,14 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "paintings")
 public class Painting extends Artwork {
 
-    private String paintingPaintType;
     private String paintingSurface;
     private String paintingMaterial;
     private Integer paintingDimensionsWidthInCm;
@@ -20,21 +18,12 @@ public class Painting extends Artwork {
     public Painting() {
     }
 
-    public Painting(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, List<Rating> ratings, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm) {
+    public Painting(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, List<Rating> ratings, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm) {
         super(id, title, artist, description, dateCreated, galleryBuyingPrice, edition, imageUrl, artworkType, ratings);
-        this.paintingPaintType = paintingPaintType;
         this.paintingSurface = paintingSurface;
         this.paintingMaterial = paintingMaterial;
         this.paintingDimensionsWidthInCm = paintingDimensionsWidthInCm;
         this.paintingDimensionsHeightInCm = paintingDimensionsHeightInCm;
-    }
-
-    public String getPaintingPaintType() {
-        return paintingPaintType;
-    }
-
-    public void setPaintingPaintType(String paintingPaintType) {
-        this.paintingPaintType = paintingPaintType;
     }
 
     public String getPaintingSurface() {
