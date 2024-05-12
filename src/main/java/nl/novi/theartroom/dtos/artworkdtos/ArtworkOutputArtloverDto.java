@@ -1,6 +1,7 @@
 package nl.novi.theartroom.dtos.artworkdtos;
 
 import nl.novi.theartroom.dtos.ratingdtos.RatingUserDto;
+import nl.novi.theartroom.models.ArtworkImage;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,7 +14,7 @@ public class ArtworkOutputArtloverDto {
     private String description;
     private LocalDate dateCreated;
     private String edition;
-    private String imagePath;
+    private ArtworkImage image;
     private String artworkType;
     private List<RatingUserDto> ratings;
     private double averageRating;
@@ -23,14 +24,14 @@ public class ArtworkOutputArtloverDto {
     public ArtworkOutputArtloverDto() {
     }
 
-    public ArtworkOutputArtloverDto(Long id, String title, String artist, String description, LocalDate dateCreated, String edition, String imagePath, String artworkType, List<RatingUserDto> ratings, double averageRating, byte[] imageData, PaintingOutputDto paintingOutputDto, DrawingOutputDto drawingOutputDto) {
+    public ArtworkOutputArtloverDto(Long id, String title, String artist, String description, LocalDate dateCreated, String edition, ArtworkImage image, String artworkType, List<RatingUserDto> ratings, double averageRating, PaintingOutputDto paintingOutputDto, DrawingOutputDto drawingOutputDto) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.description = description;
         this.dateCreated = dateCreated;
         this.edition = edition;
-        this.imagePath = imagePath;
+        this.image = image;
         this.artworkType = artworkType;
         this.ratings = ratings;
         this.averageRating = averageRating;
@@ -86,12 +87,12 @@ public class ArtworkOutputArtloverDto {
         this.edition = edition;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public ArtworkImage getImage() {
+        return image;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setImage(ArtworkImage image) {
+        this.image = image;
     }
 
     public String getArtworkType() {

@@ -3,33 +3,32 @@ package nl.novi.theartroom.controllers;
 import jakarta.servlet.http.HttpServletRequest;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtloverDto;
+import nl.novi.theartroom.models.Artwork;
+import nl.novi.theartroom.services.ArtworkImageService;
 import nl.novi.theartroom.services.ArtworkService;
-import nl.novi.theartroom.services.RatingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/artworks")
 public class ArtworkController {
 
     private final ArtworkService artworkService;
-    private final RatingService ratingService;
+    private final ArtworkImageService artworkImageService;
 
-    @Autowired
-    public ArtworkController(ArtworkService artworkService, RatingService ratingService) {
+    public ArtworkController(ArtworkService artworkService, ArtworkImageService artworkImageService) {
         this.artworkService = artworkService;
-        this.ratingService = ratingService;
+        this.artworkImageService = artworkImageService;
     }
 
     // TODO Calculatie average rating eruit halen en verplaatsten naar aparte service
@@ -37,12 +36,6 @@ public class ArtworkController {
     @GetMapping()
     public ResponseEntity<List<ArtworkOutputArtloverDto>> getAllArtworks() {
         List<ArtworkOutputArtloverDto> artworks = artworkService.getAllArtworks();
-
-        for (ArtworkOutputArtloverDto artwork : artworks) {
-            double averageRating = ratingService.calculateAverageRatingForArtwork(artwork.getId());
-            artwork.setAverageRating(averageRating);
-        }
-
         return ResponseEntity.ok(artworkService.getAllArtworks());
     }
 
@@ -53,11 +46,6 @@ public class ArtworkController {
     }
 
     // Get Artwork Photo
-
-    @GetMapping("/{id}/photo")
-    public ResponseEntity<byte[]> getArtworkPhoto(@PathVariable("id") Long id, HttpServletRequest request) {
-        return artworkService.getPhotoForArtwork(id);
-    }
 
     @PostMapping()
     public ResponseEntity<Void> addArtwork(@RequestBody ArtworkInputDto artwork) {
@@ -81,6 +69,45 @@ public class ArtworkController {
     // TODO Add a method to update an image from an artwork
     // TODO Add a method to delete an image from an artwork
 
+    @PostMapping("/{id}/image")
+    public ResponseEntity<Artwork> addImageToArtwork(@PathVariable("id") Long artworkId, @RequestBody MultipartFile file)
+            throws IOException {
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/artworks/")
+                .path(Objects.requireNonNull(artworkId.toString()))
+                .path("/image")
+                .toUriString();
+        String fileName = artworkImageService.storeFile(file);
+        Artwork artwork = artworkService.assignImageToArtwork(fileName, artworkId);
 
+        return ResponseEntity.created(URI.create(url)).body(artwork);
 
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<Resource> getArtworkImage(@PathVariable("id") Long artworkId, HttpServletRequest request){
+        Resource resource = artworkService.getImageFromStudent(artworkId);
+
+        String mimeType;
+
+        try{
+            mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException e) {
+            /*
+            "application/octet-steam" is de generieke mime type voor byte data.
+            Het is beter om een specifiekere mimetype te gebruiken, zoals "image/jpeg".
+            Mimetype is nodig om de frontend te laten weten welke soort data het is.
+            Met de juiste MimeType en Content-Disposition, kun je de plaatjes of PDFs die je upload
+            zelfs in de browser weergeven.
+             */
+//            mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+            mimeType = MediaType.IMAGE_JPEG_VALUE;
+        }
+
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.parseMediaType(mimeType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename())
+                .body(resource);
+    }
 }

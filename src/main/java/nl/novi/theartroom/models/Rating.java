@@ -1,5 +1,6 @@
 package nl.novi.theartroom.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -25,6 +26,7 @@ public class Rating {
     // TODO Koppeling user/artwork/rating
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "artwork_id")
+    @JsonIgnore
     Artwork artwork;
 
     @ManyToOne

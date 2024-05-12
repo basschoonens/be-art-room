@@ -23,7 +23,7 @@ public class ArtworkArtloverDtoMapper {
         artworkOutputArtloverDto.setDescription(artwork.getDescription());
         artworkOutputArtloverDto.setDateCreated(artwork.getDateCreated());
         artworkOutputArtloverDto.setEdition(artwork.getEdition());
-        artworkOutputArtloverDto.setImagePath(artwork.getImagePath());
+        artworkOutputArtloverDto.setImage(artwork.getArtworkImage());
         artworkOutputArtloverDto.setArtworkType(artwork.getArtworkType());
 
         if (artwork.getRatings() != null) {

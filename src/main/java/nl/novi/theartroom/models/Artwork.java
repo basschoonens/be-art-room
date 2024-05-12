@@ -1,4 +1,5 @@
 package nl.novi.theartroom.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -19,7 +20,9 @@ public class Artwork {
     private LocalDate dateCreated;
     private Double galleryBuyingPrice;
     private String edition;
-    private String imagePath;
+    @OneToOne
+    ArtworkImage artworkImage;
+
     private String artworkType;
 
     // Boolean forSale
@@ -44,23 +47,13 @@ public class Artwork {
 //    }
 
     @OneToMany(mappedBy = "artwork")
+    @JsonIgnore
     List<Rating> ratings = new ArrayList<>();
 
     public Artwork() {
     }
 
-    public Artwork(
-            Long id,
-            String title,
-            String artist,
-            String description,
-            LocalDate dateCreated,
-            Double galleryBuyingPrice,
-            String edition,
-            String imagePath,
-            String artworkType,
-            List<Rating> ratings
-    ) {
+    public Artwork(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, ArtworkImage artworkImage, String artworkType, List<Rating> ratings) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -68,7 +61,7 @@ public class Artwork {
         this.dateCreated = dateCreated;
         this.galleryBuyingPrice = galleryBuyingPrice;
         this.edition = edition;
-        this.imagePath = imagePath;
+        this.artworkImage = artworkImage;
         this.artworkType = artworkType;
         this.ratings = ratings;
     }
@@ -129,12 +122,12 @@ public class Artwork {
         this.edition = edition;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public ArtworkImage getArtworkImage() {
+        return artworkImage;
     }
 
-    public void setImagePath(String imageUrl) {
-        this.imagePath = imageUrl;
+    public void setArtworkImage(ArtworkImage artworkImage) {
+        this.artworkImage = artworkImage;
     }
 
     public String getArtworkType() {

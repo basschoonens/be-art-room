@@ -18,8 +18,16 @@ public class Drawing extends Artwork {
     public Drawing() {
     }
 
-    public Drawing(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, List<Rating> ratings, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
-        super(id, title, artist, description, dateCreated, galleryBuyingPrice, edition, imageUrl, artworkType, ratings);
+//    public Drawing(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, List<Rating> ratings, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+//        super(id, title, artist, description, dateCreated, galleryBuyingPrice, edition, artworkType, ratings);
+//        this.drawingSurface = drawingSurface;
+//        this.drawingMaterial = drawingMaterial;
+//        this.drawingDimensionsWidthInCm = drawingDimensionsWidthInCm;
+//        this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
+//    }
+
+    public Drawing(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imagePath, ArtworkImage artworkImage, String artworkType, List<Rating> ratings, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+        super(id, title, artist, description, dateCreated, galleryBuyingPrice, edition, artworkImage, artworkType, ratings);
         this.drawingSurface = drawingSurface;
         this.drawingMaterial = drawingMaterial;
         this.drawingDimensionsWidthInCm = drawingDimensionsWidthInCm;
