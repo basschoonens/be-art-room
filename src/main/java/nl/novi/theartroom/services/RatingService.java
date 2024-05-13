@@ -11,7 +11,6 @@ import nl.novi.theartroom.models.User;
 import nl.novi.theartroom.repositories.ArtworkRepository;
 import nl.novi.theartroom.repositories.RatingRepository;
 import nl.novi.theartroom.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,8 +31,7 @@ public class RatingService {
         this.ratingDtoMapper = ratingDtoMapper;
     }
 
-// USER RATINGS METHODS
-
+    // USER RATINGS METHODS
 
     @Transactional
     public void addOrUpdateRatingToArtwork(String username, Long artworkId, RatingUserDto ratingUserDto) {
@@ -48,7 +46,9 @@ public class RatingService {
             existingRating.setComment(ratingUserDto.getComment());
             ratingRepository.save(existingRating);
         } else {
-            Artwork artwork = findArtworkById(artworkId);
+            Optional<Artwork> optionalArtwork = artworkRepository.findById(artworkId);
+            Artwork artwork = optionalArtwork
+                    .orElseThrow(() -> new RecordNotFoundException("Artwork with id " + artworkId + " not found."));
             Rating newRating = new Rating();
             newRating.setUser(user);
             newRating.setArtwork(artwork);
@@ -67,7 +67,7 @@ public class RatingService {
     // ARTIST RATING METHODS
 
     public List<RatingArtistAdminDto> getRatingsForArtwork(Long artworkId) {
-        List<Rating> ratings = ratingRepository.findByArtworkId(artworkId);
+        List<Rating> ratings = ratingRepository.findRatingsListByArtworkId(artworkId);
         return ratingDtoMapper.toRatingArtistAdminDtoList(ratings);
     }
 
@@ -91,9 +91,9 @@ public class RatingService {
     }
 
     public void addRating(RatingUserDto rating) {
-            Rating newRating = ratingDtoMapper.toRatingUserDto(rating);
-            ratingRepository.save(newRating);
-        }
+        Rating newRating = ratingDtoMapper.toRatingUserDto(rating);
+        ratingRepository.save(newRating);
+    }
 
     public void updateRating(Long ratingId, RatingUserDto ratingDto) {
         Optional<Rating> ratingFound = ratingRepository.findById(ratingId);
@@ -117,7 +117,7 @@ public class RatingService {
     // CALCULATIONS
 
     public double calculateAverageRatingForArtwork(Long artworkId) {
-        List<Rating> ratings = ratingRepository.findByArtworkId(artworkId);
+        List<Rating> ratings = ratingRepository.findRatingsListByArtworkId(artworkId);
         if (ratings.isEmpty()) {
             return 0.0;
         }
@@ -125,13 +125,5 @@ public class RatingService {
         double totalRating = ratings.stream().mapToInt(Rating::getRating).sum();
         return (double) totalRating / ratings.size();
     }
-
-    private Artwork findArtworkById(Long artworkId) {
-        return artworkRepository.findById(artworkId)
-                .orElseThrow(() -> new RecordNotFoundException("Artwork with id " + artworkId + " not found."));
-    }
-
-
-
 
 }

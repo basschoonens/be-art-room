@@ -3,6 +3,7 @@ package nl.novi.theartroom.models;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,7 +16,6 @@ public class User {
 
     @Column(nullable = false, length = 255)
     private String password;
-
 
     @OneToMany(
             targetEntity = Authority.class,
@@ -31,10 +31,17 @@ public class User {
     @Column
     private String email;
 
-    // TODO Koppeling user/artwork/rating
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Rating> ratings;
+
+    // lijst van @Onetomany naar artworks (shoppingcart)
+
+    // Shopping cart DTO met alle aankoopgegevens
+    // Tabel met alle verwerkte orders
+    // Leveradres bij order (shipping details)
+    
+    @OneToMany
+    private List<Artwork> shoppingCart;
 
     @ManyToOne
     @JoinColumn(name = "artwork_id")

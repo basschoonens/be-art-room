@@ -81,18 +81,12 @@ public class ArtworkInputDtoMapper {
         if (dto.getEdition() != null) {
             artwork.setEdition(dto.getEdition());
         }
-        if (dto.getImageUrl() != null) {
-            artwork.setImageUrl(dto.getImageUrl());
-        }
         if (dto.getArtworkType() != null) {
             artwork.setArtworkType(dto.getArtworkType());
         }
     }
 
     private static Painting mapToPainting(ArtworkInputDto dto, Painting painting) {
-        if (dto.getPaintingPaintType() != null) {
-            painting.setPaintingPaintType(dto.getPaintingPaintType());
-        }
         if (dto.getPaintingSurface() != null) {
             painting.setPaintingSurface(dto.getPaintingSurface());
         }
@@ -109,9 +103,6 @@ public class ArtworkInputDtoMapper {
     }
 
     private static Drawing mapToDrawing(ArtworkInputDto dto, Drawing drawing) {
-        if (dto.getDrawingDrawType() != null) {
-            drawing.setDrawingDrawType(dto.getDrawingDrawType());
-        }
         if (dto.getDrawingSurface() != null) {
             drawing.setDrawingSurface(dto.getDrawingSurface());
         }

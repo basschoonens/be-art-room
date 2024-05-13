@@ -1,6 +1,8 @@
 package nl.novi.theartroom.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +17,15 @@ public class Artwork {
     private String title;
     private String artist;
     private String description;
-    private Integer dateCreated;
+    private LocalDate dateCreated;
     private Double galleryBuyingPrice;
     private String edition;
-    private String imageUrl;
+    @OneToOne
+    ArtworkImage artworkImage;
+
     private String artworkType;
+
+    // Boolean forSale
 
     // TODO add a function to automatically see if a painting is square, portrait or landscape
 
@@ -41,23 +47,13 @@ public class Artwork {
 //    }
 
     @OneToMany(mappedBy = "artwork")
+    @JsonIgnore
     List<Rating> ratings = new ArrayList<>();
 
     public Artwork() {
     }
 
-    public Artwork(
-            Long id,
-            String title,
-            String artist,
-            String description,
-            Integer dateCreated,
-            Double galleryBuyingPrice,
-            String edition,
-            String imageUrl,
-            String artworkType,
-            List<Rating> ratings
-    ) {
+    public Artwork(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, ArtworkImage artworkImage, String artworkType, List<Rating> ratings) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -65,7 +61,7 @@ public class Artwork {
         this.dateCreated = dateCreated;
         this.galleryBuyingPrice = galleryBuyingPrice;
         this.edition = edition;
-        this.imageUrl = imageUrl;
+        this.artworkImage = artworkImage;
         this.artworkType = artworkType;
         this.ratings = ratings;
     }
@@ -102,11 +98,11 @@ public class Artwork {
         this.description = description;
     }
 
-    public Integer getDateCreated() {
+    public LocalDate getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Integer dateCreated) {
+    public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
 
@@ -126,12 +122,12 @@ public class Artwork {
         this.edition = edition;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public ArtworkImage getArtworkImage() {
+        return artworkImage;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setArtworkImage(ArtworkImage artworkImage) {
+        this.artworkImage = artworkImage;
     }
 
     public String getArtworkType() {

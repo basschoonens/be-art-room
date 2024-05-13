@@ -18,7 +18,6 @@ public class ArtworkArtistDtoMapper {
         artworkOutputArtistDto.setDateCreated(artwork.getDateCreated());
         artworkOutputArtistDto.setGalleryBuyingPrice(artwork.getGalleryBuyingPrice());
         artworkOutputArtistDto.setEdition(artwork.getEdition());
-        artworkOutputArtistDto.setImageUrl(artwork.getImageUrl());
         artworkOutputArtistDto.setArtworkType(artwork.getArtworkType());
 
         if ("painting".equalsIgnoreCase(artwork.getArtworkType())) {
@@ -31,7 +30,6 @@ public class ArtworkArtistDtoMapper {
     }
 
     private static void mapPaintingFields(Painting painting, ArtworkOutputArtistDto artworkOutputArtistDto) {
-        artworkOutputArtistDto.setPaintingPaintType(painting.getPaintingPaintType());
         artworkOutputArtistDto.setPaintingSurface(painting.getPaintingSurface());
         artworkOutputArtistDto.setPaintingMaterial(painting.getPaintingMaterial());
         artworkOutputArtistDto.setPaintingDimensionsWidthInCm(painting.getPaintingDimensionsWidthInCm());
@@ -39,7 +37,6 @@ public class ArtworkArtistDtoMapper {
     }
 
     private static void mapDrawingFields(Drawing drawing, ArtworkOutputArtistDto artworkOutputArtistDto) {
-        artworkOutputArtistDto.setDrawingDrawType(drawing.getDrawingDrawType());
         artworkOutputArtistDto.setDrawingSurface(drawing.getDrawingSurface());
         artworkOutputArtistDto.setDrawingMaterial(drawing.getDrawingMaterial());
         artworkOutputArtistDto.setDrawingDimensionsWidthInCm(drawing.getDrawingDimensionsWidthInCm());
