@@ -72,8 +72,7 @@ public class UserService {
     public Set<Authority> getAuthorities(String username) {
         if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
         User user = userRepository.findById(username).get();
-        UserDto userDto = fromUser(user);
-        return userDto.getAuthorities();
+        return user.getAuthorities();
     }
 
     public void addAuthority(String username, String authority) {
@@ -99,7 +98,6 @@ public class UserService {
         dto.username = user.getUsername();
         dto.password = user.getPassword();
         dto.email = user.getEmail();
-        dto.authorities = user.getAuthorities();
 
         return dto;
     }

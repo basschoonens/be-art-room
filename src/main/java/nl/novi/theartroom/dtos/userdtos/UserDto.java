@@ -12,7 +12,6 @@ public class UserDto {
 
     public String password;
     public String email;
-    public Set<Authority> authorities;
 
     public String getUsername() {
         return username;
@@ -26,10 +25,6 @@ public class UserDto {
         return email;
     }
 
-    public Set<Authority> getAuthorities() {
-        return authorities;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -40,9 +35,5 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
     }
 }

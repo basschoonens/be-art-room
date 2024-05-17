@@ -25,9 +25,6 @@ public class User {
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
 
-    // Deze 3 variabelen zijn niet verplicht.
-    // Je mag ook een "String banaan;" toevoegen, als je dat graag wilt.
-
     @Column
     private String email;
 
@@ -39,15 +36,9 @@ public class User {
     // Shopping cart DTO met alle aankoopgegevens
     // Tabel met alle verwerkte orders
     // Leveradres bij order (shipping details)
-    
-    @OneToMany
-    private List<Artwork> shoppingCart;
 
-    @ManyToOne
-    @JoinColumn(name = "artwork_id")
-    private Artwork artwork;
-
-    // TODO Koppeling user/artwork/rating
+     @OneToMany(mappedBy = "user")
+     private List<Artwork> artworks;
 
     public String getUsername() { return username; }
     public void setUsername(String username) {
@@ -78,11 +69,23 @@ public class User {
         this.ratings = ratings;
     }
 
-    public Artwork getArtwork() {
-        return artwork;
+    public List<Artwork> getArtworks() {
+        return artworks;
     }
 
-    public void setArtwork(Artwork artwork) {
-        this.artwork = artwork;
+    public void setArtworks(List<Artwork> artworks) {
+        this.artworks = artworks;
     }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    //    public Artwork getArtwork() {
+//        return artwork;
+//    }
+//
+//    public void setArtwork(Artwork artwork) {
+//        this.artwork = artwork;
+//    }
 }

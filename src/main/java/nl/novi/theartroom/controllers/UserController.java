@@ -43,21 +43,6 @@ public class UserController {
 
     }
 
-//    @PostMapping(value = "")
-//    public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {;
-//
-//        // Let op: het password van een nieuwe gebruiker wordt in deze code nog niet encrypted opgeslagen.
-//        // Je kan dus (nog) niet inloggen met een nieuwe user.
-//
-//        String newUsername = userService.createUser(dto);
-//        userService.addAuthority(newUsername, "ROLE_USER");
-//
-//        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-//                .buildAndExpand(newUsername).toUri();
-//
-//        return ResponseEntity.created(location).build();
-//    }
-
     // TODO de password Encoder naar de service verplaatsen.
 
     @PostMapping(value = "/user")
@@ -72,14 +57,13 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
-    // TODO HOE MAAK IK EEN ARTIST AAN DIE NAAST ARTIST OOK DE ROL VAN USER HEEFT?
+    //TODO: Wellicht in de toekomst automatisch de rol van user toevoegen
 
     @PostMapping(value = "/artist")
     public ResponseEntity<UserDto> createArtist(@RequestBody UserDto dto) {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         String newUsername = userService.createUser(dto);
         userService.addAuthority(newUsername, "ROLE_ARTIST");
-
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
                 .buildAndExpand(newUsername).toUri();
 

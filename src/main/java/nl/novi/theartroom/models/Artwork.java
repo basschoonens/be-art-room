@@ -50,6 +50,10 @@ public class Artwork {
     @JsonIgnore
     List<Rating> ratings = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username", nullable = true)
+    private User user;
+
     public Artwork() {
     }
 
