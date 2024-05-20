@@ -8,6 +8,7 @@ import nl.novi.theartroom.mappers.ArtworkArtloverDtoMapper;
 import nl.novi.theartroom.mappers.ArtworkInputDtoMapper;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.models.ArtworkImage;
+import nl.novi.theartroom.models.User;
 import nl.novi.theartroom.repositories.ArtworkRepository;
 import nl.novi.theartroom.repositories.FileUploadRepository;
 import org.springframework.core.io.Resource;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ArtworkService {
@@ -24,13 +26,14 @@ public class ArtworkService {
     private final RatingService ratingService;
     private final FileUploadRepository uploadRepository;
     private final ArtworkImageService photoService;
-//    private final UserService userService;
+    private final UserService userService;
 
-    public ArtworkService(ArtworkRepository artworkRepository, RatingService ratingService, FileUploadRepository uploadRepository, ArtworkImageService photoService) {
+    public ArtworkService(ArtworkRepository artworkRepository, RatingService ratingService, FileUploadRepository uploadRepository, ArtworkImageService photoService, UserService userService) {
         this.artworkRepository = artworkRepository;
         this.ratingService = ratingService;
         this.uploadRepository = uploadRepository;
         this.photoService = photoService;
+        this.userService = userService;
     }
 
     // TODO Add the total amount of ratings to the artwork
@@ -79,11 +82,19 @@ public class ArtworkService {
     // Save artwork for Artist
     public Long saveArtworkForArtist(ArtworkInputDto dto, String username) {
         Artwork artwork = ArtworkInputDtoMapper.toArtwork(dto);
-        artwork.setUser(username);
+        User user = userService.getUserByUsername(username);
+        artwork.setUser(user); // Set the User object on the Artwork
         Artwork savedArtwork = artworkRepository.save(artwork);
         return savedArtwork.getId(); // Assuming getId() returns the ID of the artwork
     }
 
+    public List<ArtworkOutputArtloverDto> getArtworksByUser(String username) {
+        User user = userService.getUserByUsername(username);
+        List<Artwork> artworks = artworkRepository.findAllByUser(user);
+        return artworks.stream()
+                .map(ArtworkArtloverDtoMapper::toArtworkArtloverDto)
+                .collect(Collectors.toList());
+    }
 
     public void updateArtwork(Long id, ArtworkInputDto dto) {
         Optional<Artwork> artworkFound = artworkRepository.findById(id);
@@ -106,7 +117,7 @@ public class ArtworkService {
     // Image methods
 
     @Transactional
-    public Resource getImageFromStudent(Long artworkId){
+    public Resource getImageFromArtwork(Long artworkId){
         Optional<Artwork> optionalArtwork = artworkRepository.findById(artworkId);
         if(optionalArtwork.isEmpty()){
             throw new RecordNotFoundException("Artwork with artwork number " + artworkId + " not found.");

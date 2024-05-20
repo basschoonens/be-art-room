@@ -44,12 +44,12 @@ public class UserService {
         return dto;
     }
 
-    public boolean userExists(String username) {
-        return userRepository.existsById(username);
-    }
+//    public boolean userExists(String username) {
+//        return userRepository.existsById(username);
+//    }
 
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username)
+        return userRepository.findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 

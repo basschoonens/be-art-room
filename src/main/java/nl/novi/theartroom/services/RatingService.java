@@ -37,7 +37,7 @@ public class RatingService {
     public void addOrUpdateRatingToArtwork(String username, Long artworkId, RatingUserDto ratingUserDto) {
         Optional<Rating> existingRatingOptional = ratingRepository.findByUserUsernameAndArtworkId(username, artworkId);
 
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findById(username)
                 .orElseThrow(() -> new RecordNotFoundException("User with username " + username + " not found."));
 
         if (existingRatingOptional.isPresent()) {

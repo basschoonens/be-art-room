@@ -10,6 +10,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -45,11 +47,6 @@ public class ArtworkController {
 
     // Get Artwork Photo
 
-//    @PostMapping()
-//    public ResponseEntity<Void> addArtwork(@RequestBody ArtworkInputDto artwork) {
-//        artworkService.saveArtwork(artwork);
-//        return ResponseEntity.created(null).build();
-//    }
 
     //Add Artwork + return URI of the new artwork
     @PostMapping()
@@ -62,6 +59,31 @@ public class ArtworkController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @PostMapping("/user")
+    public ResponseEntity<Void> addArtworkForArtist(@RequestBody ArtworkInputDto artwork) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        Long newArtworkId = artworkService.saveArtworkForArtist(artwork, username);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newArtworkId)
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/user/artworks")
+    public ResponseEntity<List<ArtworkOutputArtloverDto>> getArtworksForArtist() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        List<ArtworkOutputArtloverDto> artworks = artworkService.getArtworksByUser(username);
+
+        return ResponseEntity.ok(artworks);
     }
 
     @PutMapping("/{id}")
@@ -96,20 +118,13 @@ public class ArtworkController {
 
     @GetMapping("/{id}/image")
     public ResponseEntity<Resource> getArtworkImage(@PathVariable("id") Long artworkId, HttpServletRequest request){
-        Resource resource = artworkService.getImageFromStudent(artworkId);
+        Resource resource = artworkService.getImageFromArtwork(artworkId);
 
         String mimeType;
 
         try{
             mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException e) {
-            /*
-            "application/octet-steam" is de generieke mime type voor byte data.
-            Het is beter om een specifiekere mimetype te gebruiken, zoals "image/jpeg".
-            Mimetype is nodig om de frontend te laten weten welke soort data het is.
-            Met de juiste MimeType en Content-Disposition, kun je de plaatjes of PDFs die je upload
-            zelfs in de browser weergeven.
-             */
 //            mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
             mimeType = MediaType.IMAGE_JPEG_VALUE;
         }
