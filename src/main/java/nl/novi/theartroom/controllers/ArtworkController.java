@@ -31,8 +31,6 @@ public class ArtworkController {
         this.artworkImageService = artworkImageService;
     }
 
-    // TODO Calculatie average rating eruit halen en verplaatsten naar aparte service
-
     @GetMapping()
     public ResponseEntity<List<ArtworkOutputArtloverDto>> getAllArtworks() {
         List<ArtworkOutputArtloverDto> artworks = artworkService.getAllArtworks();
@@ -47,10 +45,23 @@ public class ArtworkController {
 
     // Get Artwork Photo
 
+//    @PostMapping()
+//    public ResponseEntity<Void> addArtwork(@RequestBody ArtworkInputDto artwork) {
+//        artworkService.saveArtwork(artwork);
+//        return ResponseEntity.created(null).build();
+//    }
+
+    //Add Artwork + return URI of the new artwork
     @PostMapping()
     public ResponseEntity<Void> addArtwork(@RequestBody ArtworkInputDto artwork) {
-        artworkService.saveArtwork(artwork);
-        return ResponseEntity.created(null).build();
+        Long newArtworkId = artworkService.saveArtwork(artwork);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newArtworkId)
+                .toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
@@ -65,7 +76,6 @@ public class ArtworkController {
         return ResponseEntity.noContent().build();
     }
 
-    // TODO Add a method to add an image to an artwork
     // TODO Add a method to update an image from an artwork
     // TODO Add a method to delete an image from an artwork
 

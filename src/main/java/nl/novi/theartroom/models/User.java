@@ -37,26 +37,41 @@ public class User {
     // Tabel met alle verwerkte orders
     // Leveradres bij order (shipping details)
 
-     @OneToMany(mappedBy = "user")
-     private List<Artwork> artworks;
+    @OneToMany(mappedBy = "user")
+    private List<Artwork> artworks;
 
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email;}
 
-    public Set<Authority> getAuthorities() { return authorities; }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
     public void addAuthority(Authority authority) {
         this.authorities.add(authority);
     }
+
     public void removeAuthority(Authority authority) {
         this.authorities.remove(authority);
     }
@@ -81,11 +96,4 @@ public class User {
         this.authorities = authorities;
     }
 
-    //    public Artwork getArtwork() {
-//        return artwork;
-//    }
-//
-//    public void setArtwork(Artwork artwork) {
-//        this.artwork = artwork;
-//    }
 }

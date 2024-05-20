@@ -1,4 +1,5 @@
 package nl.novi.theartroom.models;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 

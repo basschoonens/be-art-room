@@ -4,14 +4,18 @@ import nl.novi.theartroom.models.Authority;
 
 import java.util.Set;
 
-    //TODO Authority omzetten naar Roles
+//TODO Authority omzetten naar Roles
 
 public class UserDto {
 
     public String username;
 
     public String password;
+
     public String email;
+
+    // added 17-05
+    public String authority;
 
     public String getUsername() {
         return username;
@@ -36,4 +40,13 @@ public class UserDto {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
+
 }

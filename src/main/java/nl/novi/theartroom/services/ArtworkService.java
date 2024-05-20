@@ -24,6 +24,7 @@ public class ArtworkService {
     private final RatingService ratingService;
     private final FileUploadRepository uploadRepository;
     private final ArtworkImageService photoService;
+//    private final UserService userService;
 
     public ArtworkService(ArtworkRepository artworkRepository, RatingService ratingService, FileUploadRepository uploadRepository, ArtworkImageService photoService) {
         this.artworkRepository = artworkRepository;
@@ -63,10 +64,26 @@ public class ArtworkService {
         }
     }
 
-    public void saveArtwork(ArtworkInputDto dto) {
-        Artwork Artwork = ArtworkInputDtoMapper.toArtwork(dto);
-        artworkRepository.save(Artwork);
+//    public void saveArtwork(ArtworkInputDto dto) {
+//        Artwork Artwork = ArtworkInputDtoMapper.toArtwork(dto);
+//        artworkRepository.save(Artwork);
+//    }
+
+    // save artwork + return URI location
+    public Long saveArtwork(ArtworkInputDto dto) {
+        Artwork artwork = ArtworkInputDtoMapper.toArtwork(dto);
+        Artwork savedArtwork = artworkRepository.save(artwork);
+        return savedArtwork.getId(); // Assuming getId() returns the ID of the artwork
     }
+
+    // Save artwork for Artist
+    public Long saveArtworkForArtist(ArtworkInputDto dto, String username) {
+        Artwork artwork = ArtworkInputDtoMapper.toArtwork(dto);
+        artwork.setUser(username);
+        Artwork savedArtwork = artworkRepository.save(artwork);
+        return savedArtwork.getId(); // Assuming getId() returns the ID of the artwork
+    }
+
 
     public void updateArtwork(Long id, ArtworkInputDto dto) {
         Optional<Artwork> artworkFound = artworkRepository.findById(id);

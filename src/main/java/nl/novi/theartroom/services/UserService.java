@@ -98,6 +98,7 @@ public class UserService {
         dto.username = user.getUsername();
         dto.password = user.getPassword();
         dto.email = user.getEmail();
+        dto.authority = user.getAuthorities().toString();
 
         return dto;
     }
@@ -109,6 +110,9 @@ public class UserService {
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setEmail(userDto.getEmail());
+//        Authority meegeven in mapper
+//        Verwacht een set maar geeft een string ??
+//        user.setAuthorities(userDto.getAuthority());
 
         return user;
     }
