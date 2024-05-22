@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputUserDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
-import nl.novi.theartroom.mappers.ArtworkArtloverDtoMapper;
+import nl.novi.theartroom.mappers.ArtworkUserDtoMapper;
 import nl.novi.theartroom.mappers.ArtworkInputDtoMapper;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.models.ArtworkImage;
@@ -28,16 +28,16 @@ public class ArtworkService {
     private final ArtworkImageService photoService;
     private final UserService userService;
     private final ArtworkInputDtoMapper artworkInputDtoMapper;
-    private final ArtworkArtloverDtoMapper artworkArtloverDtoMapper;
+    private final ArtworkUserDtoMapper artworkUserDtoMapper;
 
-    public ArtworkService(ArtworkRepository artworkRepository, RatingService ratingService, FileUploadRepository uploadRepository, ArtworkImageService photoService, UserService userService, ArtworkInputDtoMapper artworkInputDtoMapper, ArtworkArtloverDtoMapper artworkArtloverDtoMapper) {
+    public ArtworkService(ArtworkRepository artworkRepository, RatingService ratingService, FileUploadRepository uploadRepository, ArtworkImageService photoService, UserService userService, ArtworkInputDtoMapper artworkInputDtoMapper, ArtworkUserDtoMapper artworkUserDtoMapper) {
         this.artworkRepository = artworkRepository;
         this.ratingService = ratingService;
         this.uploadRepository = uploadRepository;
         this.photoService = photoService;
         this.userService = userService;
         this.artworkInputDtoMapper = artworkInputDtoMapper;
-        this.artworkArtloverDtoMapper = artworkArtloverDtoMapper;
+        this.artworkUserDtoMapper = artworkUserDtoMapper;
     }
 
     // TODO Add the total amount of ratings to the artwork
@@ -48,7 +48,7 @@ public class ArtworkService {
         List<ArtworkOutputUserDto> artworkDtos = new ArrayList<>();
 
         for (Artwork artwork : artworks) {
-            ArtworkOutputUserDto dto = artworkArtloverDtoMapper.toArtworkArtloverDto(artwork);
+            ArtworkOutputUserDto dto = artworkUserDtoMapper.toArtworkArtloverDto(artwork);
             double averageRating = ratingService.calculateAverageRatingForArtwork(artwork.getId());
             dto.setAverageRating(averageRating);
             artworkDtos.add(dto);
@@ -64,7 +64,7 @@ public class ArtworkService {
         } else {
             Artwork artwork = optionalArtwork.get();
             double averageRating = ratingService.calculateAverageRatingForArtwork(id);
-            ArtworkOutputUserDto dto = artworkArtloverDtoMapper.toArtworkArtloverDto(artwork);
+            ArtworkOutputUserDto dto = artworkUserDtoMapper.toArtworkArtloverDto(artwork);
             dto.setAverageRating(averageRating);
 
             return dto;
@@ -91,7 +91,7 @@ public class ArtworkService {
         User user = userService.getUserByUsername(username);
         List<Artwork> artworks = artworkRepository.findAllByUser(user);
         return artworks.stream()
-                .map(artworkArtloverDtoMapper::toArtworkArtloverDto)
+                .map(artworkUserDtoMapper::toArtworkArtloverDto)
                 .collect(Collectors.toList());
     }
 

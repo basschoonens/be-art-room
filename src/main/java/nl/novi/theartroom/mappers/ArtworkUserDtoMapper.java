@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ArtworkArtloverDtoMapper {
+public class ArtworkUserDtoMapper {
 
     public ArtworkOutputUserDto toArtworkArtloverDto(Artwork artwork) {
 
@@ -27,7 +27,8 @@ public class ArtworkArtloverDtoMapper {
         artworkOutputUserDto.setArtworkType(artwork.getArtworkType());
 
         if (artwork.getRatings() != null) {
-            List<RatingUserDto> ratingUserDtos = RatingDtoMapper.toRatingUserDtoList(artwork.getRatings());
+            RatingDtoMapper ratingDtoMapper = new RatingDtoMapper();
+            List<RatingUserDto> ratingUserDtos = ratingDtoMapper.toRatingUserDtoList(artwork.getRatings());
             artworkOutputUserDto.setRatings(ratingUserDtos);
         }
 

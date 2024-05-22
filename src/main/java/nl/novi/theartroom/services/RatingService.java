@@ -49,11 +49,9 @@ public class RatingService {
             Optional<Artwork> optionalArtwork = artworkRepository.findById(artworkId);
             Artwork artwork = optionalArtwork
                     .orElseThrow(() -> new RecordNotFoundException("Artwork with id " + artworkId + " not found."));
-            Rating newRating = new Rating();
+            Rating newRating = ratingDtoMapper.toRatingUserDto(ratingUserDto);
             newRating.setUser(user);
             newRating.setArtwork(artwork);
-            newRating.setRating(ratingUserDto.getRating());
-            newRating.setComment(ratingUserDto.getComment());
             ratingRepository.save(newRating);
         }
     }
@@ -76,7 +74,6 @@ public class RatingService {
         existingRatingOptional.ifPresent(ratingRepository::delete);
     }
 
-
     // CRUD operations for Rating
 
     public List<RatingArtistAdminDto> getAllRatings() {
@@ -87,7 +84,7 @@ public class RatingService {
     public RatingArtistAdminDto getRatingById(Long ratingId) {
         Rating rating = ratingRepository.findById(ratingId)
                 .orElseThrow(() -> new RecordNotFoundException("Rating with id " + ratingId + " not found."));
-        return RatingDtoMapper.toRatingArtistAdminDto(rating);
+        return ratingDtoMapper.toRatingArtistAdminDto(rating);
     }
 
     public void addRating(RatingUserDto rating) {
@@ -111,8 +108,6 @@ public class RatingService {
         Optional<Rating> ratingFound = ratingRepository.findById(ratingId);
         ratingFound.ifPresent(ratingRepository::delete);
     }
-
-    // TODO Waar moet deze komen ?
 
     // CALCULATIONS
 
