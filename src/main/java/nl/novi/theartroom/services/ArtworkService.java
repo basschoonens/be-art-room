@@ -1,7 +1,7 @@
 package nl.novi.theartroom.services;
 
 import jakarta.transaction.Transactional;
-import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtloverDto;
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputUserDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
 import nl.novi.theartroom.mappers.ArtworkArtloverDtoMapper;
@@ -27,24 +27,28 @@ public class ArtworkService {
     private final FileUploadRepository uploadRepository;
     private final ArtworkImageService photoService;
     private final UserService userService;
+    private final ArtworkInputDtoMapper artworkInputDtoMapper;
+    private final ArtworkArtloverDtoMapper artworkArtloverDtoMapper;
 
-    public ArtworkService(ArtworkRepository artworkRepository, RatingService ratingService, FileUploadRepository uploadRepository, ArtworkImageService photoService, UserService userService) {
+    public ArtworkService(ArtworkRepository artworkRepository, RatingService ratingService, FileUploadRepository uploadRepository, ArtworkImageService photoService, UserService userService, ArtworkInputDtoMapper artworkInputDtoMapper, ArtworkArtloverDtoMapper artworkArtloverDtoMapper) {
         this.artworkRepository = artworkRepository;
         this.ratingService = ratingService;
         this.uploadRepository = uploadRepository;
         this.photoService = photoService;
         this.userService = userService;
+        this.artworkInputDtoMapper = artworkInputDtoMapper;
+        this.artworkArtloverDtoMapper = artworkArtloverDtoMapper;
     }
 
     // TODO Add the total amount of ratings to the artwork
     // TODO Separate the calculation of the average rating to a separate class
 
-    public List<ArtworkOutputArtloverDto> getAllArtworks() {
+    public List<ArtworkOutputUserDto> getAllArtworks() {
         List<Artwork> artworks = artworkRepository.findAll();
-        List<ArtworkOutputArtloverDto> artworkDtos = new ArrayList<>();
+        List<ArtworkOutputUserDto> artworkDtos = new ArrayList<>();
 
         for (Artwork artwork : artworks) {
-            ArtworkOutputArtloverDto dto = ArtworkArtloverDtoMapper.toArtworkArtloverDto(artwork);
+            ArtworkOutputUserDto dto = artworkArtloverDtoMapper.toArtworkArtloverDto(artwork);
             double averageRating = ratingService.calculateAverageRatingForArtwork(artwork.getId());
             dto.setAverageRating(averageRating);
             artworkDtos.add(dto);
@@ -53,46 +57,41 @@ public class ArtworkService {
         return artworkDtos;
     }
 
-    public ArtworkOutputArtloverDto getArtworkById(Long id) {
+    public ArtworkOutputUserDto getArtworkById(Long id) {
         Optional<Artwork> optionalArtwork = artworkRepository.findById(id);
         if (optionalArtwork.isEmpty()) {
             throw new RecordNotFoundException("Artwork with id " + id + " not found.");
         } else {
             Artwork artwork = optionalArtwork.get();
             double averageRating = ratingService.calculateAverageRatingForArtwork(id);
-            ArtworkOutputArtloverDto dto = ArtworkArtloverDtoMapper.toArtworkArtloverDto(artwork);
+            ArtworkOutputUserDto dto = artworkArtloverDtoMapper.toArtworkArtloverDto(artwork);
             dto.setAverageRating(averageRating);
 
             return dto;
         }
     }
 
-//    public void saveArtwork(ArtworkInputDto dto) {
-//        Artwork Artwork = ArtworkInputDtoMapper.toArtwork(dto);
-//        artworkRepository.save(Artwork);
-//    }
-
     // save artwork + return URI location
     public Long saveArtwork(ArtworkInputDto dto) {
-        Artwork artwork = ArtworkInputDtoMapper.toArtwork(dto);
+        Artwork artwork = artworkInputDtoMapper.toArtwork(dto);
         Artwork savedArtwork = artworkRepository.save(artwork);
         return savedArtwork.getId(); // Assuming getId() returns the ID of the artwork
     }
 
     // Save artwork for Artist
     public Long saveArtworkForArtist(ArtworkInputDto dto, String username) {
-        Artwork artwork = ArtworkInputDtoMapper.toArtwork(dto);
+        Artwork artwork = artworkInputDtoMapper.toArtwork(dto);
         User user = userService.getUserByUsername(username);
         artwork.setUser(user); // Set the User object on the Artwork
         Artwork savedArtwork = artworkRepository.save(artwork);
         return savedArtwork.getId(); // Assuming getId() returns the ID of the artwork
     }
 
-    public List<ArtworkOutputArtloverDto> getArtworksByUser(String username) {
+    public List<ArtworkOutputUserDto> getArtworksByUser(String username) {
         User user = userService.getUserByUsername(username);
         List<Artwork> artworks = artworkRepository.findAllByUser(user);
         return artworks.stream()
-                .map(ArtworkArtloverDtoMapper::toArtworkArtloverDto)
+                .map(artworkArtloverDtoMapper::toArtworkArtloverDto)
                 .collect(Collectors.toList());
     }
 
@@ -101,7 +100,7 @@ public class ArtworkService {
         if (artworkFound.isEmpty()) {
             throw new RecordNotFoundException("Artwork with id " + id + " not found.");
         } else {
-            artworkRepository.save(ArtworkInputDtoMapper.toArtwork(dto, artworkFound.get()));
+            artworkRepository.save(artworkInputDtoMapper.toArtwork(dto, artworkFound.get()));
         }
     }
 

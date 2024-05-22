@@ -2,6 +2,7 @@ package nl.novi.theartroom.services;
 
 import nl.novi.theartroom.dtos.userdtos.UserDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
+import nl.novi.theartroom.mappers.UserDtoMapper;
 import nl.novi.theartroom.models.Authority;
 import nl.novi.theartroom.models.User;
 import nl.novi.theartroom.repositories.UserRepository;
@@ -17,36 +18,32 @@ import java.util.Set;
 
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
+    private final UserDtoMapper userDtoMapper;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserDtoMapper userDtoMapper) {
         this.userRepository = userRepository;
+        this.userDtoMapper = userDtoMapper;
     }
-
 
     public List<UserDto> getUsers() {
         List<UserDto> collection = new ArrayList<>();
         List<User> list = userRepository.findAll();
         for (User user : list) {
-            collection.add(fromUser(user));
+            collection.add(userDtoMapper.fromUser(user));
         }
         return collection;
     }
 
     public UserDto getUser(String username) {
-        UserDto dto = new UserDto();
         Optional<User> user = userRepository.findById(username);
         if (user.isPresent()){
-            dto = fromUser(user.get());
-        }else {
+            return userDtoMapper.fromUser(user.get());
+        } else {
             throw new UsernameNotFoundException(username);
         }
-        return dto;
     }
-
-//    public boolean userExists(String username) {
-//        return userRepository.existsById(username);
-//    }
 
     public User getUserByUsername(String username) {
         return userRepository.findById(username)
@@ -54,7 +51,7 @@ public class UserService {
     }
 
     public String createUser(UserDto userDto) {
-        User newUser = userRepository.save(toUser(userDto));
+        User newUser = userRepository.save(userDtoMapper.toUser(userDto));
         return newUser.getUsername();
     }
 
@@ -90,33 +87,6 @@ public class UserService {
         user.removeAuthority(authorityToRemove);
         userRepository.save(user);
     }
-
-    public static UserDto fromUser(User user){
-
-        var dto = new UserDto();
-
-        dto.username = user.getUsername();
-        dto.password = user.getPassword();
-        dto.email = user.getEmail();
-        dto.authority = user.getAuthorities().iterator().next().getAuthority();
-
-        return dto;
-    }
-
-    public User toUser(UserDto userDto) {
-
-        var user = new User();
-
-        user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
-        user.setEmail(userDto.getEmail());
-
-        return user;
-    }
-
-//    public String getUsernameFromUser(User user) {
-//        return user.getUsername();
-//    }
 
     public String getCurrentLoggedInUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -2,7 +2,7 @@ package nl.novi.theartroom.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
-import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtloverDto;
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputUserDto;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.services.ArtworkImageService;
 import nl.novi.theartroom.services.ArtworkService;
@@ -34,14 +34,14 @@ public class ArtworkController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<ArtworkOutputArtloverDto>> getAllArtworks() {
-        List<ArtworkOutputArtloverDto> artworks = artworkService.getAllArtworks();
+    public ResponseEntity<List<ArtworkOutputUserDto>> getAllArtworks() {
+        List<ArtworkOutputUserDto> artworks = artworkService.getAllArtworks();
         return ResponseEntity.ok(artworkService.getAllArtworks());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ArtworkOutputArtloverDto> getArtworkById(@PathVariable Long id) {
-        ArtworkOutputArtloverDto artwork = artworkService.getArtworkById(id);
+    public ResponseEntity<ArtworkOutputUserDto> getArtworkById(@PathVariable Long id) {
+        ArtworkOutputUserDto artwork = artworkService.getArtworkById(id);
         return ResponseEntity.ok(artwork);
     }
 
@@ -77,17 +77,17 @@ public class ArtworkController {
     }
 
     @GetMapping("/user/artworks")
-    public ResponseEntity<List<ArtworkOutputArtloverDto>> getArtworksForArtist() {
+    public ResponseEntity<List<ArtworkOutputUserDto>> getArtworksForArtist() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 
-        List<ArtworkOutputArtloverDto> artworks = artworkService.getArtworksByUser(username);
+        List<ArtworkOutputUserDto> artworks = artworkService.getArtworksByUser(username);
 
         return ResponseEntity.ok(artworks);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ArtworkOutputArtloverDto> updateArtwork(@PathVariable Long id, @RequestBody ArtworkInputDto artwork) {
+    public ResponseEntity<ArtworkOutputUserDto> updateArtwork(@PathVariable Long id, @RequestBody ArtworkInputDto artwork) {
         artworkService.updateArtwork(id, artwork);
         return ResponseEntity.noContent().build();
     }
