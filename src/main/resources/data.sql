@@ -1,4 +1,6 @@
-INSERT INTO artwork_image (file_name) VALUES    ('1022 Brown and white horse sketch - Jon Tyson.jpg'),
+-- -- Create tables if not exist (TODO Checken of dit nodig is)
+
+INSERT INTO artwork_images (file_name) VALUES    ('1022 Brown and white horse sketch - Jon Tyson.jpg'),
                                                 ('1023 Red blue green and yellow abstract drawing - Liao Je Wei.jpg'),
                                                 ('1024 Woman in white and black dress illustration - Tatiana Zhukova.jpg'),
                                                 ('1025 Man and woman holding hands - Annie Spratt.jpg'),

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 public class ArtworkInputDtoMapper {
 
     public static Artwork toArtwork(ArtworkInputDto dto) {
-//        validateArtworkInput(dto);
         if (dto.getId() == null) {
             return createArtwork(dto);
         } else {
@@ -39,17 +38,6 @@ public class ArtworkInputDtoMapper {
     }
 
     // TODO updateArtwork method verder uitzoeken en uitwerken zodat ik de juiste gegevens kan updaten en exception kan gooien als het type niet klopt. Exception werkt nu niet want ik kan artworkType ook naar ieder ander random text aanpassen.
-
-//    private static Artwork updateArtwork(ArtworkInputDto dto, Artwork artwork) {
-//            setCommonFields(artwork, dto);
-//            if ("painting".equalsIgnoreCase(dto.getArtworkType())) {
-//                return mapToPainting(dto, (Painting) artwork);
-//            } else if ("drawing".equalsIgnoreCase(dto.getArtworkType())) {
-//                return mapToDrawing(dto, (Drawing) artwork);
-//            } else {
-//                throw new IllegalArgumentException("Invalid artwork type: " + dto.getArtworkType());
-//            }
-//    }
 
     private static Artwork updateArtwork(ArtworkInputDto dto, Artwork artwork) {
         setCommonFields(artwork, dto);
