@@ -8,6 +8,17 @@ public class DrawingOutputDto {
     private Integer drawingDimensionsWidthInCm;
     private Integer drawingDimensionsHeightInCm;
 
+    public DrawingOutputDto() {
+    }
+
+    public DrawingOutputDto(String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+        this.drawingDrawType = drawingDrawType;
+        this.drawingSurface = drawingSurface;
+        this.drawingMaterial = drawingMaterial;
+        this.drawingDimensionsWidthInCm = drawingDimensionsWidthInCm;
+        this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
+    }
+
     public String getDrawingDrawType() {
         return drawingDrawType;
     }

@@ -1,9 +1,5 @@
 package nl.novi.theartroom.dtos.userdtos;
 
-import nl.novi.theartroom.models.Authority;
-
-import java.util.Set;
-
 //TODO Authority omzetten naar Roles
 
 public class UserDto {
@@ -16,6 +12,16 @@ public class UserDto {
 
     // added 17-05
     public String authority;
+
+    public UserDto() {
+    }
+
+    public UserDto(String username, String password, String email, String authority) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.authority = authority;
+    }
 
     public String getUsername() {
         return username;

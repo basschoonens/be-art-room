@@ -162,18 +162,18 @@ INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1004, 4, 1002, 'Ve
 
 INSERT INTO users (username, password, email) VALUES ('user', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK','user@test.nl');
 INSERT INTO users (username, password, email) VALUES ('admin', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'admin@test.nl');
-INSERT INTO users (username, password, email) VALUES ('Azazelok', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'admin@test.nl');
+INSERT INTO users (username, password, email) VALUES ('Jane Doe', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'admin@test.nl');
 
 INSERT INTO authorities (username, authority) VALUES ('user', 'ROLE_USER');
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_USER');
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN');
-INSERT INTO authorities (username, authority) VALUES ('Azazelok', 'ROLE_ARTIST');
+INSERT INTO authorities (username, authority) VALUES ('Jane Doe', 'ROLE_ARTIST');
 
-INSERT INTO artworks (id, title, artist, description, date_created, gallery_buying_price, edition,artwork_image_file_name, artwork_type, username) VALUES    (1047, 'Swan', 'Azazelok', 'A painting of a swan flapping its wings while landing in the water.', '2017-10-28', 4600, 'single', '1047-swan-2893562.jpg', 'painting','Azazelok'),
-                                                                                                                                                             (1051, 'Pelican', 'Azazelok', 'Drawing in color of a beautiful pelican bird sitting on a log.', '2017-08-05', 5400, 'single', '1051-pelican-2585221.jpg', 'painting','Azazelok'),
-                                                                                                                                                             (1052, 'Tit', 'Azazelok', 'Waterbased painting of a tit in the rain holding on to its branch', '2017-08-01', 6200, 'limited', '1052-tit-2566376.jpg', 'painting','Azazelok'),
-                                                                                                                                                             (1053, 'Soldier', 'Azazelok', 'Soldier getting down on the ground and aiming his rifle.', '2018-07-09', 4300, 'limited', '1053-soldier-3524202.jpg', 'painting','Azazelok'),
-                                                                                                                                                             (1054, 'Fawn', 'Azazelok', 'Fawn youngling drinking with its mother while the other fawn is relaxed in the grass', '2017-10-28', 4960, 'reproduction', '1054-fawn-2893471.jpg', 'painting','Azazelok');
+INSERT INTO artworks (id, title, artist, description, date_created, gallery_buying_price, edition,artwork_image_file_name, artwork_type, username) VALUES    (1047, 'Swan', 'Jane Doe', 'A painting of a swan flapping its wings while landing in the water.', '2017-10-28', 4600, 'single', '1047-swan-2893562.jpg', 'painting','Jane Doe'),
+                                                                                                                                                             (1051, 'Pelican', 'Jane Doe', 'Drawing in color of a beautiful pelican bird sitting on a log.', '2017-08-05', 5400, 'single', '1051-pelican-2585221.jpg', 'painting','Jane Doe'),
+                                                                                                                                                             (1052, 'Tit', 'Jane Doe', 'Waterbased painting of a tit in the rain holding on to its branch', '2017-08-01', 6200, 'limited', '1052-tit-2566376.jpg', 'painting','Jane Doe'),
+                                                                                                                                                             (1053, 'Soldier', 'Jane Doe', 'Soldier getting down on the ground and aiming his rifle.', '2018-07-09', 4300, 'limited', '1053-soldier-3524202.jpg', 'painting','Jane Doe'),
+                                                                                                                                                             (1054, 'Fawn', 'Jane Doe', 'Fawn youngling drinking with its mother while the other fawn is relaxed in the grass', '2017-10-28', 4960, 'reproduction', '1054-fawn-2893471.jpg', 'painting','Jane Doe');
 
 
 INSERT INTO paintings (id, painting_surface, painting_material, painting_dimensions_width_in_cm, painting_dimensions_height_in_cm) VALUES  (1047,'Canvas','Oil based paint',45,31),
