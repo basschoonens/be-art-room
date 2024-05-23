@@ -111,14 +111,14 @@ public class RatingService {
 
     // CALCULATIONS
 
-    public double calculateAverageRatingForArtwork(Long artworkId) {
-        List<Rating> ratings = ratingRepository.findRatingsListByArtworkId(artworkId);
-        if (ratings.isEmpty()) {
-            return 0.0;
-        }
-
-        double totalRating = ratings.stream().mapToInt(Rating::getRating).sum();
-        return (double) totalRating / ratings.size();
-    }
+//    public double calculateAverageRatingForArtwork(Long artworkId) {
+//        List<Rating> ratings = ratingRepository.findRatingsListByArtworkId(artworkId);
+//        if (ratings.isEmpty()) {
+//            return 0.0;
+//        }
+//
+//        double totalRating = ratings.stream().mapToInt(Rating::getRating).sum();
+//        return (double) totalRating / ratings.size();
+//    }
 
 }

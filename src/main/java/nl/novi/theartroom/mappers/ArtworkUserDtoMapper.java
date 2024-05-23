@@ -4,6 +4,8 @@ import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputUserDto;
 import nl.novi.theartroom.dtos.artworkdtos.DrawingOutputDto;
 import nl.novi.theartroom.dtos.artworkdtos.PaintingOutputDto;
 import nl.novi.theartroom.dtos.ratingdtos.RatingUserDto;
+import nl.novi.theartroom.helpers.PriceCalculationHelper;
+import nl.novi.theartroom.helpers.RatingCalculationHelper;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.models.Drawing;
 import nl.novi.theartroom.models.Painting;
@@ -13,6 +15,14 @@ import java.util.List;
 
 @Service
 public class ArtworkUserDtoMapper {
+
+    private final RatingCalculationHelper ratingCalculationHelper;
+    private final PriceCalculationHelper priceCalculationHelper;
+
+    public ArtworkUserDtoMapper(RatingCalculationHelper ratingCalculationHelper, PriceCalculationHelper priceCalculationHelper) {
+        this.ratingCalculationHelper = ratingCalculationHelper;
+        this.priceCalculationHelper = priceCalculationHelper;
+    }
 
     public ArtworkOutputUserDto toArtworkArtloverDto(Artwork artwork) {
 
@@ -35,12 +45,16 @@ public class ArtworkUserDtoMapper {
         if ("painting".equalsIgnoreCase(artwork.getArtworkType())) {
             PaintingOutputDto paintingDto = new PaintingOutputDto();
             mapPaintingFields((Painting) artwork, paintingDto);
-            artworkOutputUserDto.setPaintingOutputDto(paintingDto);
+            artworkOutputUserDto.setPaintingData(paintingDto);
         } else if ("drawing".equalsIgnoreCase(artwork.getArtworkType())) {
             DrawingOutputDto drawingDto = new DrawingOutputDto();
             mapDrawingFields((Drawing) artwork, drawingDto);
-            artworkOutputUserDto.setDrawingOutputDto(drawingDto);
+            artworkOutputUserDto.setDrawingData(drawingDto);
         }
+
+        artworkOutputUserDto.setAverageRating(ratingCalculationHelper.calculateAverageRatingForArtwork(artwork.getId()));
+        artworkOutputUserDto.setTotalAmountOfRatings(ratingCalculationHelper.countRatingsForArtwork(artwork.getId()));
+        artworkOutputUserDto.setSellingPrice(priceCalculationHelper.calculateSellingPrice(artwork));
 
         return artworkOutputUserDto;
     }

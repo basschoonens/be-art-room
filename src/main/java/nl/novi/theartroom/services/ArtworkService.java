@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputUserDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
+import nl.novi.theartroom.helpers.RatingCalculationHelper;
 import nl.novi.theartroom.mappers.ArtworkUserDtoMapper;
 import nl.novi.theartroom.mappers.ArtworkInputDtoMapper;
 import nl.novi.theartroom.models.Artwork;
@@ -29,8 +30,9 @@ public class ArtworkService {
     private final UserService userService;
     private final ArtworkInputDtoMapper artworkInputDtoMapper;
     private final ArtworkUserDtoMapper artworkUserDtoMapper;
+    private final RatingCalculationHelper ratingCalculationHelper;
 
-    public ArtworkService(ArtworkRepository artworkRepository, RatingService ratingService, FileUploadRepository uploadRepository, ArtworkImageService photoService, UserService userService, ArtworkInputDtoMapper artworkInputDtoMapper, ArtworkUserDtoMapper artworkUserDtoMapper) {
+    public ArtworkService(ArtworkRepository artworkRepository, RatingService ratingService, FileUploadRepository uploadRepository, ArtworkImageService photoService, UserService userService, ArtworkInputDtoMapper artworkInputDtoMapper, ArtworkUserDtoMapper artworkUserDtoMapper, RatingCalculationHelper ratingCalculationHelper) {
         this.artworkRepository = artworkRepository;
         this.ratingService = ratingService;
         this.uploadRepository = uploadRepository;
@@ -38,37 +40,51 @@ public class ArtworkService {
         this.userService = userService;
         this.artworkInputDtoMapper = artworkInputDtoMapper;
         this.artworkUserDtoMapper = artworkUserDtoMapper;
+        this.ratingCalculationHelper = ratingCalculationHelper;
     }
 
     // TODO Add the total amount of ratings to the artwork
     // TODO Separate the calculation of the average rating to a separate class
 
+//    public List<ArtworkOutputUserDto> getAllArtworks() {
+//        List<Artwork> artworks = artworkRepository.findAll();
+//        List<ArtworkOutputUserDto> artworkDtos = new ArrayList<>();
+//
+//        for (Artwork artwork : artworks) {
+//            ArtworkOutputUserDto dto = artworkUserDtoMapper.toArtworkArtloverDto(artwork);
+//            double averageRating = ratingCalculationHelper.calculateAverageRatingForArtwork(artwork.getId());
+//            dto.setAverageRating(averageRating);
+//            artworkDtos.add(dto);
+//        }
+//
+//        return artworkDtos;
+//    }
+
     public List<ArtworkOutputUserDto> getAllArtworks() {
         List<Artwork> artworks = artworkRepository.findAll();
-        List<ArtworkOutputUserDto> artworkDtos = new ArrayList<>();
-
-        for (Artwork artwork : artworks) {
-            ArtworkOutputUserDto dto = artworkUserDtoMapper.toArtworkArtloverDto(artwork);
-            double averageRating = ratingService.calculateAverageRatingForArtwork(artwork.getId());
-            dto.setAverageRating(averageRating);
-            artworkDtos.add(dto);
-        }
-
-        return artworkDtos;
+        return artworks.stream()
+                .map(artworkUserDtoMapper::toArtworkArtloverDto)
+                .collect(Collectors.toList());
     }
 
-    public ArtworkOutputUserDto getArtworkById(Long id) {
-        Optional<Artwork> optionalArtwork = artworkRepository.findById(id);
-        if (optionalArtwork.isEmpty()) {
-            throw new RecordNotFoundException("Artwork with id " + id + " not found.");
-        } else {
-            Artwork artwork = optionalArtwork.get();
-            double averageRating = ratingService.calculateAverageRatingForArtwork(id);
-            ArtworkOutputUserDto dto = artworkUserDtoMapper.toArtworkArtloverDto(artwork);
-            dto.setAverageRating(averageRating);
+//    public ArtworkOutputUserDto getArtworkById(Long id) {
+//        Optional<Artwork> optionalArtwork = artworkRepository.findById(id);
+//        if (optionalArtwork.isEmpty()) {
+//            throw new RecordNotFoundException("Artwork with id " + id + " not found.");
+//        } else {
+//            Artwork artwork = optionalArtwork.get();
+//            double averageRating = ratingCalculationHelper.calculateAverageRatingForArtwork(id);
+//            ArtworkOutputUserDto dto = artworkUserDtoMapper.toArtworkArtloverDto(artwork);
+//            dto.setAverageRating(averageRating);
+//
+//            return dto;
+//        }
+//    }
 
-            return dto;
-        }
+    public ArtworkOutputUserDto getArtworkById(Long id) {
+        Artwork artwork = artworkRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Artwork with id " + id + " not found."));
+        return artworkUserDtoMapper.toArtworkArtloverDto(artwork);
     }
 
     // save artwork + return URI location
@@ -142,6 +158,10 @@ public class ArtworkService {
             throw new RecordNotFoundException("artwork of foto niet gevonden");
         }
     }
+
+
+    // add the selling price of an artwork for sale by the gallery
+
 
 
 }
