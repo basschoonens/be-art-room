@@ -30,7 +30,10 @@ public class ArtworkInputDto {
 
     @NotBlank(message = "Please tell us if this is a single, limited or reproduction edition.")
     private String edition;
-    private String imageUrl;
+
+//    Dit wordt gebruikt voor de image upload
+//    private String imageUrl;
+
     private String artworkType;
 
     // Painting fields
@@ -51,7 +54,7 @@ public class ArtworkInputDto {
     public ArtworkInputDto() {
     }
 
-    public ArtworkInputDto(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+    public ArtworkInputDto(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -59,7 +62,6 @@ public class ArtworkInputDto {
         this.dateCreated = dateCreated;
         this.galleryBuyingPrice = galleryBuyingPrice;
         this.edition = edition;
-        this.imageUrl = imageUrl;
         this.artworkType = artworkType;
         this.paintingPaintType = paintingPaintType;
         this.paintingSurface = paintingSurface;
@@ -129,13 +131,13 @@ public class ArtworkInputDto {
         this.edition = edition;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+//    public String getImageUrl() {
+//        return imageUrl;
+//    }
+//
+//    public void setImageUrl(String imageUrl) {
+//        this.imageUrl = imageUrl;
+//    }
 
     public String getArtworkType() {
         return artworkType;
