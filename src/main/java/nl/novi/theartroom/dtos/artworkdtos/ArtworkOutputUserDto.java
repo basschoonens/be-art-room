@@ -6,7 +6,7 @@ import nl.novi.theartroom.models.ArtworkImage;
 import java.time.LocalDate;
 import java.util.List;
 
-public class ArtworkOutputArtloverDto {
+public class ArtworkOutputUserDto {
 
     private Long id;
     private String title;
@@ -18,13 +18,15 @@ public class ArtworkOutputArtloverDto {
     private String artworkType;
     private List<RatingUserDto> ratings;
     private double averageRating;
-    private PaintingOutputDto paintingOutputDto;
-    private DrawingOutputDto drawingOutputDto;
+    private double totalAmountOfRatings;
+    private double sellingPrice;
+    private PaintingOutputDto paintingData;
+    private DrawingOutputDto drawingData;
 
-    public ArtworkOutputArtloverDto() {
+    public ArtworkOutputUserDto() {
     }
 
-    public ArtworkOutputArtloverDto(Long id, String title, String artist, String description, LocalDate dateCreated, String edition, ArtworkImage image, String artworkType, List<RatingUserDto> ratings, double averageRating, PaintingOutputDto paintingOutputDto, DrawingOutputDto drawingOutputDto) {
+    public ArtworkOutputUserDto(Long id, String title, String artist, String description, LocalDate dateCreated, String edition, ArtworkImage image, String artworkType, List<RatingUserDto> ratings, double averageRating, double totalAmountOfRatings, double sellingPrice, PaintingOutputDto paintingData, DrawingOutputDto drawingData) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -35,8 +37,10 @@ public class ArtworkOutputArtloverDto {
         this.artworkType = artworkType;
         this.ratings = ratings;
         this.averageRating = averageRating;
-        this.paintingOutputDto = paintingOutputDto;
-        this.drawingOutputDto = drawingOutputDto;
+        this.totalAmountOfRatings = totalAmountOfRatings;
+        this.sellingPrice = sellingPrice;
+        this.paintingData = paintingData;
+        this.drawingData = drawingData;
     }
 
     public Long getId() {
@@ -103,20 +107,20 @@ public class ArtworkOutputArtloverDto {
         this.artworkType = artworkType;
     }
 
-    public PaintingOutputDto getPaintingOutputDto() {
-        return paintingOutputDto;
+    public PaintingOutputDto getPaintingData() {
+        return paintingData;
     }
 
-    public void setPaintingOutputDto(PaintingOutputDto paintingOutputDto) {
-        this.paintingOutputDto = paintingOutputDto;
+    public void setPaintingData(PaintingOutputDto paintingData) {
+        this.paintingData = paintingData;
     }
 
-    public DrawingOutputDto getDrawingOutputDto() {
-        return drawingOutputDto;
+    public DrawingOutputDto getDrawingData() {
+        return drawingData;
     }
 
-    public void setDrawingOutputDto(DrawingOutputDto drawingOutputDto) {
-        this.drawingOutputDto = drawingOutputDto;
+    public void setDrawingData(DrawingOutputDto drawingData) {
+        this.drawingData = drawingData;
     }
 
     public List<RatingUserDto> getRatings() {
@@ -135,5 +139,19 @@ public class ArtworkOutputArtloverDto {
         this.averageRating = averageRating;
     }
 
+    public double getTotalAmountOfRatings() {
+        return totalAmountOfRatings;
+    }
 
+    public void setTotalAmountOfRatings(double totalAmountOfRatings) {
+        this.totalAmountOfRatings = totalAmountOfRatings;
+    }
+
+    public double getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(double sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
 }

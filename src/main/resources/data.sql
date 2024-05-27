@@ -1,4 +1,6 @@
-INSERT INTO artwork_image (file_name) VALUES    ('1022 Brown and white horse sketch - Jon Tyson.jpg'),
+-- -- Create tables if not exist (TODO Checken of dit nodig is)
+
+INSERT INTO artwork_images (file_name) VALUES   ('1022 Brown and white horse sketch - Jon Tyson.jpg'),
                                                 ('1023 Red blue green and yellow abstract drawing - Liao Je Wei.jpg'),
                                                 ('1024 Woman in white and black dress illustration - Tatiana Zhukova.jpg'),
                                                 ('1025 Man and woman holding hands - Annie Spratt.jpg'),
@@ -43,14 +45,17 @@ INSERT INTO artwork_image (file_name) VALUES    ('1022 Brown and white horse ske
                                                 ('1042 Clouds - Triske Lion.jpg'),
                                                 ('1044 Ladybug - Mya Woods.jpg'),
                                                 ('1045 Asian Nature - Bri Gwer.jpg'),
-                                                ('1046 Town - Lay Ers.jpg');
-
-
+                                                ('1046 Town - Lay Ers.jpg'),
+                                                ('1047-swan-2893562.jpg'),
+                                                ('1051-pelican-2585221.jpg'),
+                                                ('1052-tit-2566376.jpg'),
+                                                ('1053-soldier-3524202.jpg'),
+                                                ('1054-fawn-2893471.jpg');
 
 INSERT INTO artworks (id, title, artist, description, date_created, gallery_buying_price, edition, artwork_image_file_name, artwork_type) VALUES    (1022,'Brown and white horse sketch','Jon Tyson','A sketch of a horse made with graphite pencils','2020-10-16 00:00:00',2500,'single','1022 Brown and white horse sketch - Jon Tyson.jpg','drawing'),
                                                                                                                                                     (1023,'Red blue green and yellow abstract drawing','Liao Je Wei','An abstract drawing of chickens made with fineliners','2020-07-05 00:00:00',2500,'single','1023 Red blue green and yellow abstract drawing - Liao Je Wei.jpg','drawing'),
                                                                                                                                                     (1024,'Woman in white and black dress illustration','Tatiana Zhukova','A sketch of a woman in white and black dress made with charcoal','2020-04-09 00:00:00',2500,'single','1024 Woman in white and black dress illustration - Tatiana Zhukova.jpg','drawing'),
-                                                                                                                                                    (1025,'Man and woman holding hands','Annie Spratt','A drawing of a man and woman holding hand made with charcoal','2020-06-10 00:00:00',2500,'single','1025 Man and woman holding hands - Annie Spratt.jpg','drawing'),
+                                                                                                                                                    (1025,'Boy and girl holding hands','Annie Spratt','A drawing of a boy and girl holding hands made with charcoal','2020-06-10 00:00:00',2500,'single','1025 Man and woman holding hands - Annie Spratt.jpg','drawing'),
                                                                                                                                                     (1026,'Woman illustration','Diogo Nunes','A drawing of a portrait of a woman made with black ink','2019-02-04 00:00:00',2500,'single','1026 Woman illustration - Diogo Nunes.jpg','drawing'),
                                                                                                                                                     (1027,'Persons eye in grayscale','Dhanya A V ','A drawing of a persons eye made in grayscale with graphite pencils','2020-10-15 00:00:00',2500,'single','1027 Persons eye in grayscale - Dhanya A V.jpg','drawing'),
                                                                                                                                                     (1028,'Person raising arms illustration','Thiébaud Faix','A drawing of a person raising hands made with different materials','2019-06-11 00:00:00',2500,'single','1028 Person raising arms illustration - Thiébaud Faix.jpg','drawing'),
@@ -147,13 +152,27 @@ INSERT INTO paintings (id, painting_surface, painting_material, painting_dimensi
 
 INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1001, 5, 1001, 'Wow, This looks great');
 INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1002, 4, 1001, 'Very impresive art');
-
 INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1003, 5, 1002, 'Wow, This looks great');
 INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1004, 4, 1002, 'Very impresive art');
 
 INSERT INTO users (username, password, email) VALUES ('user', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK','user@test.nl');
 INSERT INTO users (username, password, email) VALUES ('admin', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'admin@test.nl');
+INSERT INTO users (username, password, email) VALUES ('Jane Doe', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'janedoe@test.nl');
 
 INSERT INTO authorities (username, authority) VALUES ('user', 'ROLE_USER');
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_USER');
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN');
+INSERT INTO authorities (username, authority) VALUES ('Jane Doe', 'ROLE_ARTIST');
+
+INSERT INTO artworks (id, title, artist, description, date_created, gallery_buying_price, edition,artwork_image_file_name, artwork_type, username) VALUES    (1047, 'Swan', 'Jane Doe', 'A painting of a swan flapping its wings while landing in the water.', '2017-10-28', 4600, 'single', '1047-swan-2893562.jpg', 'painting','Jane Doe'),
+                                                                                                                                                             (1051, 'Pelican', 'Jane Doe', 'Drawing in color of a beautiful pelican bird sitting on a log.', '2017-08-05', 5400, 'single', '1051-pelican-2585221.jpg', 'painting','Jane Doe'),
+                                                                                                                                                             (1052, 'Tit', 'Jane Doe', 'Waterbased painting of a tit in the rain holding on to its branch', '2017-08-01', 6200, 'limited', '1052-tit-2566376.jpg', 'painting','Jane Doe'),
+                                                                                                                                                             (1053, 'Soldier', 'Jane Doe', 'Soldier getting down on the ground and aiming his rifle.', '2018-07-09', 4300, 'limited', '1053-soldier-3524202.jpg', 'painting','Jane Doe'),
+                                                                                                                                                             (1054, 'Fawn', 'Jane Doe', 'Fawn youngling drinking with its mother while the other fawn is relaxed in the grass', '2017-10-28', 4960, 'reproduction', '1054-fawn-2893471.jpg', 'painting','Jane Doe');
+
+
+INSERT INTO paintings (id, painting_surface, painting_material, painting_dimensions_width_in_cm, painting_dimensions_height_in_cm) VALUES  (1047,'Canvas','Oil based paint',45,31),
+                                                                                                                                           (1051,'Linnen','Watercolour paint',48,39),
+                                                                                                                                           (1052,'Canvas','Watercolour paint',29,36),
+                                                                                                                                           (1053,'Canvas','Oil based paint',43,38),
+                                                                                                                                           (1054,'Linnen','Watercolour paint',51,39);

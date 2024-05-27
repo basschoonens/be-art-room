@@ -1,15 +1,34 @@
 package nl.novi.theartroom.dtos.artworkdtos;
 
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class ArtworkInputDto {
 
     private Long id;
+
+    @NotBlank(message = "Title is required.")
+    @Size(min = 2, max = 255, message = "Title must be between 2 and 255 characters.")
     private String title;
+
+    @NotBlank(message = "Artist is required.")
+    @Size(min = 2, max = 255, message = "Artist must be between 2 and 255 characters.")
     private String artist;
+
+    @NotBlank(message = "Description is required.")
     private String description;
+
+    @NotBlank(message = "Date created is required.")
     private LocalDate dateCreated;
+
+    @NotBlank(message = "Gallery buying price is required.")
+    @DecimalMin(value = "0.0", message = "Gallery buying price must be a positive number.")
     private Double galleryBuyingPrice;
+
+    @NotBlank(message = "Please tell us if this is a single, limited or reproduction edition.")
     private String edition;
     private String imageUrl;
     private String artworkType;

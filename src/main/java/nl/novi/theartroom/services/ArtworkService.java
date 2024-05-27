@@ -1,13 +1,16 @@
 package nl.novi.theartroom.services;
 
 import jakarta.transaction.Transactional;
-import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtloverDto;
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputUserDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
-import nl.novi.theartroom.mappers.ArtworkArtloverDtoMapper;
+import nl.novi.theartroom.exceptions.UsernameNotFoundException;
+import nl.novi.theartroom.helpers.RatingCalculationHelper;
+import nl.novi.theartroom.mappers.ArtworkUserDtoMapper;
 import nl.novi.theartroom.mappers.ArtworkInputDtoMapper;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.models.ArtworkImage;
+import nl.novi.theartroom.models.User;
 import nl.novi.theartroom.repositories.ArtworkRepository;
 import nl.novi.theartroom.repositories.FileUploadRepository;
 import org.springframework.core.io.Resource;
@@ -16,56 +19,62 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ArtworkService {
 
     private final ArtworkRepository artworkRepository;
-    private final RatingService ratingService;
     private final FileUploadRepository uploadRepository;
     private final ArtworkImageService photoService;
+    private final UserService userService;
+    private final ArtworkInputDtoMapper artworkInputDtoMapper;
+    private final ArtworkUserDtoMapper artworkUserDtoMapper;
 
-    public ArtworkService(ArtworkRepository artworkRepository, RatingService ratingService, FileUploadRepository uploadRepository, ArtworkImageService photoService) {
+    public ArtworkService(ArtworkRepository artworkRepository, FileUploadRepository uploadRepository, ArtworkImageService photoService, UserService userService, ArtworkInputDtoMapper artworkInputDtoMapper, ArtworkUserDtoMapper artworkUserDtoMapper) {
         this.artworkRepository = artworkRepository;
-        this.ratingService = ratingService;
         this.uploadRepository = uploadRepository;
         this.photoService = photoService;
+        this.userService = userService;
+        this.artworkInputDtoMapper = artworkInputDtoMapper;
+        this.artworkUserDtoMapper = artworkUserDtoMapper;
     }
 
-    // TODO Add the total amount of ratings to the artwork
-    // TODO Separate the calculation of the average rating to a separate class
-
-    public List<ArtworkOutputArtloverDto> getAllArtworks() {
+    public List<ArtworkOutputUserDto> getAllArtworks() {
         List<Artwork> artworks = artworkRepository.findAll();
-        List<ArtworkOutputArtloverDto> artworkDtos = new ArrayList<>();
-
-        for (Artwork artwork : artworks) {
-            ArtworkOutputArtloverDto dto = ArtworkArtloverDtoMapper.toArtworkArtloverDto(artwork);
-            double averageRating = ratingService.calculateAverageRatingForArtwork(artwork.getId());
-            dto.setAverageRating(averageRating);
-            artworkDtos.add(dto);
-        }
-
-        return artworkDtos;
+        return artworks.stream()
+                .map(artworkUserDtoMapper::toArtworkArtloverDto)
+                .collect(Collectors.toList());
     }
 
-    public ArtworkOutputArtloverDto getArtworkById(Long id) {
-        Optional<Artwork> optionalArtwork = artworkRepository.findById(id);
-        if (optionalArtwork.isEmpty()) {
-            throw new RecordNotFoundException("Artwork with id " + id + " not found.");
-        } else {
-            Artwork artwork = optionalArtwork.get();
-            double averageRating = ratingService.calculateAverageRatingForArtwork(id);
-            ArtworkOutputArtloverDto dto = ArtworkArtloverDtoMapper.toArtworkArtloverDto(artwork);
-            dto.setAverageRating(averageRating);
-
-            return dto;
-        }
+    public ArtworkOutputUserDto getArtworkById(Long id) {
+        Artwork artwork = artworkRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Artwork with id " + id + " not found."));
+        return artworkUserDtoMapper.toArtworkArtloverDto(artwork);
     }
 
-    public void saveArtwork(ArtworkInputDto dto) {
-        Artwork Artwork = ArtworkInputDtoMapper.toArtwork(dto);
-        artworkRepository.save(Artwork);
+    // save artwork + return URI location
+    public Long saveArtwork(ArtworkInputDto dto) {
+        Artwork artwork = artworkInputDtoMapper.toArtwork(dto);
+        Artwork savedArtwork = artworkRepository.save(artwork);
+        return savedArtwork.getId();
+    }
+
+    // Save artwork for Artist
+    public Long saveArtworkForArtist(ArtworkInputDto dto, String username) {
+        Artwork artwork = artworkInputDtoMapper.toArtwork(dto);
+        User user = userService.getUserByUsername(username);
+        artwork.setUser(user);
+        Artwork savedArtwork = artworkRepository.save(artwork);
+        return savedArtwork.getId();
+    }
+
+    public List<ArtworkOutputUserDto> getArtworksByUser(String username) {
+        User user = userService.getUserByUsername(username);
+        List<Artwork> artworks = artworkRepository.findAllByUser(user);
+        return artworks.stream()
+                .map(artworkUserDtoMapper::toArtworkArtloverDto)
+                .collect(Collectors.toList());
     }
 
     public void updateArtwork(Long id, ArtworkInputDto dto) {
@@ -73,7 +82,7 @@ public class ArtworkService {
         if (artworkFound.isEmpty()) {
             throw new RecordNotFoundException("Artwork with id " + id + " not found.");
         } else {
-            artworkRepository.save(ArtworkInputDtoMapper.toArtwork(dto, artworkFound.get()));
+            artworkRepository.save(artworkInputDtoMapper.toArtwork(dto, artworkFound.get()));
         }
     }
 
@@ -89,7 +98,7 @@ public class ArtworkService {
     // Image methods
 
     @Transactional
-    public Resource getImageFromStudent(Long artworkId){
+    public Resource getImageFromArtwork(Long artworkId){
         Optional<Artwork> optionalArtwork = artworkRepository.findById(artworkId);
         if(optionalArtwork.isEmpty()){
             throw new RecordNotFoundException("Artwork with artwork number " + artworkId + " not found.");
@@ -115,6 +124,5 @@ public class ArtworkService {
             throw new RecordNotFoundException("artwork of foto niet gevonden");
         }
     }
-
 
 }

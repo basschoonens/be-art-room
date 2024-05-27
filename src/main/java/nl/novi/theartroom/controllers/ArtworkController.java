@@ -2,7 +2,7 @@ package nl.novi.theartroom.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
-import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtloverDto;
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputUserDto;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.services.ArtworkImageService;
 import nl.novi.theartroom.services.ArtworkService;
@@ -10,6 +10,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,30 +33,58 @@ public class ArtworkController {
         this.artworkImageService = artworkImageService;
     }
 
-    // TODO Calculatie average rating eruit halen en verplaatsten naar aparte service
-
     @GetMapping()
-    public ResponseEntity<List<ArtworkOutputArtloverDto>> getAllArtworks() {
-        List<ArtworkOutputArtloverDto> artworks = artworkService.getAllArtworks();
+    public ResponseEntity<List<ArtworkOutputUserDto>> getAllArtworks() {
+        List<ArtworkOutputUserDto> artworks = artworkService.getAllArtworks();
         return ResponseEntity.ok(artworkService.getAllArtworks());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ArtworkOutputArtloverDto> getArtworkById(@PathVariable Long id) {
-        ArtworkOutputArtloverDto artwork = artworkService.getArtworkById(id);
+    public ResponseEntity<ArtworkOutputUserDto> getArtworkById(@PathVariable Long id) {
+        ArtworkOutputUserDto artwork = artworkService.getArtworkById(id);
         return ResponseEntity.ok(artwork);
     }
 
-    // Get Artwork Photo
-
+    //Add Artwork + return URI of the new artwork
     @PostMapping()
     public ResponseEntity<Void> addArtwork(@RequestBody ArtworkInputDto artwork) {
-        artworkService.saveArtwork(artwork);
-        return ResponseEntity.created(null).build();
+        Long newArtworkId = artworkService.saveArtwork(artwork);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newArtworkId)
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @PostMapping("/user")
+    public ResponseEntity<Void> addArtworkForArtist(@RequestBody ArtworkInputDto artwork) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        Long newArtworkId = artworkService.saveArtworkForArtist(artwork, username);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newArtworkId)
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/user/artworks")
+    public ResponseEntity<List<ArtworkOutputUserDto>> getArtworksForArtist() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        List<ArtworkOutputUserDto> artworks = artworkService.getArtworksByUser(username);
+
+        return ResponseEntity.ok(artworks);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ArtworkOutputArtloverDto> updateArtwork(@PathVariable Long id, @RequestBody ArtworkInputDto artwork) {
+    public ResponseEntity<ArtworkOutputUserDto> updateArtwork(@PathVariable Long id, @RequestBody ArtworkInputDto artwork) {
         artworkService.updateArtwork(id, artwork);
         return ResponseEntity.noContent().build();
     }
@@ -65,7 +95,6 @@ public class ArtworkController {
         return ResponseEntity.noContent().build();
     }
 
-    // TODO Add a method to add an image to an artwork
     // TODO Add a method to update an image from an artwork
     // TODO Add a method to delete an image from an artwork
 
@@ -86,20 +115,13 @@ public class ArtworkController {
 
     @GetMapping("/{id}/image")
     public ResponseEntity<Resource> getArtworkImage(@PathVariable("id") Long artworkId, HttpServletRequest request){
-        Resource resource = artworkService.getImageFromStudent(artworkId);
+        Resource resource = artworkService.getImageFromArtwork(artworkId);
 
         String mimeType;
 
         try{
             mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException e) {
-            /*
-            "application/octet-steam" is de generieke mime type voor byte data.
-            Het is beter om een specifiekere mimetype te gebruiken, zoals "image/jpeg".
-            Mimetype is nodig om de frontend te laten weten welke soort data het is.
-            Met de juiste MimeType en Content-Disposition, kun je de plaatjes of PDFs die je upload
-            zelfs in de browser weergeven.
-             */
 //            mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
             mimeType = MediaType.IMAGE_JPEG_VALUE;
         }

@@ -1,18 +1,27 @@
 package nl.novi.theartroom.dtos.userdtos;
 
-import nl.novi.theartroom.models.Authority;
-
-import java.util.Set;
-
-    //TODO Authority omzetten naar Roles
+//TODO Authority omzetten naar Roles
 
 public class UserDto {
 
     public String username;
 
     public String password;
+
     public String email;
-    public Set<Authority> authorities;
+
+    // added 17-05
+    public String authority;
+
+    public UserDto() {
+    }
+
+    public UserDto(String username, String password, String email, String authority) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.authority = authority;
+    }
 
     public String getUsername() {
         return username;
@@ -24,10 +33,6 @@ public class UserDto {
 
     public String getEmail() {
         return email;
-    }
-
-    public Set<Authority> getAuthorities() {
-        return authorities;
     }
 
     public void setUsername(String username) {
@@ -42,7 +47,12 @@ public class UserDto {
         this.email = email;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
+    public String getAuthority() {
+        return authority;
     }
+
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
+
 }

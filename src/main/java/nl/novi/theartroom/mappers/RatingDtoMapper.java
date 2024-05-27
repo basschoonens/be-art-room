@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 @Service
 public class RatingDtoMapper {
 
-    // USER RATINGS MAPPERS
-
     public Rating toRatingUserDto(RatingUserDto ratingUserDto) {
         Rating rating = new Rating();
         rating.setRating(ratingUserDto.getRating());
@@ -20,7 +18,8 @@ public class RatingDtoMapper {
 
         return rating;
     }
-    public static RatingUserDto toRatingUserDto(Rating rating) {
+
+    public RatingUserDto toRatingUserDto(Rating rating) {
         RatingUserDto ratingUserDto = new RatingUserDto();
         ratingUserDto.setRating(rating.getRating());
         ratingUserDto.setComment(rating.getComment());
@@ -28,13 +27,11 @@ public class RatingDtoMapper {
         return ratingUserDto;
     }
 
-    public static List<RatingUserDto> toRatingUserDtoList(List<Rating> ratings) {
-        return ratings.stream().map(RatingDtoMapper::toRatingUserDto).collect(Collectors.toList());
+    public List<RatingUserDto> toRatingUserDtoList(List<Rating> ratings) {
+        return ratings.stream().map(this::toRatingUserDto).collect(Collectors.toList());
     }
 
-    // ARTIST ADMIN RATINGS MAPPERS
-
-    public static RatingArtistAdminDto toRatingArtistAdminDto(Rating rating) {
+    public RatingArtistAdminDto toRatingArtistAdminDto(Rating rating) {
         RatingArtistAdminDto ratingArtistAdminDto = new RatingArtistAdminDto();
         ratingArtistAdminDto.setId(rating.getId());
         ratingArtistAdminDto.setRating(rating.getRating());
@@ -44,7 +41,7 @@ public class RatingDtoMapper {
     }
 
     public List<RatingArtistAdminDto> toRatingArtistAdminDtoList(List<Rating> ratings) {
-        return ratings.stream().map(RatingDtoMapper::toRatingArtistAdminDto).collect(Collectors.toList());
+        return ratings.stream().map(this::toRatingArtistAdminDto).collect(Collectors.toList());
     }
 
 }

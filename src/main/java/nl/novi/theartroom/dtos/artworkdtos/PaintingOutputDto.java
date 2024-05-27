@@ -8,6 +8,16 @@ public class PaintingOutputDto {
     private Integer paintingDimensionsWidthInCm;
     private Integer paintingDimensionsHeightInCm;
 
+    public PaintingOutputDto() {
+    }
+
+    public PaintingOutputDto(String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm) {
+        this.paintingPaintType = paintingPaintType;
+        this.paintingSurface = paintingSurface;
+        this.paintingMaterial = paintingMaterial;
+        this.paintingDimensionsWidthInCm = paintingDimensionsWidthInCm;
+        this.paintingDimensionsHeightInCm = paintingDimensionsHeightInCm;
+    }
 
     public String getPaintingPaintType() {
         return paintingPaintType;

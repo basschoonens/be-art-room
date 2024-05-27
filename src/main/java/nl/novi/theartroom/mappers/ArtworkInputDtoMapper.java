@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ArtworkInputDtoMapper {
 
-    public static Artwork toArtwork(ArtworkInputDto dto) {
-//        validateArtworkInput(dto);
+    public Artwork toArtwork(ArtworkInputDto dto) {
         if (dto.getId() == null) {
             return createArtwork(dto);
         } else {
@@ -18,14 +17,14 @@ public class ArtworkInputDtoMapper {
         }
     }
 
-    public static Artwork toArtwork(ArtworkInputDto dto, Artwork existingArtwork) {
+    public Artwork toArtwork(ArtworkInputDto dto, Artwork existingArtwork) {
         if (existingArtwork == null) {
             throw new IllegalArgumentException("Existing artwork cannot be null for update operation.");
         }
         return updateArtwork(dto, existingArtwork);
     }
 
-    private static Artwork createArtwork(ArtworkInputDto dto) {
+    private Artwork createArtwork(ArtworkInputDto dto) {
         Artwork artwork;
         if ("painting".equalsIgnoreCase(dto.getArtworkType())) {
             artwork = mapToPainting(dto, new Painting());
@@ -38,20 +37,7 @@ public class ArtworkInputDtoMapper {
         return artwork;
     }
 
-    // TODO updateArtwork method verder uitzoeken en uitwerken zodat ik de juiste gegevens kan updaten en exception kan gooien als het type niet klopt. Exception werkt nu niet want ik kan artworkType ook naar ieder ander random text aanpassen.
-
-//    private static Artwork updateArtwork(ArtworkInputDto dto, Artwork artwork) {
-//            setCommonFields(artwork, dto);
-//            if ("painting".equalsIgnoreCase(dto.getArtworkType())) {
-//                return mapToPainting(dto, (Painting) artwork);
-//            } else if ("drawing".equalsIgnoreCase(dto.getArtworkType())) {
-//                return mapToDrawing(dto, (Drawing) artwork);
-//            } else {
-//                throw new IllegalArgumentException("Invalid artwork type: " + dto.getArtworkType());
-//            }
-//    }
-
-    private static Artwork updateArtwork(ArtworkInputDto dto, Artwork artwork) {
+    private Artwork updateArtwork(ArtworkInputDto dto, Artwork artwork) {
         setCommonFields(artwork, dto);
         if (artwork instanceof Painting) {
             return mapToPainting(dto, (Painting) artwork);
@@ -62,7 +48,7 @@ public class ArtworkInputDtoMapper {
         }
     }
 
-    private static void setCommonFields(Artwork artwork, ArtworkInputDto dto) {
+    private void setCommonFields(Artwork artwork, ArtworkInputDto dto) {
         if (dto.getTitle() != null) {
             artwork.setTitle(dto.getTitle());
         }
@@ -86,7 +72,7 @@ public class ArtworkInputDtoMapper {
         }
     }
 
-    private static Painting mapToPainting(ArtworkInputDto dto, Painting painting) {
+    private Painting mapToPainting(ArtworkInputDto dto, Painting painting) {
         if (dto.getPaintingSurface() != null) {
             painting.setPaintingSurface(dto.getPaintingSurface());
         }
@@ -102,7 +88,7 @@ public class ArtworkInputDtoMapper {
         return painting;
     }
 
-    private static Drawing mapToDrawing(ArtworkInputDto dto, Drawing drawing) {
+    private Drawing mapToDrawing(ArtworkInputDto dto, Drawing drawing) {
         if (dto.getDrawingSurface() != null) {
             drawing.setDrawingSurface(dto.getDrawingSurface());
         }
@@ -117,15 +103,4 @@ public class ArtworkInputDtoMapper {
         }
         return drawing;
     }
-
-    // TODO validateArtworkInput method verder uitwerken en uitbreiden met extra validatie regels voor andere velden.
-
-//    private static void validateArtworkInput(ArtworkInputDto dto) {
-//        if (dto.getTitle() == null || dto.getTitle().isEmpty()) {
-//            throw new InvalidDataException("Title is required");
-//        }
-        // Add more validation rules as needed for other fields
-
 }
-
-

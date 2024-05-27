@@ -1,4 +1,5 @@
 package nl.novi.theartroom.models;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -12,7 +13,8 @@ import java.util.List;
 public class Artwork {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "artwork_id_seq")
+    @SequenceGenerator(name = "artwork_id_seq", sequenceName = "artwork_id_seq",initialValue = 1055, allocationSize = 1)
     private Long id;
     private String title;
     private String artist;
@@ -27,33 +29,25 @@ public class Artwork {
 
     // Boolean forSale
 
-    // TODO add a function to automatically see if a painting is square, portrait or landscape
-
-//    public void setArtworkType() {
-//        if (this.imageUrl != null) {
-//            String[] dimensions = this.imageUrl.split("x");
-//            if (dimensions.length == 2) {
-//                int width = Integer.parseInt(dimensions[0]);
-//                int height = Integer.parseInt(dimensions[1]);
-//                if (width == height) {
-//                    this.artworkType = "square";
-//                } else if (width > height) {
-//                    this.artworkType = "landscape";
-//                } else {
-//                    this.artworkType = "portrait";
-//                }
-//            }
-//        }
-//    }
 
     @OneToMany(mappedBy = "artwork")
     @JsonIgnore
     List<Rating> ratings = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username", nullable = true)
+    @JsonIgnore
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    @JsonIgnore
+    private Order order;
+
     public Artwork() {
     }
 
-    public Artwork(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, ArtworkImage artworkImage, String artworkType, List<Rating> ratings) {
+    public Artwork(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, ArtworkImage artworkImage, String artworkType, List<Rating> ratings, User user, Order order) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -64,6 +58,8 @@ public class Artwork {
         this.artworkImage = artworkImage;
         this.artworkType = artworkType;
         this.ratings = ratings;
+        this.user = user;
+        this.order = order;
     }
 
     public Long getId() {
@@ -146,5 +142,19 @@ public class Artwork {
         this.ratings = ratings;
     }
 
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 }

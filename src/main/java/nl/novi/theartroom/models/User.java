@@ -25,9 +25,6 @@ public class User {
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
 
-    // Deze 3 variabelen zijn niet verplicht.
-    // Je mag ook een "String banaan;" toevoegen, als je dat graag wilt.
-
     @Column
     private String email;
 
@@ -39,33 +36,42 @@ public class User {
     // Shopping cart DTO met alle aankoopgegevens
     // Tabel met alle verwerkte orders
     // Leveradres bij order (shipping details)
-    
-    @OneToMany
-    private List<Artwork> shoppingCart;
 
-    @ManyToOne
-    @JoinColumn(name = "artwork_id")
-    private Artwork artwork;
+    @OneToMany(mappedBy = "user")
+    private List<Artwork> artworks;
 
-    // TODO Koppeling user/artwork/rating
+    public String getUsername() {
+        return username;
+    }
 
-    public String getUsername() { return username; }
     public void setUsername(String username) {
         this.username = username;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email;}
 
-    public Set<Authority> getAuthorities() { return authorities; }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
     public void addAuthority(Authority authority) {
         this.authorities.add(authority);
     }
+
     public void removeAuthority(Authority authority) {
         this.authorities.remove(authority);
     }
@@ -78,11 +84,16 @@ public class User {
         this.ratings = ratings;
     }
 
-    public Artwork getArtwork() {
-        return artwork;
+    public List<Artwork> getArtworks() {
+        return artworks;
     }
 
-    public void setArtwork(Artwork artwork) {
-        this.artwork = artwork;
+    public void setArtworks(List<Artwork> artworks) {
+        this.artworks = artworks;
     }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
 }
