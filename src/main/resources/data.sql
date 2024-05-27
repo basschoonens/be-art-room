@@ -1,6 +1,6 @@
 -- -- Create tables if not exist (TODO Checken of dit nodig is)
 
-INSERT INTO artwork_images (file_name) VALUES    ('1022 Brown and white horse sketch - Jon Tyson.jpg'),
+INSERT INTO artwork_images (file_name) VALUES   ('1022 Brown and white horse sketch - Jon Tyson.jpg'),
                                                 ('1023 Red blue green and yellow abstract drawing - Liao Je Wei.jpg'),
                                                 ('1024 Woman in white and black dress illustration - Tatiana Zhukova.jpg'),
                                                 ('1025 Man and woman holding hands - Annie Spratt.jpg'),
@@ -51,11 +51,6 @@ INSERT INTO artwork_images (file_name) VALUES    ('1022 Brown and white horse sk
                                                 ('1052-tit-2566376.jpg'),
                                                 ('1053-soldier-3524202.jpg'),
                                                 ('1054-fawn-2893471.jpg');
-
-
-
-
-
 
 INSERT INTO artworks (id, title, artist, description, date_created, gallery_buying_price, edition, artwork_image_file_name, artwork_type) VALUES    (1022,'Brown and white horse sketch','Jon Tyson','A sketch of a horse made with graphite pencils','2020-10-16 00:00:00',2500,'single','1022 Brown and white horse sketch - Jon Tyson.jpg','drawing'),
                                                                                                                                                     (1023,'Red blue green and yellow abstract drawing','Liao Je Wei','An abstract drawing of chickens made with fineliners','2020-07-05 00:00:00',2500,'single','1023 Red blue green and yellow abstract drawing - Liao Je Wei.jpg','drawing'),
@@ -162,7 +157,7 @@ INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1004, 4, 1002, 'Ve
 
 INSERT INTO users (username, password, email) VALUES ('user', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK','user@test.nl');
 INSERT INTO users (username, password, email) VALUES ('admin', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'admin@test.nl');
-INSERT INTO users (username, password, email) VALUES ('Jane Doe', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'admin@test.nl');
+INSERT INTO users (username, password, email) VALUES ('Jane Doe', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'janedoe@test.nl');
 
 INSERT INTO authorities (username, authority) VALUES ('user', 'ROLE_USER');
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_USER');

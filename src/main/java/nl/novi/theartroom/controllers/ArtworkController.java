@@ -45,9 +45,6 @@ public class ArtworkController {
         return ResponseEntity.ok(artwork);
     }
 
-    // Get Artwork Photo
-
-
     //Add Artwork + return URI of the new artwork
     @PostMapping()
     public ResponseEntity<Void> addArtwork(@RequestBody ArtworkInputDto artwork) {
