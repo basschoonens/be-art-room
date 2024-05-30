@@ -54,4 +54,10 @@ public class OrderController {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/user")
+    public List<OrderDto> getOrdersForUser() {
+        String username = userService.getCurrentLoggedInUsername();
+        return orderService.getOrdersForUser(username);
+    }
 }

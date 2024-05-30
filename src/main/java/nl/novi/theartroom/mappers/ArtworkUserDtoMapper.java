@@ -24,7 +24,7 @@ public class ArtworkUserDtoMapper {
         this.priceCalculationHelper = priceCalculationHelper;
     }
 
-    public ArtworkOutputUserDto toArtworkArtloverDto(Artwork artwork) {
+    public ArtworkOutputUserDto toArtworkUserDto(Artwork artwork) {
 
         ArtworkOutputUserDto artworkOutputUserDto = new ArtworkOutputUserDto();
         artworkOutputUserDto.setId(artwork.getId());

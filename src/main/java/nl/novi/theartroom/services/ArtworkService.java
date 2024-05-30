@@ -44,14 +44,14 @@ public class ArtworkService {
     public List<ArtworkOutputUserDto> getAllArtworks() {
         List<Artwork> artworks = artworkRepository.findAll();
         return artworks.stream()
-                .map(artworkUserDtoMapper::toArtworkArtloverDto)
+                .map(artworkUserDtoMapper::toArtworkUserDto)
                 .collect(Collectors.toList());
     }
 
     public ArtworkOutputUserDto getArtworkById(Long id) {
         Artwork artwork = artworkRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Artwork with id " + id + " not found."));
-        return artworkUserDtoMapper.toArtworkArtloverDto(artwork);
+        return artworkUserDtoMapper.toArtworkUserDto(artwork);
     }
 
     // save artwork + return URI location

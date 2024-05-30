@@ -3,6 +3,7 @@ package nl.novi.theartroom.services;
 import nl.novi.theartroom.dtos.OrderDto;
 import nl.novi.theartroom.exceptions.UsernameNotFoundException;
 import nl.novi.theartroom.mappers.OrderDtoMapper;
+import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.models.Order;
 import nl.novi.theartroom.models.User;
 import nl.novi.theartroom.repositories.ArtworkRepository;
@@ -69,15 +70,26 @@ public class OrderService {
     public OrderDto createOrderForUser(String username, OrderDto orderDto) {
         User user = userRepository.findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        Order order = orderDtoMapper.toEntity(orderDto);
+        Order order = orderMapper.toEntity(orderDto);
         order.setUser(user);
-        Order savedOrder = orderRepository.save(order);
-        return orderDtoMapper.toDto(savedOrder);
+        order = saveOrderWithArtworks(order, orderDto.getArtworkIds());
+        return orderMapper.toDto(order);
     }
 
-    public List<Order> getOrdersForUser(String username) {
+    public List<OrderDto> getOrdersForUser(String username) {
         User user = userRepository.findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        return user.getOrders();
+        return orderRepository.findAllByUser(user).stream()
+                .map(orderMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    private Order saveOrderWithArtworks(Order order, List<Long> artworkIds) {
+        List<Artwork> artworks = artworkRepository.findAllById(artworkIds);
+        for (Artwork artwork : artworks) {
+            artwork.setOrder(order); // Set the order reference in each artwork
+        }
+        order.setArtworks(artworks);
+        return orderRepository.save(order);
     }
 }

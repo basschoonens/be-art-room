@@ -31,7 +31,7 @@ public class Order {
 
     private String city;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Artwork> artworks = new ArrayList<>();
 
     @ManyToOne
