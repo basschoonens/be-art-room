@@ -25,8 +25,10 @@ public class OrderDtoMapper {
         dto.setOrderStatus(order.getOrderStatus());
         dto.setPaymentMethod(order.getPaymentMethod());
         dto.setTotalPrice(order.getTotalPrice());
-        dto.setShippingAddress(order.getShippingAddress());
-        dto.setBillingAddress(order.getBillingAddress());
+        dto.setName(order.getName());
+        dto.setAddress(order.getAddress());
+        dto.setPostalCode(order.getPostalCode());
+        dto.setCity(order.getCity());
         dto.setArtworkIds(order.getArtworks().stream()
                 .map(Artwork::getId)
                 .collect(Collectors.toList()));
@@ -41,8 +43,10 @@ public class OrderDtoMapper {
         order.setOrderStatus(dto.getOrderStatus());
         order.setPaymentMethod(dto.getPaymentMethod());
         order.setTotalPrice(dto.getTotalPrice());
-        order.setShippingAddress(dto.getShippingAddress());
-        order.setBillingAddress(dto.getBillingAddress());
+        order.setName(dto.getName());
+        order.setAddress(dto.getAddress());
+        order.setPostalCode(dto.getPostalCode());
+        order.setCity(dto.getCity());
         order.setArtworks(dto.getArtworkIds().stream()
                 .map(id -> artworkRepository.findById(id).orElseThrow(() -> new RuntimeException("Artwork not found")))
                 .collect(Collectors.toList()));

@@ -40,6 +40,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Artwork> artworks;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders;
+
     public String getUsername() {
         return username;
     }
@@ -94,6 +97,14 @@ public class User {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
 }

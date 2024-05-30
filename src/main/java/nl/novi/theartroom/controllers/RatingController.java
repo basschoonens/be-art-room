@@ -24,7 +24,7 @@ public class RatingController {
         this.userService = userService;
     }
 
-    // USER RATINGS METHODS
+    // USER RATINGS METHOD
 
     // TODO Moet hij een void returnen of niet?
     // TODO location created URI returnen

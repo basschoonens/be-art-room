@@ -1,11 +1,11 @@
 package nl.novi.theartroom.services;
 
 import jakarta.transaction.Transactional;
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtistDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputUserDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
-import nl.novi.theartroom.exceptions.UsernameNotFoundException;
-import nl.novi.theartroom.helpers.RatingCalculationHelper;
+import nl.novi.theartroom.mappers.ArtworkArtistDtoMapper;
 import nl.novi.theartroom.mappers.ArtworkUserDtoMapper;
 import nl.novi.theartroom.mappers.ArtworkInputDtoMapper;
 import nl.novi.theartroom.models.Artwork;
@@ -16,7 +16,6 @@ import nl.novi.theartroom.repositories.FileUploadRepository;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,14 +29,16 @@ public class ArtworkService {
     private final UserService userService;
     private final ArtworkInputDtoMapper artworkInputDtoMapper;
     private final ArtworkUserDtoMapper artworkUserDtoMapper;
+    private final ArtworkArtistDtoMapper artworkArtistDtoMapper;
 
-    public ArtworkService(ArtworkRepository artworkRepository, FileUploadRepository uploadRepository, ArtworkImageService photoService, UserService userService, ArtworkInputDtoMapper artworkInputDtoMapper, ArtworkUserDtoMapper artworkUserDtoMapper) {
+    public ArtworkService(ArtworkRepository artworkRepository, FileUploadRepository uploadRepository, ArtworkImageService photoService, UserService userService, ArtworkInputDtoMapper artworkInputDtoMapper, ArtworkUserDtoMapper artworkUserDtoMapper, ArtworkArtistDtoMapper artworkArtistDtoMapper) {
         this.artworkRepository = artworkRepository;
         this.uploadRepository = uploadRepository;
         this.photoService = photoService;
         this.userService = userService;
         this.artworkInputDtoMapper = artworkInputDtoMapper;
         this.artworkUserDtoMapper = artworkUserDtoMapper;
+        this.artworkArtistDtoMapper = artworkArtistDtoMapper;
     }
 
     public List<ArtworkOutputUserDto> getAllArtworks() {
@@ -69,11 +70,11 @@ public class ArtworkService {
         return savedArtwork.getId();
     }
 
-    public List<ArtworkOutputUserDto> getArtworksByUser(String username) {
+    public List<ArtworkOutputArtistDto> getArtworksByArtist(String username) {
         User user = userService.getUserByUsername(username);
         List<Artwork> artworks = artworkRepository.findAllByUser(user);
         return artworks.stream()
-                .map(artworkUserDtoMapper::toArtworkArtloverDto)
+                .map(artworkArtistDtoMapper::toArtworkArtistDto)
                 .collect(Collectors.toList());
     }
 

@@ -26,7 +26,6 @@ public class Artwork {
     ArtworkImage artworkImage;
 
     private String artworkType;
-
     // Boolean forSale
 
 

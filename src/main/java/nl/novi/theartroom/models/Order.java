@@ -23,25 +23,32 @@ public class Order {
 
     private double totalPrice;
 
-    private String shippingAddress;
+    private String name;
 
-    private String billingAddress;
+    private String address;
+
+    private String postalCode;
+
+    private String city;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Artwork> artworks = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "username", nullable = false)
+    private User user;
+
     public Order() {
     }
 
-    public Order(Long id, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String shippingAddress, String billingAddress, List<Artwork> artworks) {
+    public Order(Long id, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String Address, List<Artwork> artworks) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
         this.paymentMethod = paymentMethod;
         this.totalPrice = totalPrice;
-        this.shippingAddress = shippingAddress;
-        this.billingAddress = billingAddress;
+        this.address = Address;
         this.artworks = artworks;
     }
 
@@ -93,20 +100,36 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public String getShippingAddress() {
-        return shippingAddress;
+    public String getName() {
+        return name;
     }
 
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getBillingAddress() {
-        return billingAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setBillingAddress(String billingAddress) {
-        this.billingAddress = billingAddress;
+    public void setAddress(String shippingAddress) {
+        this.address = shippingAddress;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public List<Artwork> getArtworks() {
@@ -115,5 +138,13 @@ public class Order {
 
     public void setArtworks(List<Artwork> artworks) {
         this.artworks = artworks;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

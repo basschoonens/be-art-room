@@ -1,56 +1,48 @@
 package nl.novi.theartroom.dtos.artworkdtos;
 
+import nl.novi.theartroom.dtos.ratingdtos.RatingUserDto;
+import nl.novi.theartroom.models.ArtworkImage;
+
 import java.time.LocalDate;
+import java.util.List;
 
 public class ArtworkOutputArtistDto {
+
     private Long id;
     private String title;
     private String artist;
     private String description;
     private LocalDate dateCreated;
-    private Double galleryBuyingPrice;
     private String edition;
-    private String imageUrl;
+    private ArtworkImage image;
     private String artworkType;
-
-    // Painting fields
-    private String paintingPaintType;
-    private String paintingSurface;
-    private String paintingMaterial;
-    private Integer paintingDimensionsWidthInCm;
-    private Integer paintingDimensionsHeightInCm;
-
-    // Drawing fields
-    private String drawingDrawType;
-    private String drawingSurface;
-    private String drawingMaterial;
-    private Integer drawingDimensionsWidthInCm;
-    private Integer drawingDimensionsHeightInCm;
+    private List<RatingUserDto> ratings;
+    private double averageRating;
+    private double totalAmountOfRatings;
+    private double galleryBuyingPrice;
+    private double sellingPrice;
+    private PaintingOutputDto paintingData;
+    private DrawingOutputDto drawingData;
 
 
     public ArtworkOutputArtistDto() {
     }
 
-    public ArtworkOutputArtistDto(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+    public ArtworkOutputArtistDto(Long id, String title, String artist, String description, LocalDate dateCreated, String edition, ArtworkImage image, String artworkType, List<RatingUserDto> ratings, double averageRating, double totalAmountOfRatings, double sellingPrice, PaintingOutputDto paintingData, DrawingOutputDto drawingData) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.description = description;
         this.dateCreated = dateCreated;
-        this.galleryBuyingPrice = galleryBuyingPrice;
         this.edition = edition;
-        this.imageUrl = imageUrl;
+        this.image = image;
         this.artworkType = artworkType;
-        this.paintingPaintType = paintingPaintType;
-        this.paintingSurface = paintingSurface;
-        this.paintingMaterial = paintingMaterial;
-        this.paintingDimensionsWidthInCm = paintingDimensionsWidthInCm;
-        this.paintingDimensionsHeightInCm = paintingDimensionsHeightInCm;
-        this.drawingDrawType = drawingDrawType;
-        this.drawingSurface = drawingSurface;
-        this.drawingMaterial = drawingMaterial;
-        this.drawingDimensionsWidthInCm = drawingDimensionsWidthInCm;
-        this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
+        this.ratings = ratings;
+        this.averageRating = averageRating;
+        this.totalAmountOfRatings = totalAmountOfRatings;
+        this.sellingPrice = sellingPrice;
+        this.paintingData = paintingData;
+        this.drawingData = drawingData;
     }
 
     public Long getId() {
@@ -93,14 +85,6 @@ public class ArtworkOutputArtistDto {
         this.dateCreated = dateCreated;
     }
 
-    public Double getGalleryBuyingPrice() {
-        return galleryBuyingPrice;
-    }
-
-    public void setGalleryBuyingPrice(Double galleryBuyingPrice) {
-        this.galleryBuyingPrice = galleryBuyingPrice;
-    }
-
     public String getEdition() {
         return edition;
     }
@@ -109,12 +93,12 @@ public class ArtworkOutputArtistDto {
         this.edition = edition;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public ArtworkImage getImage() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(ArtworkImage image) {
+        this.image = image;
     }
 
     public String getArtworkType() {
@@ -125,83 +109,59 @@ public class ArtworkOutputArtistDto {
         this.artworkType = artworkType;
     }
 
-    public String getPaintingPaintType() {
-        return paintingPaintType;
+    public List<RatingUserDto> getRatings() {
+        return ratings;
     }
 
-    public void setPaintingPaintType(String paintingPaintType) {
-        this.paintingPaintType = paintingPaintType;
+    public void setRatings(List<RatingUserDto> ratings) {
+        this.ratings = ratings;
     }
 
-    public String getPaintingSurface() {
-        return paintingSurface;
+    public double getAverageRating() {
+        return averageRating;
     }
 
-    public void setPaintingSurface(String paintingSurface) {
-        this.paintingSurface = paintingSurface;
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 
-    public String getPaintingMaterial() {
-        return paintingMaterial;
+    public double getTotalAmountOfRatings() {
+        return totalAmountOfRatings;
     }
 
-    public void setPaintingMaterial(String paintingMaterial) {
-        this.paintingMaterial = paintingMaterial;
+    public void setTotalAmountOfRatings(double totalAmountOfRatings) {
+        this.totalAmountOfRatings = totalAmountOfRatings;
     }
 
-    public Integer getPaintingDimensionsWidthInCm() {
-        return paintingDimensionsWidthInCm;
+    public double getGalleryBuyingPrice() {
+        return galleryBuyingPrice;
     }
 
-    public void setPaintingDimensionsWidthInCm(Integer paintingDimensionsWidthInCm) {
-        this.paintingDimensionsWidthInCm = paintingDimensionsWidthInCm;
+    public void setGalleryBuyingPrice(double galleryBuyingPrice) {
+        this.galleryBuyingPrice = galleryBuyingPrice;
     }
 
-    public Integer getPaintingDimensionsHeightInCm() {
-        return paintingDimensionsHeightInCm;
+    public double getSellingPrice() {
+        return sellingPrice;
     }
 
-    public void setPaintingDimensionsHeightInCm(Integer paintingDimensionsHeightInCm) {
-        this.paintingDimensionsHeightInCm = paintingDimensionsHeightInCm;
+    public void setSellingPrice(double sellingPrice) {
+        this.sellingPrice = sellingPrice;
     }
 
-    public String getDrawingDrawType() {
-        return drawingDrawType;
+    public PaintingOutputDto getPaintingData() {
+        return paintingData;
     }
 
-    public void setDrawingDrawType(String drawingDrawType) {
-        this.drawingDrawType = drawingDrawType;
+    public void setPaintingData(PaintingOutputDto paintingData) {
+        this.paintingData = paintingData;
     }
 
-    public String getDrawingSurface() {
-        return drawingSurface;
+    public DrawingOutputDto getDrawingData() {
+        return drawingData;
     }
 
-    public void setDrawingSurface(String drawingSurface) {
-        this.drawingSurface = drawingSurface;
-    }
-
-    public String getDrawingMaterial() {
-        return drawingMaterial;
-    }
-
-    public void setDrawingMaterial(String drawingMaterial) {
-        this.drawingMaterial = drawingMaterial;
-    }
-
-    public Integer getDrawingDimensionsWidthInCm() {
-        return drawingDimensionsWidthInCm;
-    }
-
-    public void setDrawingDimensionsWidthInCm(Integer drawingDimensionsWidthInCm) {
-        this.drawingDimensionsWidthInCm = drawingDimensionsWidthInCm;
-    }
-
-    public Integer getDrawingDimensionsHeightInCm() {
-        return drawingDimensionsHeightInCm;
-    }
-
-    public void setDrawingDimensionsHeightInCm(Integer drawingDimensionsHeightInCm) {
-        this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
+    public void setDrawingData(DrawingOutputDto drawingData) {
+        this.drawingData = drawingData;
     }
 }

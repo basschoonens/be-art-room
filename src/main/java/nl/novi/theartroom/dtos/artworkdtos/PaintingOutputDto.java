@@ -2,7 +2,7 @@ package nl.novi.theartroom.dtos.artworkdtos;
 
 public class PaintingOutputDto {
 
-    private String paintingPaintType;
+//    private String paintingPaintType;
     private String paintingSurface;
     private String paintingMaterial;
     private Integer paintingDimensionsWidthInCm;
@@ -11,20 +11,11 @@ public class PaintingOutputDto {
     public PaintingOutputDto() {
     }
 
-    public PaintingOutputDto(String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm) {
-        this.paintingPaintType = paintingPaintType;
+    public PaintingOutputDto(String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm) {
         this.paintingSurface = paintingSurface;
         this.paintingMaterial = paintingMaterial;
         this.paintingDimensionsWidthInCm = paintingDimensionsWidthInCm;
         this.paintingDimensionsHeightInCm = paintingDimensionsHeightInCm;
-    }
-
-    public String getPaintingPaintType() {
-        return paintingPaintType;
-    }
-
-    public void setPaintingPaintType(String paintingPaintType) {
-        this.paintingPaintType = paintingPaintType;
     }
 
     public String getPaintingSurface() {
