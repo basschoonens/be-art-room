@@ -3,7 +3,9 @@ package nl.novi.theartroom.models;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -31,8 +33,13 @@ public class Order {
 
     private String city;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Artwork> artworks = new ArrayList<>();
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "order_artwork",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "artwork_id")
+    )
+    private Set<Artwork> artworks = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "username", nullable = false)
@@ -41,15 +48,19 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String Address, List<Artwork> artworks) {
+    public Order(Long id, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String name, String address, String postalCode, String city, Set<Artwork> artworks, User user) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
         this.paymentMethod = paymentMethod;
         this.totalPrice = totalPrice;
-        this.address = Address;
+        this.name = name;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.city = city;
         this.artworks = artworks;
+        this.user = user;
     }
 
     public Long getId() {
@@ -132,11 +143,11 @@ public class Order {
         this.city = city;
     }
 
-    public List<Artwork> getArtworks() {
+    public Set<Artwork> getArtworks() {
         return artworks;
     }
 
-    public void setArtworks(List<Artwork> artworks) {
+    public void setArtworks(Set<Artwork> artworks) {
         this.artworks = artworks;
     }
 

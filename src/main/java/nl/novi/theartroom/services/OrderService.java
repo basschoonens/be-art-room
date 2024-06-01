@@ -11,6 +11,7 @@ import nl.novi.theartroom.repositories.OrderRepository;
 import nl.novi.theartroom.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,10 +56,12 @@ public class OrderService {
         order.setOrderStatus(orderDto.getOrderStatus());
         order.setPaymentMethod(orderDto.getPaymentMethod());
         order.setTotalPrice(orderDto.getTotalPrice());
+        order.setName(orderDto.getName());
         order.setAddress(orderDto.getAddress());
-        order.setArtworks(orderDto.getArtworkIds().stream()
-                .map(artworkId -> artworkRepository.findById(artworkId).orElseThrow(() -> new RuntimeException("Artwork not found")))
-                .collect(Collectors.toList()));
+        order.setPostalCode(orderDto.getPostalCode());
+        order.setCity(orderDto.getCity());
+        order = saveOrderWithArtworks(order, orderDto.getArtworkIds());
+
         order = orderRepository.save(order);
         return orderMapper.toDto(order);
     }
@@ -86,10 +89,7 @@ public class OrderService {
 
     private Order saveOrderWithArtworks(Order order, List<Long> artworkIds) {
         List<Artwork> artworks = artworkRepository.findAllById(artworkIds);
-        for (Artwork artwork : artworks) {
-            artwork.setOrder(order); // Set the order reference in each artwork
-        }
-        order.setArtworks(artworks);
+        order.setArtworks(new HashSet<>(artworks));
         return orderRepository.save(order);
     }
 }

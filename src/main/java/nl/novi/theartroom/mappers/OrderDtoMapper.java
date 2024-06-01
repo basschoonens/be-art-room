@@ -48,8 +48,8 @@ public class OrderDtoMapper {
         order.setPostalCode(dto.getPostalCode());
         order.setCity(dto.getCity());
         order.setArtworks(dto.getArtworkIds().stream()
-                .map(id -> artworkRepository.findById(id).orElseThrow(() -> new RuntimeException("Artwork not found")))
-                .collect(Collectors.toList()));
+                .map(artworkId -> artworkRepository.findById(artworkId).orElseThrow(() -> new RuntimeException("Artwork not found")))
+                .collect(Collectors.toSet()));
         return order;
     }
 }
