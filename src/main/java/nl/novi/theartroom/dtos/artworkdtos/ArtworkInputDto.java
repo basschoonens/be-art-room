@@ -13,25 +13,16 @@ public class ArtworkInputDto {
 
     private Long id;
 
-    @NotBlank(message = "Title is required.")
-    @Size(min = 2, max = 255, message = "Title must be between 2 and 255 characters.")
     private String title;
 
-    @NotBlank(message = "Artist is required.")
-    @Size(min = 2, max = 255, message = "Artist must be between 2 and 255 characters.")
     private String artist;
 
-    @NotBlank(message = "Description is required.")
     private String description;
 
-    @NotBlank(message = "Date created is required.")
     private LocalDate dateCreated;
 
-    @NotNull(message = "Gallery buying price is required.")
-    @DecimalMin(value = "0.0", message = "Gallery buying price must be a positive number.")
     private Double galleryBuyingPrice;
 
-    @NotBlank(message = "Please tell us if this is a single, limited or reproduction edition.")
     private String edition;
 
 //    Dit wordt gebruikt voor de image upload
