@@ -34,19 +34,23 @@ public class OrderService {
 
     public List<OrderDto> getAllOrders() {
         return orderRepository.findAll().stream()
-                .map(orderMapper::toDto)
+                .map(orderMapper::toOrderDto)
                 .collect(Collectors.toList());
     }
 
     public OrderDto getOrderById(Long id) {
         Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
-        return orderMapper.toDto(order);
+        return orderMapper.toOrderDto(order);
     }
 
-    public OrderDto createOrder(OrderDto orderDto) {
-        Order order = orderMapper.toEntity(orderDto);
-        order = orderRepository.save(order);
-        return orderMapper.toDto(order);
+
+    public OrderDto createOrderForUser(String username, OrderDto orderDto) {
+        User user = userRepository.findById(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        Order order = orderMapper.toOrder(orderDto);
+        order.setUser(user);
+        order = saveOrderWithArtworks(order, orderDto.getArtworkIds());
+        return orderMapper.toOrderDto(order);
     }
 
     public OrderDto updateOrder(Long id, OrderDto orderDto) {
@@ -63,27 +67,18 @@ public class OrderService {
         order = saveOrderWithArtworks(order, orderDto.getArtworkIds());
 
         order = orderRepository.save(order);
-        return orderMapper.toDto(order);
+        return orderMapper.toOrderDto(order);
     }
 
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
     }
 
-    public OrderDto createOrderForUser(String username, OrderDto orderDto) {
-        User user = userRepository.findById(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        Order order = orderMapper.toEntity(orderDto);
-        order.setUser(user);
-        order = saveOrderWithArtworks(order, orderDto.getArtworkIds());
-        return orderMapper.toDto(order);
-    }
-
     public List<OrderDto> getOrdersForUser(String username) {
         User user = userRepository.findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         return orderRepository.findAllByUser(user).stream()
-                .map(orderMapper::toDto)
+                .map(orderMapper::toOrderDto)
                 .collect(Collectors.toList());
     }
 

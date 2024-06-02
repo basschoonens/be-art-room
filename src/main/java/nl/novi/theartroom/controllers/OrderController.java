@@ -30,12 +30,6 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
-//    @PostMapping
-//    public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) {
-//        OrderDto createdOrder = orderService.createOrder(orderDto);
-//        return ResponseEntity.ok(createdOrder);
-//    }
-
     @PostMapping
     public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) {
         String username = userService.getCurrentLoggedInUsername();

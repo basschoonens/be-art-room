@@ -17,7 +17,7 @@ public class OrderDtoMapper {
         this.artworkRepository = artworkRepository;
     }
 
-    public OrderDto toDto(Order order) {
+    public OrderDto toOrderDto(Order order) {
         OrderDto dto = new OrderDto();
         dto.setId(order.getId());
         dto.setOrderNumber(order.getOrderNumber());
@@ -35,7 +35,7 @@ public class OrderDtoMapper {
         return dto;
     }
 
-    public Order toEntity(OrderDto dto) {
+    public Order toOrder(OrderDto dto) {
         Order order = new Order();
         order.setId(dto.getId());
         order.setOrderNumber(dto.getOrderNumber());

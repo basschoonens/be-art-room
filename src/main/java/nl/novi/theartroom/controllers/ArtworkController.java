@@ -95,8 +95,6 @@ public class ArtworkController {
                 .buildAndExpand(newArtworkId)
                 .toUri();
 
-        System.out.println("Location URI: " + location);
-
         return ResponseEntity.created(location).build();
     }
 

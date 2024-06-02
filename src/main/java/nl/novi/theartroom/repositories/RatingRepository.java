@@ -1,6 +1,5 @@
 package nl.novi.theartroom.repositories;
 
-import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.models.Rating;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -18,5 +17,8 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
     Optional<Rating> findByUserUsernameAndArtworkId(String username, Long artworkId);
 
     List<Rating> findRatingsListByUserUsername(String username);
+
+//     find all ratings for an artist made by a user
+//    List<Rating> findRatingsListByArtworkArtistUsername(String username);
 
 }
