@@ -76,6 +76,7 @@ public class ArtworkController {
 //        return ResponseEntity.created(location).build();
 //    }
 
+    // Deze post is alleen in mijn frontend uit te voeren, maar niet in Postman
     @PostMapping("/user")
     public ResponseEntity<Void> addArtworkForArtist(@ModelAttribute ArtworkInputDto artwork) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
