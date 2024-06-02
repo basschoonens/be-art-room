@@ -24,10 +24,18 @@ public class RatingController {
         this.userService = userService;
     }
 
-    // USER RATINGS METHODS
+    // USER RATINGS METHOD
 
     // TODO Moet hij een void returnen of niet?
     // TODO location created URI returnen
+
+    //Get all ratings made by a user
+    @GetMapping("/user")
+    public ResponseEntity<List<RatingUserDto>> getAllRatingsByUser() {
+        String username = userService.getCurrentLoggedInUsername();
+        List<RatingUserDto> ratings = ratingService.getRatingsByUsername(username);
+        return ResponseEntity.ok(ratings);
+    }
 
     @PostMapping("/{artworkId}/ratings")
     public ResponseEntity<Void> addOrUpdateRatingToArtworkByUser(@PathVariable Long artworkId, @RequestBody RatingUserDto ratingUserDto) {
@@ -44,7 +52,7 @@ public class RatingController {
     }
 
     // ARTIST RATING METHODS
-    // Artist moet per artwork alle ratings kunnen ophalen, inzien en/of verwijderen.
+    // Artist moet per artwork alle ratings kunnen inzien en/of verwijderen.
 
     @GetMapping("/{artworkId}/ratings")
     public ResponseEntity<List<RatingArtistAdminDto>> getAllRatingsForArtworkByArtistAdmin(@PathVariable Long artworkId) {

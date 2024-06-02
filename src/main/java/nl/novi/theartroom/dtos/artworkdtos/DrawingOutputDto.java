@@ -2,7 +2,7 @@ package nl.novi.theartroom.dtos.artworkdtos;
 
 public class DrawingOutputDto {
 
-    private String drawingDrawType;
+//    private String drawingDrawType;
     private String drawingSurface;
     private String drawingMaterial;
     private Integer drawingDimensionsWidthInCm;
@@ -11,20 +11,11 @@ public class DrawingOutputDto {
     public DrawingOutputDto() {
     }
 
-    public DrawingOutputDto(String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
-        this.drawingDrawType = drawingDrawType;
+    public DrawingOutputDto(String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
         this.drawingSurface = drawingSurface;
         this.drawingMaterial = drawingMaterial;
         this.drawingDimensionsWidthInCm = drawingDimensionsWidthInCm;
         this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
-    }
-
-    public String getDrawingDrawType() {
-        return drawingDrawType;
-    }
-
-    public void setDrawingDrawType(String drawingDrawType) {
-        this.drawingDrawType = drawingDrawType;
     }
 
     public String getDrawingSurface() {

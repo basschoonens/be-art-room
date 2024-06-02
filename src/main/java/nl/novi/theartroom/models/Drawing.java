@@ -5,6 +5,7 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "drawings")
@@ -26,13 +27,14 @@ public class Drawing extends Artwork {
 //        this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
 //    }
 
-    public Drawing(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, ArtworkImage artworkImage, String artworkType, List<Rating> ratings, User user, Order order, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
-        super(id, title, artist, description, dateCreated, galleryBuyingPrice, edition, artworkImage, artworkType, ratings, user, order);
+    public Drawing(String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, ArtworkImage artworkImage, String artworkType, List<Rating> ratings, User user, Set<Order> orders, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+        super(title, artist, description, dateCreated, galleryBuyingPrice, edition, artworkImage, artworkType, ratings, user, orders);
         this.drawingSurface = drawingSurface;
         this.drawingMaterial = drawingMaterial;
         this.drawingDimensionsWidthInCm = drawingDimensionsWidthInCm;
         this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
     }
+
 
     public String getDrawingSurface() {
         return drawingSurface;

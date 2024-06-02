@@ -2,6 +2,7 @@ package nl.novi.theartroom.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtistDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputUserDto;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.services.ArtworkImageService;
@@ -58,27 +59,53 @@ public class ArtworkController {
         return ResponseEntity.created(location).build();
     }
 
+//    @PostMapping("/user")
+//    public ResponseEntity<Void> addArtworkForArtist(@RequestBody ArtworkInputDto artwork) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String username = auth.getName();
+//
+//        Long newArtworkId = artworkService.saveArtworkForArtist(artwork, username);
+//
+//        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+//                .path("/{id}")
+//                .buildAndExpand(newArtworkId)
+//                .toUri();
+//
+//        System.out.println("Location URI: " + location); // Add this line to log the location
+//
+//        return ResponseEntity.created(location).build();
+//    }
+
+    // Deze post is alleen in mijn frontend uit te voeren, maar niet in Postman
     @PostMapping("/user")
-    public ResponseEntity<Void> addArtworkForArtist(@RequestBody ArtworkInputDto artwork) {
+    public ResponseEntity<Void> addArtworkForArtist(@ModelAttribute ArtworkInputDto artwork) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 
+        // Save the artwork
         Long newArtworkId = artworkService.saveArtworkForArtist(artwork, username);
 
+        // Store the image file
+        String fileName = artworkImageService.storeFile(artwork.getFile());
+        artworkService.assignImageToArtwork(fileName, newArtworkId);
+
+        // Create the location URI
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(newArtworkId)
                 .toUri();
 
+        System.out.println("Location URI: " + location);
+
         return ResponseEntity.created(location).build();
     }
 
     @GetMapping("/user/artworks")
-    public ResponseEntity<List<ArtworkOutputUserDto>> getArtworksForArtist() {
+    public ResponseEntity<List<ArtworkOutputArtistDto>> getArtworksForArtist() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 
-        List<ArtworkOutputUserDto> artworks = artworkService.getArtworksByUser(username);
+        List<ArtworkOutputArtistDto> artworks = artworkService.getArtworksByArtist(username);
 
         return ResponseEntity.ok(artworks);
     }

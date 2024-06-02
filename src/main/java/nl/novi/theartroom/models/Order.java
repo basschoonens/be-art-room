@@ -3,7 +3,9 @@ package nl.novi.theartroom.models;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -23,26 +25,42 @@ public class Order {
 
     private double totalPrice;
 
-    private String shippingAddress;
+    private String name;
 
-    private String billingAddress;
+    private String address;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Artwork> artworks = new ArrayList<>();
+    private String postalCode;
+
+    private String city;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "order_artwork",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "artwork_id")
+    )
+    private Set<Artwork> artworks = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "username", nullable = false)
+    private User user;
 
     public Order() {
     }
 
-    public Order(Long id, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String shippingAddress, String billingAddress, List<Artwork> artworks) {
+    public Order(Long id, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String name, String address, String postalCode, String city, Set<Artwork> artworks, User user) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
         this.paymentMethod = paymentMethod;
         this.totalPrice = totalPrice;
-        this.shippingAddress = shippingAddress;
-        this.billingAddress = billingAddress;
+        this.name = name;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.city = city;
         this.artworks = artworks;
+        this.user = user;
     }
 
     public Long getId() {
@@ -93,27 +111,51 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public String getShippingAddress() {
-        return shippingAddress;
+    public String getName() {
+        return name;
     }
 
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getBillingAddress() {
-        return billingAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setBillingAddress(String billingAddress) {
-        this.billingAddress = billingAddress;
+    public void setAddress(String shippingAddress) {
+        this.address = shippingAddress;
     }
 
-    public List<Artwork> getArtworks() {
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Set<Artwork> getArtworks() {
         return artworks;
     }
 
-    public void setArtworks(List<Artwork> artworks) {
+    public void setArtworks(Set<Artwork> artworks) {
         this.artworks = artworks;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

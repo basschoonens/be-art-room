@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "artworks")
@@ -26,7 +28,6 @@ public class Artwork {
     ArtworkImage artworkImage;
 
     private String artworkType;
-
     // Boolean forSale
 
 
@@ -39,16 +40,14 @@ public class Artwork {
     @JsonIgnore
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @ManyToMany(mappedBy = "artworks")
     @JsonIgnore
-    private Order order;
+    private Set<Order> orders = new HashSet<>();
 
     public Artwork() {
     }
 
-    public Artwork(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, ArtworkImage artworkImage, String artworkType, List<Rating> ratings, User user, Order order) {
-        this.id = id;
+    public Artwork(String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, ArtworkImage artworkImage, String artworkType, List<Rating> ratings, User user, Set<Order> orders) {
         this.title = title;
         this.artist = artist;
         this.description = description;
@@ -59,7 +58,7 @@ public class Artwork {
         this.artworkType = artworkType;
         this.ratings = ratings;
         this.user = user;
-        this.order = order;
+        this.orders = orders;
     }
 
     public Long getId() {
@@ -150,11 +149,11 @@ public class Artwork {
         this.user = user;
     }
 
-    public Order getOrder() {
-        return order;
+    public Set<Order> getOrders() {
+        return orders;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 }

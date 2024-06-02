@@ -2,7 +2,10 @@ package nl.novi.theartroom.dtos.artworkdtos;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -10,27 +13,21 @@ public class ArtworkInputDto {
 
     private Long id;
 
-    @NotBlank(message = "Title is required.")
-    @Size(min = 2, max = 255, message = "Title must be between 2 and 255 characters.")
     private String title;
 
-    @NotBlank(message = "Artist is required.")
-    @Size(min = 2, max = 255, message = "Artist must be between 2 and 255 characters.")
     private String artist;
 
-    @NotBlank(message = "Description is required.")
     private String description;
 
-    @NotBlank(message = "Date created is required.")
     private LocalDate dateCreated;
 
-    @NotBlank(message = "Gallery buying price is required.")
-    @DecimalMin(value = "0.0", message = "Gallery buying price must be a positive number.")
     private Double galleryBuyingPrice;
 
-    @NotBlank(message = "Please tell us if this is a single, limited or reproduction edition.")
     private String edition;
-    private String imageUrl;
+
+//    Dit wordt gebruikt voor de image upload
+//    private String imageUrl;
+
     private String artworkType;
 
     // Painting fields
@@ -47,11 +44,13 @@ public class ArtworkInputDto {
     private Integer drawingDimensionsWidthInCm;
     private Integer drawingDimensionsHeightInCm;
 
+    private MultipartFile file;
+
 
     public ArtworkInputDto() {
     }
 
-    public ArtworkInputDto(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String imageUrl, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+    public ArtworkInputDto(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -59,7 +58,6 @@ public class ArtworkInputDto {
         this.dateCreated = dateCreated;
         this.galleryBuyingPrice = galleryBuyingPrice;
         this.edition = edition;
-        this.imageUrl = imageUrl;
         this.artworkType = artworkType;
         this.paintingPaintType = paintingPaintType;
         this.paintingSurface = paintingSurface;
@@ -129,13 +127,13 @@ public class ArtworkInputDto {
         this.edition = edition;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+//    public String getImageUrl() {
+//        return imageUrl;
+//    }
+//
+//    public void setImageUrl(String imageUrl) {
+//        this.imageUrl = imageUrl;
+//    }
 
     public String getArtworkType() {
         return artworkType;
@@ -223,6 +221,14 @@ public class ArtworkInputDto {
 
     public void setDrawingDimensionsHeightInCm(Integer drawingDimensionsHeightInCm) {
         this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 
 }

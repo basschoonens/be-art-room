@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ArtworkAdminDtoMapper {
 
+    // TODO implement if null check in all my mappers.
     public static ArtworkOutputAdminDto toArtworkAdminDto(Artwork artwork) {
         ArtworkOutputAdminDto artworkOutputAdminDto = new ArtworkOutputAdminDto();
         artworkOutputAdminDto.setId(artwork.getId());
