@@ -13,6 +13,7 @@ import nl.novi.theartroom.repositories.RatingRepository;
 import nl.novi.theartroom.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +24,14 @@ public class RatingService {
     private final ArtworkRepository artworkRepository;
     private final UserRepository userRepository;
     private final RatingDtoMapper ratingDtoMapper;
+    private final UserService userService;
 
-    public RatingService(RatingRepository ratingRepository, ArtworkRepository artworkRepository, UserRepository userRepository, RatingDtoMapper ratingDtoMapper) {
+    public RatingService(RatingRepository ratingRepository, ArtworkRepository artworkRepository, UserRepository userRepository, RatingDtoMapper ratingDtoMapper, UserService userService) {
         this.ratingRepository = ratingRepository;
         this.artworkRepository = artworkRepository;
         this.userRepository = userRepository;
         this.ratingDtoMapper = ratingDtoMapper;
+        this.userService = userService;
     }
 
     // USER RATINGS METHODS
@@ -77,6 +80,23 @@ public class RatingService {
     }
 
     // ARTIST RATING METHODS
+
+    // Get all ratings for an artist method
+
+    public List<RatingWithArtworkDto> getAllRatingsForArtist(String username) {
+        List<Artwork> artworks = artworkRepository.findByArtist(username);
+        List<Rating> ratings = new ArrayList<>();
+        for (Artwork artwork : artworks) {
+            ratings.addAll(artwork.getRatings());
+        }
+        return ratingDtoMapper.toRatingWithArtworkDtoList(ratings);
+    }
+
+//    public List<RatingWithArtworkDto> getAllRatingsForArtist(String username) {
+//        User user = userService.getUserByUsername(username);
+//        List<Rating> ratings = ratingRepository.findRatingsListByUserUsername(username);
+//        return ratingDtoMapper.toRatingWithArtworkDtoList(ratings);
+//    }
 
     // All ratings for an artist by artwork id method
 

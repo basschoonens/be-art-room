@@ -77,6 +77,9 @@ public class ArtworkController {
 //    }
 
     // Deze post is alleen in mijn frontend uit te voeren, maar niet in Postman
+    // TODO huidige tijd en seconden toevoegen aan elke file die geupload wordt
+
+
     @PostMapping("/user")
     public ResponseEntity<Void> addArtworkForArtist(@ModelAttribute ArtworkInputDto artwork) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -97,6 +100,27 @@ public class ArtworkController {
 
         return ResponseEntity.created(location).build();
     }
+
+//    @PostMapping("/user")
+//    public ResponseEntity<Void> addArtworkForArtist(@RequestPart("data") String artwork, @RequestPart("file") MultipartFile file) throws IOException {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String username = auth.getName();
+//
+//        // Save the artwork
+//        Long newArtworkId = artworkService.saveArtworkForArtist(new ArtworkInputDto(), username);
+//
+//        // Store the image file
+//        String fileName = artworkImageService.storeFile(file);
+//        artworkService.assignImageToArtwork(fileName, newArtworkId);
+//
+//        // Create the location URI
+//        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+//                .path("/{id}")
+//                .buildAndExpand(newArtworkId)
+//                .toUri();
+//
+//        return ResponseEntity.created(location).build();
+//    }
 
     @GetMapping("/user/artworks")
     public ResponseEntity<List<ArtworkOutputArtistDto>> getArtworksForArtist() {
@@ -135,7 +159,6 @@ public class ArtworkController {
         Artwork artwork = artworkService.assignImageToArtwork(fileName, artworkId);
 
         return ResponseEntity.created(URI.create(url)).body(artwork);
-
     }
 
     @GetMapping("/{id}/image")

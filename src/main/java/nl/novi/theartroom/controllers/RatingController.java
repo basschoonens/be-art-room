@@ -1,5 +1,6 @@
 package nl.novi.theartroom.controllers;
 
+import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtistDto;
 import nl.novi.theartroom.dtos.ratingdtos.RatingWithArtworkDto;
 import nl.novi.theartroom.dtos.ratingdtos.RatingUserDto;
 import nl.novi.theartroom.models.Rating;
@@ -7,6 +8,8 @@ import nl.novi.theartroom.services.RatingService;
 import nl.novi.theartroom.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -72,6 +75,16 @@ public class RatingController {
     // Artist moet per artwork alle ratings kunnen inzien en/of verwijderen.
 
     // All ratings for an artist by artwork id method
+
+    @GetMapping("/artist")
+    public ResponseEntity<List<RatingWithArtworkDto>> getAllRatingsForArtist() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        List<RatingWithArtworkDto> ratings = ratingService.getAllRatingsForArtist(username);
+
+        return ResponseEntity.ok(ratings);
+    }
 
     @GetMapping("/{artworkId}/ratings/artist")
     public ResponseEntity<List<RatingWithArtworkDto>> getAllRatingsForArtworkWithArtworkDetails(@PathVariable Long artworkId) {
