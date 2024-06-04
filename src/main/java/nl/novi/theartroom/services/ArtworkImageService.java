@@ -32,15 +32,43 @@ public class ArtworkImageService {
         Files.createDirectories(fileStoragePath);
     }
 
+//    public String storeFile(MultipartFile file) throws IOException{
+//
+//        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+//        Path filePath = Paths.get(fileStoragePath + "\\" + fileName);
+//
+//        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+//
+//        repo.save(new ArtworkImage(fileName));
+//        return fileName;
+//    }
+
     public String storeFile(MultipartFile file) throws IOException{
+        String originalFileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+        String fileExtension = "";
 
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-        Path filePath = Paths.get(fileStoragePath + "\\" + fileName);
+        // Get the file extension if present
+        int dotIndex = originalFileName.lastIndexOf('.');
+        if (dotIndex > 0) {
+            fileExtension = originalFileName.substring(dotIndex);
+            originalFileName = originalFileName.substring(0, dotIndex);
+        }
 
+        // Get current time in milliseconds
+        long currentTimeMillis = System.currentTimeMillis();
+
+        // Append milliseconds to the filename
+        String newFileName = originalFileName + "_" + currentTimeMillis + fileExtension;
+
+        Path filePath = Paths.get(fileStoragePath + "\\" + newFileName);
+
+        // Store the file
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        repo.save(new ArtworkImage(fileName));
-        return fileName;
+        // Save the new filename in the repository
+        repo.save(new ArtworkImage(newFileName));
+
+        return newFileName;
     }
 
     public Resource downLoadFile(String fileName) {
