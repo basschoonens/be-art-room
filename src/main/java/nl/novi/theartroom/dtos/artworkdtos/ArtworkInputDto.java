@@ -46,11 +46,12 @@ public class ArtworkInputDto {
 
     private MultipartFile file;
 
+    private String username;
 
     public ArtworkInputDto() {
     }
 
-    public ArtworkInputDto(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm) {
+    public ArtworkInputDto(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm, MultipartFile file, String username) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -69,6 +70,8 @@ public class ArtworkInputDto {
         this.drawingMaterial = drawingMaterial;
         this.drawingDimensionsWidthInCm = drawingDimensionsWidthInCm;
         this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
+        this.file = file;
+        this.username = username;
     }
 
     public Long getId() {
@@ -221,6 +224,14 @@ public class ArtworkInputDto {
 
     public void setDrawingDimensionsHeightInCm(Integer drawingDimensionsHeightInCm) {
         this.drawingDimensionsHeightInCm = drawingDimensionsHeightInCm;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public MultipartFile getFile() {
