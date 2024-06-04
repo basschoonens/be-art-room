@@ -50,7 +50,6 @@ public class RatingService {
         return ratingDtoMapper.toRatingWithArtworkDtoList(ratings);
     }
 
-    @Transactional
     public Rating addOrUpdateRatingToArtwork(String username, Long artworkId, RatingUserDto ratingUserDto) {
         Optional<Rating> existingRatingOptional = ratingRepository.findByUserUsernameAndArtworkId(username, artworkId);
 

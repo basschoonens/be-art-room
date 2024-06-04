@@ -102,20 +102,22 @@ public class RatingController {
     // ADMIN METHODS
     // All ratings for the admin done by users with artwork details method
 
-    @GetMapping("/{artworkId}/ratings/admin")
-    public ResponseEntity<List<RatingWithArtworkDto>> getAllRatingsForAdmin(@PathVariable Long artworkId) {
-        List<RatingWithArtworkDto> ratings = ratingService.getAllRatingsForArtworkWithArtworkDetails(artworkId);
-
-        return ResponseEntity.ok(ratings);
-    }
-
-    // CRUD OPERATIONS
-
+    // Met deze methode kan de admin alle ratings inzien
     @GetMapping()
     public ResponseEntity<List<RatingWithArtworkDto>> getAllRatings() {
         List<RatingWithArtworkDto> ratings = ratingService.getAllRatings();
         return ResponseEntity.ok(ratings);
     }
+
+//    Deze heb ik volgens mij niet nodig
+//    @GetMapping("/admin")
+//    public ResponseEntity<List<RatingWithArtworkDto>> getAllRatingsForAdmin(@PathVariable Long artworkId) {
+//        List<RatingWithArtworkDto> ratings = ratingService.getAllRatingsForArtworkWithArtworkDetails(artworkId);
+//
+//        return ResponseEntity.ok(ratings);
+//    }
+
+    // CRUD OPERATIONS FOR RATING
 
     @GetMapping("/{ratingId}")
     public ResponseEntity<RatingWithArtworkDto> getRatingById(@PathVariable Long ratingId) {
