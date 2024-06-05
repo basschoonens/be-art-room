@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtistDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputUserDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
+import nl.novi.theartroom.exceptions.ArtworkNotFoundException;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
 import nl.novi.theartroom.mappers.ArtworkArtistDtoMapper;
 import nl.novi.theartroom.mappers.ArtworkUserDtoMapper;
@@ -54,13 +55,6 @@ public class ArtworkService {
         return artworkUserDtoMapper.toArtworkUserDto(artwork);
     }
 
-    // save artwork + return URI location
-    public Long saveArtwork(ArtworkInputDto dto) {
-        Artwork artwork = artworkInputDtoMapper.toArtwork(dto);
-        Artwork savedArtwork = artworkRepository.save(artwork);
-        return savedArtwork.getId();
-    }
-
     // Save artwork for Artist
     public Long saveArtworkForArtist(ArtworkInputDto dto, String username) {
         Artwork artwork = artworkInputDtoMapper.toArtwork(dto);
@@ -72,16 +66,20 @@ public class ArtworkService {
 
     public List<ArtworkOutputArtistDto> getArtworksByArtist(String username) {
         User user = userService.getUserByUsername(username);
-        List<Artwork> artworks = artworkRepository.findAllByUser(user);
-        return artworks.stream()
-                .map(artworkArtistDtoMapper::toArtworkArtistDto)
-                .collect(Collectors.toList());
+        if (user == null) {
+            throw new RecordNotFoundException("User with username " + username + " not found.");
+        } else {
+            List<Artwork> artworks = artworkRepository.findAllByUser(user);
+            return artworks.stream()
+                    .map(artworkArtistDtoMapper::toArtworkArtistDto)
+                    .collect(Collectors.toList());
+        }
     }
 
     public void updateArtwork(Long id, ArtworkInputDto dto) {
         Optional<Artwork> artworkFound = artworkRepository.findById(id);
         if (artworkFound.isEmpty()) {
-            throw new RecordNotFoundException("Artwork with id " + id + " not found.");
+            throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
         } else {
             artworkRepository.save(artworkInputDtoMapper.toArtwork(dto, artworkFound.get()));
         }

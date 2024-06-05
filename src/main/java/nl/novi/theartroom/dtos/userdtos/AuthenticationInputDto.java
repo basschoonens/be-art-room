@@ -1,8 +1,13 @@
 package nl.novi.theartroom.dtos.userdtos;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class AuthenticationInputDto {
 
+    @NotBlank(message = "Username is mandatory")
     private String username;
+
+    @NotBlank(message = "Password is mandatory")
     private String password;
 
     public AuthenticationInputDto() {

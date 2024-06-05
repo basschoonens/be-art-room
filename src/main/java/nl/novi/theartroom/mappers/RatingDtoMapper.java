@@ -1,6 +1,6 @@
 package nl.novi.theartroom.mappers;
 
-import nl.novi.theartroom.dtos.ratingdtos.RatingWithArtworkDto;
+import nl.novi.theartroom.dtos.ratingdtos.RatingOutputWithArtworkDto;
 import nl.novi.theartroom.dtos.ratingdtos.RatingUserDto;
 import nl.novi.theartroom.models.Rating;
 import org.springframework.stereotype.Service;
@@ -33,8 +33,8 @@ public class RatingDtoMapper {
         return ratings.stream().map(this::toRating).collect(Collectors.toList());
     }
 
-    public RatingWithArtworkDto toRatingWithArtworkDto(Rating rating) {
-        RatingWithArtworkDto dto = new RatingWithArtworkDto();
+    public RatingOutputWithArtworkDto toRatingWithArtworkDto(Rating rating) {
+        RatingOutputWithArtworkDto dto = new RatingOutputWithArtworkDto();
         dto.setRatingId(rating.getId());
         dto.setRating(rating.getRating());
         dto.setComment(rating.getComment());
@@ -44,7 +44,7 @@ public class RatingDtoMapper {
         return dto;
     }
 
-    public List<RatingWithArtworkDto> toRatingWithArtworkDtoList(List<Rating> ratings) {
+    public List<RatingOutputWithArtworkDto> toRatingWithArtworkDtoList(List<Rating> ratings) {
         return ratings.stream().map(this::toRatingWithArtworkDto).collect(Collectors.toList());
     }
 

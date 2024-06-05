@@ -1,7 +1,11 @@
 package nl.novi.theartroom.dtos.ratingdtos;
 
 
-public class RatingWithArtworkDto {
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+
+public class RatingOutputWithArtworkDto {
 
     private Long ratingId;
     private Integer rating;
@@ -10,12 +14,10 @@ public class RatingWithArtworkDto {
     private String artworkTitle;
     private String artworkArtist;
 
-    // TODO Add artworkId
-
-    public RatingWithArtworkDto() {
+    public RatingOutputWithArtworkDto() {
     }
 
-    public RatingWithArtworkDto(Long ratingId, Integer rating, String comment, Long artworkId, String artworkTitle, String artworkArtist) {
+    public RatingOutputWithArtworkDto(Long ratingId, Integer rating, String comment, Long artworkId, String artworkTitle, String artworkArtist) {
         this.ratingId = ratingId;
         this.rating = rating;
         this.comment = comment;

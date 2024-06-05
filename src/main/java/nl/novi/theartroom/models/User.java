@@ -31,12 +31,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Rating> ratings;
 
-    // lijst van @Onetomany naar artworks (shoppingcart)
-
-    // Shopping cart DTO met alle aankoopgegevens
-    // Tabel met alle verwerkte orders
-    // Leveradres bij order (shipping details)
-
     @OneToMany(mappedBy = "user")
     private List<Artwork> artworks;
 
