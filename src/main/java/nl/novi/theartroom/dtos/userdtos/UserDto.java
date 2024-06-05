@@ -2,12 +2,19 @@ package nl.novi.theartroom.dtos.userdtos;
 
 //TODO Authority omzetten naar Roles
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class UserDto {
 
+    @NotBlank(message = "Username is mandatory")
     public String username;
 
+    @NotBlank(message = "Password is mandatory")
     public String password;
 
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email should be valid")
     public String email;
 
     // added 17-05

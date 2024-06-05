@@ -1,36 +1,50 @@
 package nl.novi.theartroom.dtos;
 
+import jakarta.validation.constraints.*;
+
 import java.util.List;
 
 public class OrderDto {
 
-    private long id;
+    private long orderId;
 
+    @NotBlank(message = "Order number is mandatory")
     private String orderNumber;
 
+    @NotBlank(message = "Order date is mandatory")
     private String orderDate;
 
+    @NotBlank(message = "Order status is mandatory")
     private String orderStatus;
 
+    @NotBlank(message = "Payment method is mandatory")
     private String paymentMethod;
 
+    @DecimalMin(value = "0.0", inclusive = false, message = "Total price must be greater than 0")
     private double totalPrice;
 
+    @NotBlank(message = "Name is mandatory")
+    @Size(max = 100, message = "Name should not exceed 100 characters")
     private String name;
 
+    @NotBlank(message = "Address is mandatory")
     private String address;
 
+    @NotBlank(message = "Postal code is mandatory")
+    @Pattern(regexp = "\\d{4}[A-Z]{2}", message = "Postal code should be in the format 1234AB")
     private String postalCode;
 
+    @NotBlank(message = "City is mandatory")
     private String city;
 
+    @NotNull(message = "Artwork IDs are mandatory")
     private List<Long> artworkIds;
 
     public OrderDto() {
     }
 
-    public OrderDto(long id, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String name, String address, String postalCode, String city, List<Long> artworkIds) {
-        this.id = id;
+    public OrderDto(long orderId, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String name, String address, String postalCode, String city, List<Long> artworkIds) {
+        this.orderId = orderId;
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
@@ -43,12 +57,12 @@ public class OrderDto {
         this.artworkIds = artworkIds;
     }
 
-    public long getId() {
-        return id;
+    public long getOrderId() {
+        return orderId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
     }
 
     public String getOrderNumber() {

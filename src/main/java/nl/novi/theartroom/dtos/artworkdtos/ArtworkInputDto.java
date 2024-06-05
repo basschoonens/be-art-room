@@ -13,20 +13,21 @@ public class ArtworkInputDto {
 
     private Long id;
 
+    @NotBlank(message = "Title is mandatory")
     private String title;
 
+    @NotBlank(message = "Artist is mandatory")
     private String artist;
 
+    @Size(message = "Description should not exceed 500 characters", max = 500)
     private String description;
 
     private LocalDate dateCreated;
 
+    @DecimalMin(value = "0.0", inclusive = false, message = "Gallery buying price must be greater than 0")
     private Double galleryBuyingPrice;
 
     private String edition;
-
-//    Dit wordt gebruikt voor de image upload
-//    private String imageUrl;
 
     private String artworkType;
 

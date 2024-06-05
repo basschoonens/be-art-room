@@ -1,7 +1,6 @@
 package nl.novi.theartroom.services;
 
-import jakarta.transaction.Transactional;
-import nl.novi.theartroom.dtos.ratingdtos.RatingWithArtworkDto;
+import nl.novi.theartroom.dtos.ratingdtos.RatingOutputWithArtworkDto;
 import nl.novi.theartroom.dtos.ratingdtos.RatingUserDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
 import nl.novi.theartroom.mappers.RatingDtoMapper;
@@ -45,7 +44,7 @@ public class RatingService {
 
     // All ratings done by user with artworkdetails method
 
-    public List<RatingWithArtworkDto> getAllRatingsWithArtworkDetailsByUser(String username) {
+    public List<RatingOutputWithArtworkDto> getAllRatingsWithArtworkDetailsByUser(String username) {
         List<Rating> ratings = ratingRepository.findRatingsListByUserUsername(username);
         return ratingDtoMapper.toRatingWithArtworkDtoList(ratings);
     }
@@ -82,7 +81,7 @@ public class RatingService {
 
     // Get all ratings for an artist method
 
-    public List<RatingWithArtworkDto> getAllRatingsForArtist(String username) {
+    public List<RatingOutputWithArtworkDto> getAllRatingsForArtist(String username) {
         List<Artwork> artworks = artworkRepository.findByArtist(username);
         List<Rating> ratings = new ArrayList<>();
         for (Artwork artwork : artworks) {
@@ -91,7 +90,7 @@ public class RatingService {
         return ratingDtoMapper.toRatingWithArtworkDtoList(ratings);
     }
 
-//    public List<RatingWithArtworkDto> getAllRatingsForArtist(String username) {
+//    public List<RatingOutputWithArtworkDto> getAllRatingsForArtist(String username) {
 //        User user = userService.getUserByUsername(username);
 //        List<Rating> ratings = ratingRepository.findRatingsListByUserUsername(username);
 //        return ratingDtoMapper.toRatingWithArtworkDtoList(ratings);
@@ -99,7 +98,7 @@ public class RatingService {
 
     // All ratings for an artist by artwork id method
 
-    public List<RatingWithArtworkDto> getAllRatingsForArtworkWithArtworkDetails(Long artworkId) {
+    public List<RatingOutputWithArtworkDto> getAllRatingsForArtworkWithArtworkDetails(Long artworkId) {
         List<Rating> ratings = ratingRepository.findRatingsListByArtworkId(artworkId);
         return ratingDtoMapper.toRatingWithArtworkDtoList(ratings);
     }
@@ -111,12 +110,12 @@ public class RatingService {
 
     // CRUD operations for Rating
 
-    public List<RatingWithArtworkDto> getAllRatings() {
+    public List<RatingOutputWithArtworkDto> getAllRatings() {
         List<Rating> ratings = ratingRepository.findAll();
         return ratingDtoMapper.toRatingWithArtworkDtoList(ratings);
     }
 
-    public RatingWithArtworkDto getRatingById(Long ratingId) {
+    public RatingOutputWithArtworkDto getRatingById(Long ratingId) {
         Rating rating = ratingRepository.findById(ratingId)
                 .orElseThrow(() -> new RecordNotFoundException("Rating with id " + ratingId + " not found."));
         return ratingDtoMapper.toRatingWithArtworkDto(rating);

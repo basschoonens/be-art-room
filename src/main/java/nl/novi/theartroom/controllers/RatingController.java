@@ -1,7 +1,6 @@
 package nl.novi.theartroom.controllers;
 
-import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtistDto;
-import nl.novi.theartroom.dtos.ratingdtos.RatingWithArtworkDto;
+import nl.novi.theartroom.dtos.ratingdtos.RatingOutputWithArtworkDto;
 import nl.novi.theartroom.dtos.ratingdtos.RatingUserDto;
 import nl.novi.theartroom.models.Rating;
 import nl.novi.theartroom.services.RatingService;
@@ -44,9 +43,9 @@ public class RatingController {
     // All ratings done by user with artworkdetails method
 
     @GetMapping("/user/artwork")
-    public ResponseEntity<List<RatingWithArtworkDto>> getAllRatingsWithArtworkByUser() {
+    public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsWithArtworkByUser() {
         String username = userService.getCurrentLoggedInUsername();
-        List<RatingWithArtworkDto> ratings = ratingService.getAllRatingsWithArtworkDetailsByUser(username);
+        List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatingsWithArtworkDetailsByUser(username);
         return ResponseEntity.ok(ratings);
     }
 
@@ -77,18 +76,18 @@ public class RatingController {
     // All ratings for an artist by artwork id method
 
     @GetMapping("/artist")
-    public ResponseEntity<List<RatingWithArtworkDto>> getAllRatingsForArtist() {
+    public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsForArtist() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 
-        List<RatingWithArtworkDto> ratings = ratingService.getAllRatingsForArtist(username);
+        List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatingsForArtist(username);
 
         return ResponseEntity.ok(ratings);
     }
 
     @GetMapping("/{artworkId}/ratings/artist")
-    public ResponseEntity<List<RatingWithArtworkDto>> getAllRatingsForArtworkWithArtworkDetails(@PathVariable Long artworkId) {
-        List<RatingWithArtworkDto> ratings = ratingService.getAllRatingsForArtworkWithArtworkDetails(artworkId);
+    public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsForArtworkWithArtworkDetails(@PathVariable Long artworkId) {
+        List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatingsForArtworkWithArtworkDetails(artworkId);
 
         return ResponseEntity.ok(ratings);
     }
@@ -104,15 +103,15 @@ public class RatingController {
 
     // Met deze methode kan de admin alle ratings inzien
     @GetMapping()
-    public ResponseEntity<List<RatingWithArtworkDto>> getAllRatings() {
-        List<RatingWithArtworkDto> ratings = ratingService.getAllRatings();
+    public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatings() {
+        List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatings();
         return ResponseEntity.ok(ratings);
     }
 
 //    Deze heb ik volgens mij niet nodig
 //    @GetMapping("/admin")
-//    public ResponseEntity<List<RatingWithArtworkDto>> getAllRatingsForAdmin(@PathVariable Long artworkId) {
-//        List<RatingWithArtworkDto> ratings = ratingService.getAllRatingsForArtworkWithArtworkDetails(artworkId);
+//    public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsForAdmin(@PathVariable Long artworkId) {
+//        List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatingsForArtworkWithArtworkDetails(artworkId);
 //
 //        return ResponseEntity.ok(ratings);
 //    }
@@ -120,8 +119,8 @@ public class RatingController {
     // CRUD OPERATIONS FOR RATING
 
     @GetMapping("/{ratingId}")
-    public ResponseEntity<RatingWithArtworkDto> getRatingById(@PathVariable Long ratingId) {
-        RatingWithArtworkDto rating = ratingService.getRatingById(ratingId);
+    public ResponseEntity<RatingOutputWithArtworkDto> getRatingById(@PathVariable Long ratingId) {
+        RatingOutputWithArtworkDto rating = ratingService.getRatingById(ratingId);
         return ResponseEntity.ok(rating);
     }
 

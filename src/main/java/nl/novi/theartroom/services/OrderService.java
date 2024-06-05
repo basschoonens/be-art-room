@@ -19,38 +19,36 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderDtoMapper orderMapper;
+    private final OrderDtoMapper orderDtoMapper;
     private final ArtworkRepository artworkRepository;
     private final UserRepository userRepository;
-    private final OrderDtoMapper orderDtoMapper;
 
-    public OrderService(OrderRepository orderRepository, OrderDtoMapper orderMapper, ArtworkRepository artworkRepository, UserRepository userRepository, OrderDtoMapper orderDtoMapper) {
+    public OrderService(OrderRepository orderRepository, OrderDtoMapper orderDtoMapper, ArtworkRepository artworkRepository, UserRepository userRepository) {
         this.orderRepository = orderRepository;
-        this.orderMapper = orderMapper;
+        this.orderDtoMapper = orderDtoMapper;
         this.artworkRepository = artworkRepository;
         this.userRepository = userRepository;
-        this.orderDtoMapper = orderDtoMapper;
     }
 
     public List<OrderDto> getAllOrders() {
         return orderRepository.findAll().stream()
-                .map(orderMapper::toOrderDto)
+                .map(orderDtoMapper::toOrderDto)
                 .collect(Collectors.toList());
     }
 
     public OrderDto getOrderById(Long id) {
         Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
-        return orderMapper.toOrderDto(order);
+        return orderDtoMapper.toOrderDto(order);
     }
 
 
     public OrderDto createOrderForUser(String username, OrderDto orderDto) {
         User user = userRepository.findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        Order order = orderMapper.toOrder(orderDto);
+        Order order = orderDtoMapper.toOrder(orderDto);
         order.setUser(user);
         order = saveOrderWithArtworks(order, orderDto.getArtworkIds());
-        return orderMapper.toOrderDto(order);
+        return orderDtoMapper.toOrderDto(order);
     }
 
     public OrderDto updateOrder(Long id, OrderDto orderDto) {
@@ -67,7 +65,7 @@ public class OrderService {
         order = saveOrderWithArtworks(order, orderDto.getArtworkIds());
 
         order = orderRepository.save(order);
-        return orderMapper.toOrderDto(order);
+        return orderDtoMapper.toOrderDto(order);
     }
 
     public void deleteOrder(Long id) {
@@ -78,7 +76,7 @@ public class OrderService {
         User user = userRepository.findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         return orderRepository.findAllByUser(user).stream()
-                .map(orderMapper::toOrderDto)
+                .map(orderDtoMapper::toOrderDto)
                 .collect(Collectors.toList());
     }
 

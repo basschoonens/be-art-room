@@ -19,7 +19,7 @@ public class OrderDtoMapper {
 
     public OrderDto toOrderDto(Order order) {
         OrderDto dto = new OrderDto();
-        dto.setId(order.getId());
+        dto.setOrderId(order.getOrderId());
         dto.setOrderNumber(order.getOrderNumber());
         dto.setOrderDate(order.getOrderDate());
         dto.setOrderStatus(order.getOrderStatus());
@@ -37,7 +37,7 @@ public class OrderDtoMapper {
 
     public Order toOrder(OrderDto dto) {
         Order order = new Order();
-        order.setId(dto.getId());
+        order.setOrderId(dto.getOrderId());
         order.setOrderNumber(dto.getOrderNumber());
         order.setOrderDate(dto.getOrderDate());
         order.setOrderStatus(dto.getOrderStatus());

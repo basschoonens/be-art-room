@@ -20,6 +20,12 @@ public class OrderController {
         this.userService = userService;
     }
 
+    @GetMapping("/user")
+    public List<OrderDto> getOrdersForUser() {
+        String username = userService.getCurrentLoggedInUsername();
+        return orderService.getOrdersForUser(username);
+    }
+
     @GetMapping
     public List<OrderDto> getAllOrders() {
         return orderService.getAllOrders();
@@ -47,11 +53,5 @@ public class OrderController {
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/user")
-    public List<OrderDto> getOrdersForUser() {
-        String username = userService.getCurrentLoggedInUsername();
-        return orderService.getOrdersForUser(username);
     }
 }

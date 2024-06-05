@@ -2,9 +2,7 @@ package nl.novi.theartroom.models;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,10 +11,11 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long orderId;
 
     private String orderNumber;
 
+    //TODO Aanpassen naar LocalDate
     private String orderDate;
 
     private String orderStatus;
@@ -48,8 +47,8 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String name, String address, String postalCode, String city, Set<Artwork> artworks, User user) {
-        this.id = id;
+    public Order(Long orderId, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String name, String address, String postalCode, String city, Set<Artwork> artworks, User user) {
+        this.orderId = orderId;
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
@@ -63,12 +62,12 @@ public class Order {
         this.user = user;
     }
 
-    public Long getId() {
-        return id;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setOrderId(Long id) {
+        this.orderId = id;
     }
 
     public String getOrderNumber() {
