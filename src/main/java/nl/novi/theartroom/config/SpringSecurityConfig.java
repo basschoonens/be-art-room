@@ -1,7 +1,7 @@
 package nl.novi.theartroom.config;
 
 import nl.novi.theartroom.filter.JwtRequestFilter;
-import nl.novi.theartroom.services.CustomUserDetailsService;
+import nl.novi.theartroom.service.userservice.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

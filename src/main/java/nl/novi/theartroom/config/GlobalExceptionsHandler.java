@@ -1,6 +1,6 @@
 package nl.novi.theartroom.config;
 
-import nl.novi.theartroom.exceptions.*;
+import nl.novi.theartroom.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -60,6 +60,5 @@ public class GlobalExceptionsHandler {
         });
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
-
 
 }
