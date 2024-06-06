@@ -37,7 +37,7 @@ class ArtworkServiceUnitTest {
     }
 
     @Test
-    void saveArtworkForArtist() {
+    void createArtworkForArtist() {
 
         // Arrange
 

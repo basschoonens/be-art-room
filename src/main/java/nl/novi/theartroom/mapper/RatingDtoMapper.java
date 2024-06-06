@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Service
 public class RatingDtoMapper {
 
-    public Rating toRatingUserDto(RatingUserDto ratingUserDto) {
+    public Rating toRating(RatingUserDto ratingUserDto) {
         Rating rating = new Rating();
         rating.setRatingId(ratingUserDto.getRatingId());
         rating.setRating(ratingUserDto.getRating());
@@ -20,7 +20,7 @@ public class RatingDtoMapper {
         return rating;
     }
 
-    public RatingUserDto toRating(Rating rating) {
+    public RatingUserDto toRatingDto(Rating rating) {
         RatingUserDto ratingUserDto = new RatingUserDto();
         ratingUserDto.setRatingId(rating.getRatingId());
         ratingUserDto.setRating(rating.getRating());
@@ -29,11 +29,11 @@ public class RatingDtoMapper {
         return ratingUserDto;
     }
 
-    public List<RatingUserDto> toRatingUserDtoList(List<Rating> ratings) {
-        return ratings.stream().map(this::toRating).collect(Collectors.toList());
+    public List<RatingUserDto> toRatingDtoList(List<Rating> ratings) {
+        return ratings.stream().map(this::toRatingDto).collect(Collectors.toList());
     }
 
-    public RatingOutputWithArtworkDto toRatingWithArtworkDto(Rating rating) {
+    public RatingOutputWithArtworkDto toRatingDtoWithArtworkDto(Rating rating) {
         RatingOutputWithArtworkDto dto = new RatingOutputWithArtworkDto();
         dto.setRatingId(rating.getRatingId());
         dto.setRating(rating.getRating());
@@ -44,8 +44,8 @@ public class RatingDtoMapper {
         return dto;
     }
 
-    public List<RatingOutputWithArtworkDto> toRatingWithArtworkDtoList(List<Rating> ratings) {
-        return ratings.stream().map(this::toRatingWithArtworkDto).collect(Collectors.toList());
+    public List<RatingOutputWithArtworkDto> toRatingDtoWithArtworkDtoList(List<Rating> ratings) {
+        return ratings.stream().map(this::toRatingDtoWithArtworkDto).collect(Collectors.toList());
     }
 
 }

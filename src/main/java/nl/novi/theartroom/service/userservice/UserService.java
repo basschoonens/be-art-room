@@ -46,18 +46,9 @@ public class UserService {
         }
     }
 
-    public User getUserByUsername(String username) {
-        return userRepository.findById(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
-    }
-
     public String createUser(UserDto userDto) {
         User newUser = userRepository.save(userDtoMapper.toUser(userDto));
         return newUser.getUsername();
-    }
-
-    public void deleteUser(String username) {
-        userRepository.deleteById(username);
     }
 
     public void updateUser(String username, UserDto newUser) {
@@ -65,6 +56,10 @@ public class UserService {
         User user = userRepository.findById(username).get();
         user.setPassword(newUser.getPassword());
         userRepository.save(user);
+    }
+
+    public void deleteUser(String username) {
+        userRepository.deleteById(username);
     }
 
     public Set<Authority> getAuthorities(String username) {
@@ -89,6 +84,11 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User getUserByUsername(String username) {
+        return userRepository.findById(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
+    }
+
     public String getCurrentLoggedInUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
@@ -96,5 +96,4 @@ public class UserService {
         }
         return null;
     }
-
 }

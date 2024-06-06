@@ -56,29 +56,17 @@ public class ArtworkService {
         return artworkUserDtoMapper.toArtworkUserDto(artwork);
     }
 
-//    // Save artwork for Artist
-//    public Long saveArtworkForArtist(ArtworkInputDto dto, String username) {
-//        Artwork artwork = artworkInputDtoMapper.toArtwork(dto);
-//        User user = userService.getUserByUsername(username);
-//        artwork.setUser(user);
-//        Artwork savedArtwork = artworkRepository.save(artwork);
-//        return savedArtwork.getId();
-//    }
-//
     public List<ArtworkOutputArtistDto> getArtworksByArtist(String username) {
         User user = userService.getUserByUsername(username);
-        if (user == null) {
-            throw new UserNotFoundException("User with username " + username + " not found.");
-        } else {
-            List<Artwork> artworks = artworkRepository.findAllByUser(user);
-            return artworks.stream()
-                    .map(artworkArtistDtoMapper::toArtworkArtistDto)
-                    .collect(Collectors.toList());
-        }
+        List<Artwork> artworks = artworkRepository.findAllByUser(user);
+
+        return artworks.stream()
+                .map(artworkArtistDtoMapper::toArtworkArtistDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public Long saveArtworkForArtist(ArtworkInputDto dto, String username) {
+    public Long createArtworkForArtist(ArtworkInputDto dto, String username) {
         try {
             Artwork artwork = artworkInputDtoMapper.toArtwork(dto);
             User user = userService.getUserByUsername(username);
@@ -92,6 +80,7 @@ public class ArtworkService {
         }
     }
 
+    @Transactional
     public void updateArtworkForArtist(Long id, ArtworkInputDto dto) {
         Optional<Artwork> artworkFound = artworkRepository.findById(id);
         if (artworkFound.isEmpty()) {
@@ -113,13 +102,13 @@ public class ArtworkService {
     // Image methods
 
     @Transactional
-    public Resource getImageFromArtwork(Long artworkId){
+    public Resource getImageFromArtwork(Long artworkId) {
         Optional<Artwork> optionalArtwork = artworkRepository.findById(artworkId);
-        if(optionalArtwork.isEmpty()){
+        if (optionalArtwork.isEmpty()) {
             throw new RecordNotFoundException("Artwork with artwork number " + artworkId + " not found.");
         }
         ArtworkImage photo = optionalArtwork.get().getArtworkImage();
-        if(photo == null){
+        if (photo == null) {
             throw new RecordNotFoundException("Artwork " + artworkId + " had no photo.");
         }
         return photoService.downLoadFile(photo.getFileName());

@@ -45,19 +45,19 @@ public class RatingController {
     @GetMapping("/user/artwork")
     public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsWithArtworkByUser() {
         String username = userService.getCurrentLoggedInUsername();
-        List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatingsWithArtworkDetailsByUser(username);
+        List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatingsByUserWithArtworkDetails(username);
         return ResponseEntity.ok(ratings);
     }
 
     @PostMapping("/{artworkId}/ratings")
     public ResponseEntity<Void> addOrUpdateRatingToArtworkByUser(@PathVariable Long artworkId, @RequestBody RatingUserDto ratingUserDto) {
         String username = userService.getCurrentLoggedInUsername();
-        Rating rating = ratingService.addOrUpdateRatingToArtwork(username, artworkId, ratingUserDto);
+        RatingOutputWithArtworkDto ratingDto = ratingService.addOrUpdateRatingToArtwork(username, artworkId, ratingUserDto);
 
         // Construct the URI for the created/updated resource
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{ratingId}")
-                .buildAndExpand(rating.getRatingId())
+                .buildAndExpand(ratingDto.getRatingId())
                 .toUri();
 
         return ResponseEntity.created(location).build();

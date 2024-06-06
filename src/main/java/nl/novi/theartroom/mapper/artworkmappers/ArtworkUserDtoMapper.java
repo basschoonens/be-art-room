@@ -42,7 +42,7 @@ public class ArtworkUserDtoMapper {
 
         if (artwork.getRatings() != null) {
             RatingDtoMapper ratingDtoMapper = new RatingDtoMapper();
-            List<RatingUserDto> ratingUserDtos = ratingDtoMapper.toRatingUserDtoList(artwork.getRatings());
+            List<RatingUserDto> ratingUserDtos = ratingDtoMapper.toRatingDtoList(artwork.getRatings());
             artworkOutputUserDto.setRatings(ratingUserDtos);
         }
 

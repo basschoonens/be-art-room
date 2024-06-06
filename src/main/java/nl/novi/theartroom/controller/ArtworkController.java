@@ -56,7 +56,7 @@ import java.util.Objects;
             }
             String username = auth.getName();
 
-            Long newArtworkId = artworkService.saveArtworkForArtist(artwork, username);
+            Long newArtworkId = artworkService.createArtworkForArtist(artwork, username);
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
