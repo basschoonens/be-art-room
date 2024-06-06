@@ -13,7 +13,7 @@ public class Rating {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Long ratingId;
 
     //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "artlover_id", nullable = false)
@@ -42,12 +42,12 @@ public class Rating {
 
     private String comment;
 
-    public Long getId() {
-        return id;
+    public Long getRatingId() {
+        return ratingId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRatingId(Long id) {
+        this.ratingId = id;
     }
 
     public int getRating() {

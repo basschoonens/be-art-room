@@ -18,9 +18,23 @@ class RatingCalculationHelperUnitTest {
 
     @Test
     void calculateAverageRatingForArtwork() {
+
+        // Arrange
+
+        // Act
+
+        // Assert
+
     }
 
     @Test
     void countRatingsForArtwork() {
+
+        // Arrange
+
+        // Act
+
+        // Assert
+
     }
 }

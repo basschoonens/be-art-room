@@ -104,7 +104,7 @@ public class RatingService {
     }
 
     public void deleteRatingByArtworkIdAndRatingId(Long artworkId, Long ratingId) {
-        Optional<Rating> existingRatingOptional = ratingRepository.findByIdAndArtworkId(ratingId, artworkId);
+        Optional<Rating> existingRatingOptional = ratingRepository.findByRatingIdAndArtworkId(ratingId, artworkId);
         existingRatingOptional.ifPresent(ratingRepository::delete);
     }
 

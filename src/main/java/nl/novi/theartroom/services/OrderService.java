@@ -1,7 +1,7 @@
 package nl.novi.theartroom.services;
 
 import nl.novi.theartroom.dtos.OrderDto;
-import nl.novi.theartroom.exceptions.UsernameNotFoundException;
+import nl.novi.theartroom.exceptions.UserNotFoundException;
 import nl.novi.theartroom.mappers.OrderDtoMapper;
 import nl.novi.theartroom.models.Artwork;
 import nl.novi.theartroom.models.Order;
@@ -44,7 +44,7 @@ public class OrderService {
 
     public OrderDto createOrderForUser(String username, OrderDto orderDto) {
         User user = userRepository.findById(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
         Order order = orderDtoMapper.toOrder(orderDto);
         order.setUser(user);
         order = saveOrderWithArtworks(order, orderDto.getArtworkIds());
@@ -74,7 +74,7 @@ public class OrderService {
 
     public List<OrderDto> getOrdersForUser(String username) {
         User user = userRepository.findById(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
         return orderRepository.findAllByUser(user).stream()
                 .map(orderDtoMapper::toOrderDto)
                 .collect(Collectors.toList());

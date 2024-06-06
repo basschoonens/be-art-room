@@ -150,17 +150,16 @@ INSERT INTO paintings (id, painting_surface, painting_material, painting_dimensi
                                                                                                                                           (1045,'Wood','Oil paint',30,23),
                                                                                                                                           (1046,'Paper','Watercolour paint',45,30);
 
-INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1001, 5, 1001, 'Wow, This looks great');
-INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1002, 4, 1001, 'Very impresive art');
-INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1003, 5, 1002, 'Wow, This looks great');
-INSERT INTO ratings (id, rating, artwork_id, comment) VALUES (1004, 4, 1002, 'Very impresive art');
+INSERT INTO ratings (rating_id, rating, artwork_id, comment) VALUES (1001, 5, 1001, 'Wow, This looks great');
+INSERT INTO ratings (rating_id, rating, artwork_id, comment) VALUES (1002, 4, 1001, 'Very impresive art');
+INSERT INTO ratings (rating_id, rating, artwork_id, comment) VALUES (1003, 5, 1002, 'Wow, This looks great');
+INSERT INTO ratings (rating_id, rating, artwork_id, comment) VALUES (1004, 4, 1002, 'Very impresive art');
 
 INSERT INTO users (username, password, email) VALUES ('user', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK','user@test.nl');
 INSERT INTO users (username, password, email) VALUES ('admin', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'admin@test.nl');
 INSERT INTO users (username, password, email) VALUES ('Jane Doe', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'janedoe@test.nl');
 
 INSERT INTO authorities (username, authority) VALUES ('user', 'ROLE_USER');
-INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_USER');
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN');
 INSERT INTO authorities (username, authority) VALUES ('Jane Doe', 'ROLE_ARTIST');
 
@@ -176,3 +175,102 @@ INSERT INTO paintings (id, painting_surface, painting_material, painting_dimensi
                                                                                                                                            (1052,'Canvas','Watercolour paint',29,36),
                                                                                                                                            (1053,'Canvas','Oil based paint',43,38),
                                                                                                                                            (1054,'Linnen','Watercolour paint',51,39);
+
+INSERT INTO ratings (rating_id, rating, artwork_id, comment) VALUES
+                                                                 (1005, FLOOR(RANDOM() * 5) + 1, 1002, 'This is amazing!'),
+                                                                 (1006, FLOOR(RANDOM() * 5) + 1, 1003, 'Beautiful piece!'),
+                                                                 (1007, FLOOR(RANDOM() * 5) + 1, 1003, 'Absolutely stunning.'),
+                                                                 (1008, FLOOR(RANDOM() * 5) + 1, 1004, 'Such creativity!'),
+                                                                 (1009, FLOOR(RANDOM() * 5) + 1, 1004, 'Incredible work.'),
+                                                                 (1010, FLOOR(RANDOM() * 5) + 1, 1005, 'Impressive work!'),
+                                                                 (1011, FLOOR(RANDOM() * 5) + 1, 1005, 'Love the detail.'),
+                                                                 (1012, FLOOR(RANDOM() * 5) + 1, 1006, 'Captivating artwork.'),
+                                                                 (1013, FLOOR(RANDOM() * 5) + 1, 1006, 'Mesmerizing!'),
+                                                                 (1014, FLOOR(RANDOM() * 5) + 1, 1007, 'Stunning!'),
+                                                                 (1015, FLOOR(RANDOM() * 5) + 1, 1007, 'So much depth.'),
+                                                                 (1016, FLOOR(RANDOM() * 5) + 1, 1008, 'Mesmerizing art.'),
+                                                                 (1017, FLOOR(RANDOM() * 5) + 1, 1008, 'Incredible talent.'),
+                                                                 (1018, FLOOR(RANDOM() * 5) + 1, 1009, 'Absolutely amazing!'),
+                                                                 (1019, FLOOR(RANDOM() * 5) + 1, 1009, 'Unique and beautiful.'),
+                                                                 (1020, FLOOR(RANDOM() * 5) + 1, 1010, 'Wonderful composition.'),
+                                                                 (1021, FLOOR(RANDOM() * 5) + 1, 1010, 'Love the colors!'),
+                                                                 (1022, FLOOR(RANDOM() * 5) + 1, 1011, 'Great attention to detail.'),
+                                                                 (1023, FLOOR(RANDOM() * 5) + 1, 1011, 'Inspiring work!'),
+                                                                 (1024, FLOOR(RANDOM() * 5) + 1, 1012, 'Artistry at its best.'),
+                                                                 (1025, FLOOR(RANDOM() * 5) + 1, 1012, 'Fantastic piece!'),
+                                                                 (1026, FLOOR(RANDOM() * 5) + 1, 1013, 'Truly exceptional.'),
+                                                                 (1027, FLOOR(RANDOM() * 5) + 1, 1013, 'Elegant and expressive.'),
+                                                                 (1028, FLOOR(RANDOM() * 5) + 1, 1014, 'Remarkable talent.'),
+                                                                 (1029, FLOOR(RANDOM() * 5) + 1, 1014, 'Masterful work!'),
+                                                                 (1030, FLOOR(RANDOM() * 5) + 1, 1015, 'Absolutely stunning.'),
+                                                                 (1031, FLOOR(RANDOM() * 5) + 1, 1015, 'Brilliantly executed.'),
+                                                                 (1032, FLOOR(RANDOM() * 5) + 1, 1016, 'Intriguing piece.'),
+                                                                 (1033, FLOOR(RANDOM() * 5) + 1, 1016, 'Lovely artwork.'),
+                                                                 (1034, FLOOR(RANDOM() * 5) + 1, 1017, 'Creative genius!'),
+                                                                 (1035, FLOOR(RANDOM() * 5) + 1, 1017, 'Absolutely breathtaking.'),
+                                                                 (1036, FLOOR(RANDOM() * 5) + 1, 1018, 'Unique perspective.'),
+                                                                 (1037, FLOOR(RANDOM() * 5) + 1, 1018, 'Artistic brilliance.'),
+                                                                 (1038, FLOOR(RANDOM() * 5) + 1, 1019, 'Incredible talent.'),
+                                                                 (1039, FLOOR(RANDOM() * 5) + 1, 1019, 'Beautifully done.'),
+                                                                 (1040, FLOOR(RANDOM() * 5) + 1, 1020, 'Thought-provoking art.'),
+                                                                 (1041, FLOOR(RANDOM() * 5) + 1, 1020, 'Captivating piece.'),
+                                                                 (1042, FLOOR(RANDOM() * 5) + 1, 1021, 'Artistic mastery.'),
+                                                                 (1043, FLOOR(RANDOM() * 5) + 1, 1021, 'Absolutely stunning.'),
+                                                                 (1044, FLOOR(RANDOM() * 5) + 1, 1022, 'Unique and captivating.'),
+                                                                 (1045, FLOOR(RANDOM() * 5) + 1, 1022, 'Beautifully crafted.'),
+                                                                 (1046, FLOOR(RANDOM() * 5) + 1, 1023, 'Love the creativity!'),
+                                                                 (1047, FLOOR(RANDOM() * 5) + 1, 1023, 'Mesmerizing piece.'),
+                                                                 (1048, FLOOR(RANDOM() * 5) + 1, 1024, 'Impressive talent.'),
+                                                                 (1049, FLOOR(RANDOM() * 5) + 1, 1024, 'Such depth!'),
+                                                                 (1050, FLOOR(RANDOM() * 5) + 1, 1025, 'Absolutely brilliant.'),
+                                                                 (1051, FLOOR(RANDOM() * 5) + 1, 1025, 'Exquisite artwork.'),
+                                                                 (1052, FLOOR(RANDOM() * 5) + 1, 1026, 'Stunning creativity.'),
+                                                                 (1053, FLOOR(RANDOM() * 5) + 1, 1026, 'Intriguing work.'),
+                                                                 (1054, FLOOR(RANDOM() * 5) + 1, 1027, 'Absolutely breathtaking.'),
+                                                                 (1055, FLOOR(RANDOM() * 5) + 1, 1027, 'Creative genius.'),
+                                                                 (1056, FLOOR(RANDOM() * 5) + 1, 1028, 'Unique perspective.'),
+                                                                 (1057, FLOOR(RANDOM() * 5) + 1, 1028, 'Artistic brilliance.'),
+                                                                 (1058, FLOOR(RANDOM() * 5) + 1, 1029, 'Incredible talent.'),
+                                                                 (1059, FLOOR(RANDOM() * 5) + 1, 1029, 'Beautifully done.'),
+                                                                 (1060, FLOOR(RANDOM() * 5) + 1, 1030, 'Thought-provoking art.'),
+                                                                 (1061, FLOOR(RANDOM() * 5) + 1, 1030, 'Captivating piece.'),
+                                                                 (1062, FLOOR(RANDOM() * 5) + 1, 1031, 'Artistic mastery.'),
+                                                                 (1063, FLOOR(RANDOM() * 5) + 1, 1031, 'Absolutely stunning.'),
+                                                                 (1064, FLOOR(RANDOM() * 5) + 1, 1032, 'Unique and captivating.'),
+                                                                 (1065, FLOOR(RANDOM() * 5) + 1, 1032, 'Beautifully crafted.'),
+                                                                 (1066, FLOOR(RANDOM() * 5) + 1, 1033, 'Love the creativity!'),
+                                                                 (1067, FLOOR(RANDOM() * 5) + 1, 1033, 'Mesmerizing piece.'),
+                                                                 (1068, FLOOR(RANDOM() * 5) + 1, 1034, 'Impressive talent.'),
+                                                                 (1069, FLOOR(RANDOM() * 5) + 1, 1034, 'Such depth!'),
+                                                                 (1070, FLOOR(RANDOM() * 5) + 1, 1035, 'Absolutely brilliant.'),
+                                                                 (1071, FLOOR(RANDOM() * 5) + 1, 1035, 'Exquisite artwork.'),
+                                                                 (1072, FLOOR(RANDOM() * 5) + 1, 1036, 'Stunning creativity.'),
+                                                                 (1073, FLOOR(RANDOM() * 5) + 1, 1036, 'Intriguing work.'),
+                                                                 (1074, FLOOR(RANDOM() * 5) + 1, 1037, 'Absolutely breathtaking.'),
+                                                                 (1075, FLOOR(RANDOM() * 5) + 1, 1037, 'Creative genius.'),
+                                                                 (1076, FLOOR(RANDOM() * 5) + 1, 1038, 'Unique perspective.'),
+                                                                 (1077, FLOOR(RANDOM() * 5) + 1, 1038, 'Artistic brilliance.'),
+                                                                 (1078, FLOOR(RANDOM() * 5) + 1, 1039, 'Incredible talent.'),
+                                                                 (1079, FLOOR(RANDOM() * 5) + 1, 1039, 'Beautifully done.'),
+                                                                 (1080, FLOOR(RANDOM() * 5) + 1, 1040, 'Thought-provoking art.'),
+                                                                 (1081, FLOOR(RANDOM() * 5) + 1, 1040, 'Captivating piece.'),
+                                                                 (1082, FLOOR(RANDOM() * 5) + 1, 1041, 'Artistic mastery.'),
+                                                                 (1083, FLOOR(RANDOM() * 5) + 1, 1041, 'Absolutely stunning.'),
+                                                                 (1084, FLOOR(RANDOM() * 5) + 1, 1042, 'Unique and captivating.'),
+                                                                 (1085, FLOOR(RANDOM() * 5) + 1, 1042, 'Beautifully crafted.'),
+                                                                 (1086, FLOOR(RANDOM() * 5) + 1, 1043, 'Love the creativity!'),
+                                                                 (1087, FLOOR(RANDOM() * 5) + 1, 1043, 'Mesmerizing piece.'),
+                                                                 (1088, FLOOR(RANDOM() * 5) + 1, 1044, 'Impressive talent.'),
+                                                                 (1089, FLOOR(RANDOM() * 5) + 1, 1044, 'Such depth!'),
+                                                                 (1090, FLOOR(RANDOM() * 5) + 1, 1045, 'Absolutely brilliant.'),
+                                                                 (1091, FLOOR(RANDOM() * 5) + 1, 1045, 'Exquisite artwork.'),
+                                                                 (1092, FLOOR(RANDOM() * 5) + 1, 1046, 'Stunning creativity.'),
+                                                                 (1093, FLOOR(RANDOM() * 5) + 1, 1046, 'Intriguing work.'),
+                                                                 (1094, FLOOR(RANDOM() * 5) + 1, 1047, 'Absolutely breathtaking.'),
+                                                                 (1095, FLOOR(RANDOM() * 5) + 1, 1047, 'Creative genius.'),
+                                                                 (1102, FLOOR(RANDOM() * 5) + 1, 1051, 'Artistic mastery.'),
+                                                                 (1103, FLOOR(RANDOM() * 5) + 1, 1051, 'Absolutely stunning.'),
+                                                                 (1104, FLOOR(RANDOM() * 5) + 1, 1052, 'Unique and captivating.'),
+                                                                 (1105, FLOOR(RANDOM() * 5) + 1, 1052, 'Beautifully crafted.'),
+                                                                 (1106, FLOOR(RANDOM() * 5) + 1, 1053, 'Love the creativity!'),
+                                                                 (1107, FLOOR(RANDOM() * 5) + 1, 1053, 'Mesmerizing piece.');

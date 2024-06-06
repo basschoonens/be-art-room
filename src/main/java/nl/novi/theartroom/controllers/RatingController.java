@@ -57,7 +57,7 @@ public class RatingController {
         // Construct the URI for the created/updated resource
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{ratingId}")
-                .buildAndExpand(rating.getId())
+                .buildAndExpand(rating.getRatingId())
                 .toUri();
 
         return ResponseEntity.created(location).build();
@@ -130,7 +130,7 @@ public class RatingController {
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{ratingId}")
-                .buildAndExpand(newRating.getId())
+                .buildAndExpand(newRating.getRatingId())
                 .toUri();
 
         return ResponseEntity.created(location).build();

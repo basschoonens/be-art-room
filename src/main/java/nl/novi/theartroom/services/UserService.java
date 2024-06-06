@@ -2,6 +2,7 @@ package nl.novi.theartroom.services;
 
 import nl.novi.theartroom.dtos.userdtos.UserDto;
 import nl.novi.theartroom.exceptions.RecordNotFoundException;
+import nl.novi.theartroom.exceptions.UserNotFoundException;
 import nl.novi.theartroom.mappers.UserDtoMapper;
 import nl.novi.theartroom.models.Authority;
 import nl.novi.theartroom.models.User;
@@ -47,7 +48,7 @@ public class UserService {
 
     public User getUserByUsername(String username) {
         return userRepository.findById(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
     }
 
     public String createUser(UserDto userDto) {

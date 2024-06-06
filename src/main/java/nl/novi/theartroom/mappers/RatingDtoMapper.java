@@ -13,7 +13,7 @@ public class RatingDtoMapper {
 
     public Rating toRatingUserDto(RatingUserDto ratingUserDto) {
         Rating rating = new Rating();
-        rating.setId(ratingUserDto.getRatingId());
+        rating.setRatingId(ratingUserDto.getRatingId());
         rating.setRating(ratingUserDto.getRating());
         rating.setComment(ratingUserDto.getComment());
 
@@ -22,7 +22,7 @@ public class RatingDtoMapper {
 
     public RatingUserDto toRating(Rating rating) {
         RatingUserDto ratingUserDto = new RatingUserDto();
-        ratingUserDto.setRatingId(rating.getId());
+        ratingUserDto.setRatingId(rating.getRatingId());
         ratingUserDto.setRating(rating.getRating());
         ratingUserDto.setComment(rating.getComment());
 
@@ -35,7 +35,7 @@ public class RatingDtoMapper {
 
     public RatingOutputWithArtworkDto toRatingWithArtworkDto(Rating rating) {
         RatingOutputWithArtworkDto dto = new RatingOutputWithArtworkDto();
-        dto.setRatingId(rating.getId());
+        dto.setRatingId(rating.getRatingId());
         dto.setRating(rating.getRating());
         dto.setComment(rating.getComment());
         dto.setArtworkId(rating.getArtwork().getId());

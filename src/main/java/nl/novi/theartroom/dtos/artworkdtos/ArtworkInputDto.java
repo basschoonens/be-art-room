@@ -29,6 +29,7 @@ public class ArtworkInputDto {
 
     private String edition;
 
+    @NotBlank(message = "Artwork type is mandatory")
     private String artworkType;
 
     // Painting fields

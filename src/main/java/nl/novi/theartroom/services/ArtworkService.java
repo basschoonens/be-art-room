@@ -4,8 +4,7 @@ import jakarta.transaction.Transactional;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputArtistDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkOutputUserDto;
 import nl.novi.theartroom.dtos.artworkdtos.ArtworkInputDto;
-import nl.novi.theartroom.exceptions.ArtworkNotFoundException;
-import nl.novi.theartroom.exceptions.RecordNotFoundException;
+import nl.novi.theartroom.exceptions.*;
 import nl.novi.theartroom.mappers.ArtworkArtistDtoMapper;
 import nl.novi.theartroom.mappers.ArtworkUserDtoMapper;
 import nl.novi.theartroom.mappers.ArtworkInputDtoMapper;
@@ -15,6 +14,7 @@ import nl.novi.theartroom.models.User;
 import nl.novi.theartroom.repositories.ArtworkRepository;
 import nl.novi.theartroom.repositories.FileUploadRepository;
 import org.springframework.core.io.Resource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,23 +51,23 @@ public class ArtworkService {
 
     public ArtworkOutputUserDto getArtworkById(Long id) {
         Artwork artwork = artworkRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Artwork with id " + id + " not found."));
+                .orElseThrow(() -> new ArtworkNotFoundException("Artwork with id " + id + " not found."));
         return artworkUserDtoMapper.toArtworkUserDto(artwork);
     }
 
-    // Save artwork for Artist
-    public Long saveArtworkForArtist(ArtworkInputDto dto, String username) {
-        Artwork artwork = artworkInputDtoMapper.toArtwork(dto);
-        User user = userService.getUserByUsername(username);
-        artwork.setUser(user);
-        Artwork savedArtwork = artworkRepository.save(artwork);
-        return savedArtwork.getId();
-    }
-
+//    // Save artwork for Artist
+//    public Long saveArtworkForArtist(ArtworkInputDto dto, String username) {
+//        Artwork artwork = artworkInputDtoMapper.toArtwork(dto);
+//        User user = userService.getUserByUsername(username);
+//        artwork.setUser(user);
+//        Artwork savedArtwork = artworkRepository.save(artwork);
+//        return savedArtwork.getId();
+//    }
+//
     public List<ArtworkOutputArtistDto> getArtworksByArtist(String username) {
         User user = userService.getUserByUsername(username);
         if (user == null) {
-            throw new RecordNotFoundException("User with username " + username + " not found.");
+            throw new UserNotFoundException("User with username " + username + " not found.");
         } else {
             List<Artwork> artworks = artworkRepository.findAllByUser(user);
             return artworks.stream()
@@ -76,7 +76,22 @@ public class ArtworkService {
         }
     }
 
-    public void updateArtwork(Long id, ArtworkInputDto dto) {
+    @Transactional
+    public Long saveArtworkForArtist(ArtworkInputDto dto, String username) {
+        try {
+            Artwork artwork = artworkInputDtoMapper.toArtwork(dto);
+            User user = userService.getUserByUsername(username);
+            artwork.setUser(user);
+            Artwork savedArtwork = artworkRepository.save(artwork);
+            return savedArtwork.getId();
+        } catch (MappingException e) {
+            throw new MappingException("Error mapping artwork to the database", e);
+        } catch (DataAccessException e) {
+            throw new DatabaseException("Error saving artwork to the database", e);
+        }
+    }
+
+    public void updateArtworkForArtist(Long id, ArtworkInputDto dto) {
         Optional<Artwork> artworkFound = artworkRepository.findById(id);
         if (artworkFound.isEmpty()) {
             throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
@@ -88,7 +103,7 @@ public class ArtworkService {
     public void deleteArtwork(Long id) {
         Optional<Artwork> artworkFound = artworkRepository.findById(id);
         if (artworkFound.isEmpty()) {
-            throw new RecordNotFoundException("Artwork with id " + id + " not found.");
+            throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
         } else {
             artworkRepository.delete(artworkFound.get());
         }
@@ -120,7 +135,7 @@ public class ArtworkService {
             artwork.setArtworkImage(photo);
             return artworkRepository.save(artwork);
         } else {
-            throw new RecordNotFoundException("artwork of foto niet gevonden");
+            throw new RecordNotFoundException("Artwork or Photo not found.");
         }
     }
 

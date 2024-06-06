@@ -30,7 +30,6 @@ public class Artwork {
     private String artworkType;
     // Boolean forSale
 
-
     @OneToMany(mappedBy = "artwork")
     @JsonIgnore
     List<Rating> ratings = new ArrayList<>();
