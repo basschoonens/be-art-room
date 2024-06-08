@@ -16,7 +16,7 @@ public class RatingCalculationHelper {
     }
 
     public double calculateAverageRatingForArtwork(Long artworkId) {
-        List<Rating> ratings = ratingRepository.findRatingsListByArtworkId(artworkId);
+        List<Rating> ratings = ratingRepository.findRatingsListByArtworkArtworkId(artworkId);
         if (ratings.isEmpty()) {
             return 0.0;
         }
@@ -26,7 +26,7 @@ public class RatingCalculationHelper {
     }
 
     public int countRatingsForArtwork(Long artworkId) {
-        List<Rating> ratings = ratingRepository.findRatingsListByArtworkId(artworkId);
+        List<Rating> ratings = ratingRepository.findRatingsListByArtworkArtworkId(artworkId);
         return ratings.size();
     }
 

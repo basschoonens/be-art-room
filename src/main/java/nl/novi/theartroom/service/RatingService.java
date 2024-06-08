@@ -39,7 +39,7 @@ public class RatingService {
     // Ratings by artwork id method
 
     public List<RatingUserDto> getAllRatingsForArtwork(Long artworkId) {
-        List<Rating> ratings = ratingRepository.findRatingsListByArtworkId(artworkId);
+        List<Rating> ratings = ratingRepository.findRatingsListByArtworkArtworkId(artworkId);
         return ratingDtoMapper.toRatingDtoList(ratings);
     }
 
@@ -58,7 +58,7 @@ public class RatingService {
         Artwork artwork = artworkRepository.findById(artworkId)
                 .orElseThrow(() -> new ArtworkNotFoundException("Artwork with id " + artworkId + " not found."));
 
-        Rating rating = ratingRepository.findByUserUsernameAndArtworkId(username, artworkId)
+        Rating rating = ratingRepository.findByUserUsernameAndArtworkArtworkId(username, artworkId)
                 .orElse(new Rating());
 
         rating.setRating(ratingUserDto.getRating());
@@ -73,7 +73,7 @@ public class RatingService {
 
 
     public void deleteRatingToArtworkDoneByUser(String username, Long artworkId) {
-        Optional<Rating> existingRatingOptional = ratingRepository.findByUserUsernameAndArtworkId(username, artworkId);
+        Optional<Rating> existingRatingOptional = ratingRepository.findByUserUsernameAndArtworkArtworkId(username, artworkId);
         if (existingRatingOptional.isPresent()) {
             ratingRepository.delete(existingRatingOptional.get());
         } else {
@@ -101,7 +101,7 @@ public class RatingService {
     }
 
     public void updateRatingByArtistAndArtworkId(String username, Long artworkId, Long ratingId, RatingUserDto rating) {
-        Optional<Rating> existingRatingOptional = ratingRepository.findByArtworkArtistAndArtworkIdAndRatingId(username, artworkId, ratingId);
+        Optional<Rating> existingRatingOptional = ratingRepository.findByArtworkArtistAndArtworkArtworkIdAndRatingId(username, artworkId, ratingId);
         if (existingRatingOptional.isEmpty()) {
             throw new RatingNotFoundException("Rating with id " + ratingId + " and artworkId " + artworkId + " not found or not owned by user " + username);
         } else {
@@ -113,7 +113,7 @@ public class RatingService {
     }
 
     public void deleteRatingByArtistAndArtworkId(String username, Long artworkId, Long ratingId) {
-        Optional<Rating> existingRatingOptional = ratingRepository.findByArtworkArtistAndArtworkIdAndRatingId(username, artworkId, ratingId);
+        Optional<Rating> existingRatingOptional = ratingRepository.findByArtworkArtistAndArtworkArtworkIdAndRatingId(username, artworkId, ratingId);
         if (existingRatingOptional.isEmpty()) {
             throw new RatingNotFoundException("Rating with id " + ratingId + " and artworkId " + artworkId + " not found or not owned by user " + username);
         } else {

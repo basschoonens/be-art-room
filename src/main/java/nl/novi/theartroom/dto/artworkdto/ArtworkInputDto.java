@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 public class ArtworkInputDto {
 
-    private Long id;
+    private Long artworkId;
 
     @NotBlank(message = "Title is mandatory")
     private String title;
@@ -53,8 +53,8 @@ public class ArtworkInputDto {
     public ArtworkInputDto() {
     }
 
-    public ArtworkInputDto(Long id, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm, MultipartFile file, String username) {
-        this.id = id;
+    public ArtworkInputDto(Long artworkId, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm, MultipartFile file, String username) {
+        this.artworkId = artworkId;
         this.title = title;
         this.artist = artist;
         this.description = description;
@@ -76,12 +76,12 @@ public class ArtworkInputDto {
         this.username = username;
     }
 
-    public Long getId() {
-        return id;
+    public Long getArtworkId() {
+        return artworkId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setArtworkId(Long artworkId) {
+        this.artworkId = artworkId;
     }
 
     public String getTitle() {

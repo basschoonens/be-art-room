@@ -20,7 +20,7 @@ public class Artwork {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "artwork_id_seq")
     @SequenceGenerator(name = "artwork_id_seq", sequenceName = "artwork_id_seq",initialValue = 1055, allocationSize = 1)
-    private Long id;
+    private Long artworkId;
     private String title;
     private String artist;
     private String description;
@@ -63,12 +63,12 @@ public class Artwork {
         this.orders = orders;
     }
 
-    public Long getId() {
-        return id;
+    public Long getArtworkId() {
+        return artworkId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setArtworkId(Long id) {
+        this.artworkId = id;
     }
 
     public String getTitle() {

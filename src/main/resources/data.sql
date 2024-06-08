@@ -52,7 +52,7 @@ INSERT INTO artwork_images (file_name) VALUES   ('1022 Brown and white horse ske
                                                 ('1053-soldier-3524202.jpg'),
                                                 ('1054-fawn-2893471.jpg');
 
-INSERT INTO artworks (id, title, artist, description, date_created, gallery_buying_price, edition, artwork_image_file_name, artwork_type) VALUES    (1022,'Brown and white horse sketch','Jon Tyson','A sketch of a horse made with graphite pencils','2020-10-16 00:00:00',2500,'single','1022 Brown and white horse sketch - Jon Tyson.jpg','drawing'),
+INSERT INTO artworks (artwork_id, title, artist, description, date_created, gallery_buying_price, edition, artwork_image_file_name, artwork_type) VALUES    (1022,'Brown and white horse sketch','Jon Tyson','A sketch of a horse made with graphite pencils','2020-10-16 00:00:00',2500,'single','1022 Brown and white horse sketch - Jon Tyson.jpg','drawing'),
                                                                                                                                                     (1023,'Red blue green and yellow abstract drawing','Liao Je Wei','An abstract drawing of chickens made with fineliners','2020-07-05 00:00:00',2500,'single','1023 Red blue green and yellow abstract drawing - Liao Je Wei.jpg','drawing'),
                                                                                                                                                     (1024,'Woman in white and black dress illustration','Tatiana Zhukova','A sketch of a woman in white and black dress made with charcoal','2020-04-09 00:00:00',2500,'single','1024 Woman in white and black dress illustration - Tatiana Zhukova.jpg','drawing'),
                                                                                                                                                     (1025,'Boy and girl holding hands','Annie Spratt','A drawing of a boy and girl holding hands made with charcoal','2020-06-10 00:00:00',2500,'single','1025 Man and woman holding hands - Annie Spratt.jpg','drawing'),
@@ -63,7 +63,7 @@ INSERT INTO artworks (id, title, artist, description, date_created, gallery_buyi
                                                                                                                                                     (1030,'A drawing of a dog wearing a collar','Chris Curry','A sketch of a terrier wearing a collar made with graphite pencils','2021-12-30 00:00:00',2500,'single','1030 A drawing of a dog wearing a collar - Chris Curry.jpg','drawing'),
                                                                                                                                                     (1043,'Thinker Think','Geralt Altmann','A drawing of Thinker Think made with charcoal','2024-04-11 00:00:00',2500,'single','1043 Thinker Think - Geralt Altmann.jpg','drawing');
 
-INSERT INTO artworks (id, title, artist, description, date_created, gallery_buying_price, edition,artwork_image_file_name, artwork_type) VALUES (1001,'Fantail Wrens','McGill','Watercolour painting with birds in a forest','2020-01-25 00:00:00',2500, 'single','1001-fantail-wrens-McGill.jpg','painting'),
+INSERT INTO artworks (artwork_id, title, artist, description, date_created, gallery_buying_price, edition,artwork_image_file_name, artwork_type) VALUES (1001,'Fantail Wrens','McGill','Watercolour painting with birds in a forest','2020-01-25 00:00:00',2500, 'single','1001-fantail-wrens-McGill.jpg','painting'),
                                                                                                                                                 (1002,'Vibrant color','Steve Johnson','Acrylic modern abstract art with texture backrounds and vibrant colours','2018-11-11 00:00:00',2500,1,'1002 Vibrant colours - Steve Johnson.jpg','painting'),
                                                                                                                                                 (1003,'Sea Waves','Hendrik Donnestad','Oil painting with structure of waves of the sea','2018-01-08 00:00:00',2500,1,'1003 Sea Waves - Henrik Donnestad.jpg','painting'),
                                                                                                                                                 (1004,'Turquoise Abstract Landscape II','Alan Scales','Acryl modern abstract painting with texture backrounds','2019-09-08 00:00:00',2500,1,'1004 Turquoise Abstract Landscape II - Alan Scales.jpg','painting'),
@@ -101,7 +101,7 @@ INSERT INTO artworks (id, title, artist, description, date_created, gallery_buyi
                                                                                                                                                 (1046,'Town','Lay Ers','A watercolour painting of a small town','2021-02-21 00:00:00',2500,1,'1046 Town - Lay Ers.jpg','painting');
 
 
-INSERT INTO drawings (id, drawing_surface, drawing_material, drawing_dimensions_width_in_cm, drawing_dimensions_height_in_cm) VALUES (1022,'Paper','Graphite pencils',28,37),
+INSERT INTO drawings (artwork_id, drawing_surface, drawing_material, drawing_dimensions_width_in_cm, drawing_dimensions_height_in_cm) VALUES (1022,'Paper','Graphite pencils',28,37),
                                                                                                                                      (1023,'Paper','Fineliners',62,41),
                                                                                                                                      (1024,'Paper','Charcoal',30,40),
                                                                                                                                      (1025,'Stone','Charcoal',22,38),
@@ -113,7 +113,7 @@ INSERT INTO drawings (id, drawing_surface, drawing_material, drawing_dimensions_
                                                                                                                                      (1043,'Paper','Charcoal',19,13);
 
 
-INSERT INTO paintings (id, painting_surface, painting_material, painting_dimensions_width_in_cm, painting_dimensions_height_in_cm) VALUES (1001,'Paper','Watercolour paint',23,29),
+INSERT INTO paintings (artwork_id, painting_surface, painting_material, painting_dimensions_width_in_cm, painting_dimensions_height_in_cm) VALUES (1001,'Paper','Watercolour paint',23,29),
                                                                                                                                           (1002,'Canvas','Acryl paint',34,43),
                                                                                                                                           (1003,'Canvas','Oil paint',21,21),
                                                                                                                                           (1004,'Wood','Acryl paint',53,79),
@@ -163,14 +163,14 @@ INSERT INTO authorities (username, authority) VALUES ('user', 'ROLE_USER');
 INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN');
 INSERT INTO authorities (username, authority) VALUES ('Jane Doe', 'ROLE_ARTIST');
 
-INSERT INTO artworks (id, title, artist, description, date_created, gallery_buying_price, edition,artwork_image_file_name, artwork_type, username) VALUES    (1047, 'Swan', 'Jane Doe', 'A painting of a swan flapping its wings while landing in the water.', '2017-10-28', 4600, 'single', '1047-swan-2893562.jpg', 'painting','Jane Doe'),
+INSERT INTO artworks (artwork_id, title, artist, description, date_created, gallery_buying_price, edition,artwork_image_file_name, artwork_type, username) VALUES    (1047, 'Swan', 'Jane Doe', 'A painting of a swan flapping its wings while landing in the water.', '2017-10-28', 4600, 'single', '1047-swan-2893562.jpg', 'painting','Jane Doe'),
                                                                                                                                                              (1051, 'Pelican', 'Jane Doe', 'Drawing in color of a beautiful pelican bird sitting on a log.', '2017-08-05', 5400, 'single', '1051-pelican-2585221.jpg', 'painting','Jane Doe'),
                                                                                                                                                              (1052, 'Tit', 'Jane Doe', 'Waterbased painting of a tit in the rain holding on to its branch', '2017-08-01', 6200, 'limited', '1052-tit-2566376.jpg', 'painting','Jane Doe'),
                                                                                                                                                              (1053, 'Soldier', 'Jane Doe', 'Soldier getting down on the ground and aiming his rifle.', '2018-07-09', 4300, 'limited', '1053-soldier-3524202.jpg', 'painting','Jane Doe'),
                                                                                                                                                              (1054, 'Fawn', 'Jane Doe', 'Fawn youngling drinking with its mother while the other fawn is relaxed in the grass', '2017-10-28', 4960, 'reproduction', '1054-fawn-2893471.jpg', 'painting','Jane Doe');
 
 
-INSERT INTO paintings (id, painting_surface, painting_material, painting_dimensions_width_in_cm, painting_dimensions_height_in_cm) VALUES  (1047,'Canvas','Oil based paint',45,31),
+INSERT INTO paintings (artwork_id, painting_surface, painting_material, painting_dimensions_width_in_cm, painting_dimensions_height_in_cm) VALUES  (1047,'Canvas','Oil based paint',45,31),
                                                                                                                                            (1051,'Linnen','Watercolour paint',48,39),
                                                                                                                                            (1052,'Canvas','Watercolour paint',29,36),
                                                                                                                                            (1053,'Canvas','Oil based paint',43,38),

@@ -23,7 +23,7 @@ public class ArtworkArtistDtoMapper {
 
     public ArtworkOutputArtistAdminDto toArtworkArtistDto(Artwork artwork) {
         ArtworkOutputArtistAdminDto artworkOutputArtistAdminDto = new ArtworkOutputArtistAdminDto();
-        artworkOutputArtistAdminDto.setId(artwork.getId());
+        artworkOutputArtistAdminDto.setArtworkId(artwork.getArtworkId());
         artworkOutputArtistAdminDto.setTitle(artwork.getTitle());
         artworkOutputArtistAdminDto.setArtist(artwork.getArtist());
         artworkOutputArtistAdminDto.setDescription(artwork.getDescription());
@@ -42,8 +42,8 @@ public class ArtworkArtistDtoMapper {
             artworkOutputArtistAdminDto.setDrawingData(drawingDto);
         }
 
-        artworkOutputArtistAdminDto.setAverageRating(ratingCalculationHelper.calculateAverageRatingForArtwork(artwork.getId()));
-        artworkOutputArtistAdminDto.setTotalAmountOfRatings(ratingCalculationHelper.countRatingsForArtwork(artwork.getId()));
+        artworkOutputArtistAdminDto.setAverageRating(ratingCalculationHelper.calculateAverageRatingForArtwork(artwork.getArtworkId()));
+        artworkOutputArtistAdminDto.setTotalAmountOfRatings(ratingCalculationHelper.countRatingsForArtwork(artwork.getArtworkId()));
         artworkOutputArtistAdminDto.setSellingPrice(priceCalculationHelper.calculateSellingPrice(artwork));
 
         return artworkOutputArtistAdminDto;

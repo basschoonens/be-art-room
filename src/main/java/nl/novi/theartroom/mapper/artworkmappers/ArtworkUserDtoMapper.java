@@ -31,7 +31,7 @@ public class ArtworkUserDtoMapper {
     public ArtworkOutputUserDto toArtworkUserDto(Artwork artwork) {
 
         ArtworkOutputUserDto artworkOutputUserDto = new ArtworkOutputUserDto();
-        artworkOutputUserDto.setId(artwork.getId());
+        artworkOutputUserDto.setArtworkId(artwork.getArtworkId());
         artworkOutputUserDto.setTitle(artwork.getTitle());
         artworkOutputUserDto.setArtist(artwork.getArtist());
         artworkOutputUserDto.setDescription(artwork.getDescription());
@@ -56,15 +56,15 @@ public class ArtworkUserDtoMapper {
             artworkOutputUserDto.setDrawingData(drawingDto);
         }
 
-        artworkOutputUserDto.setAverageRating(ratingCalculationHelper.calculateAverageRatingForArtwork(artwork.getId()));
-        artworkOutputUserDto.setTotalAmountOfRatings(ratingCalculationHelper.countRatingsForArtwork(artwork.getId()));
+        artworkOutputUserDto.setAverageRating(ratingCalculationHelper.calculateAverageRatingForArtwork(artwork.getArtworkId()));
+        artworkOutputUserDto.setTotalAmountOfRatings(ratingCalculationHelper.countRatingsForArtwork(artwork.getArtworkId()));
         artworkOutputUserDto.setSellingPrice(priceCalculationHelper.calculateSellingPrice(artwork));
 
         return artworkOutputUserDto;
     }
 
     public Artwork toArtwork(ArtworkOutputUserDto artworkOutputUserDto) {
-        return artworkRepository.findById(artworkOutputUserDto.getId())
+        return artworkRepository.findById(artworkOutputUserDto.getArtworkId())
                 .orElseThrow(() -> new RuntimeException("Artwork not found"));
     }
 

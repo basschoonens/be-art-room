@@ -36,7 +36,7 @@ import java.util.Objects;
             this.userService = userService;
         }
 
-        // USER ARTWORKS METHOD
+        // UNAUTHENTICATED ARTWORKS METHOD
 
         @GetMapping()
         public ResponseEntity<List<ArtworkOutputUserDto>> getAllArtworks() {
@@ -79,13 +79,13 @@ import java.util.Objects;
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteArtwork(@PathVariable Long id) {
-            artworkService.deleteArtwork(id);
+        public ResponseEntity<Void> deleteArtworkForArtist(@PathVariable Long id) {
+            artworkService.deleteArtworkForArtist(id);
             return ResponseEntity.noContent().build();
         }
 
         @PostMapping("/{id}/image")
-        public ResponseEntity<Artwork> addImageToArtwork(@PathVariable("id") Long artworkId, @RequestBody MultipartFile file)
+        public ResponseEntity<Artwork> addOrUpdateImageToArtwork(@PathVariable("id") Long artworkId, @RequestBody MultipartFile file)
                 throws IOException {
             String url = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/artworks/")
@@ -93,7 +93,7 @@ import java.util.Objects;
                     .path("/image")
                     .toUriString();
             String fileName = artworkImageService.storeFile(file);
-            Artwork artwork = artworkService.assignImageToArtwork(fileName, artworkId);
+            Artwork artwork = artworkService.addOrUpdateImageToArtwork(fileName, artworkId);
 
             return ResponseEntity.created(URI.create(url)).body(artwork);
         }
@@ -116,5 +116,23 @@ import java.util.Objects;
                     .header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename())
                     .body(resource);
         }
+
+        // ADMIN ARTWORKS METHOD
+
+        @PutMapping("/{id}")
+        public ResponseEntity<Void> updateArtworkForAdmin(@PathVariable Long id, @RequestBody @Valid ArtworkInputDto artwork) {
+            String username = userService.getCurrentLoggedInUsername();
+            artworkService.updateArtworkForArtist(id, artwork, username);
+            return ResponseEntity.noContent().build();
+        }
+
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> deleteArtworkForAdmin(@PathVariable Long id) {
+            artworkService.deleteArtworkForArtist(id);
+            return ResponseEntity.noContent().build();
+        }
+
+
+
 }
 

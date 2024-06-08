@@ -10,12 +10,12 @@ import java.util.Optional;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 
-    List<Rating> findRatingsListByArtworkId(Long artworkId);
+    List<Rating> findRatingsListByArtworkArtworkId(Long artworkId);
 
-    Optional<Rating> findByUserUsernameAndArtworkId(String username, Long artworkId);
+    Optional<Rating> findByUserUsernameAndArtworkArtworkId(String username, Long artworkId);
 
     List<Rating> findRatingsListByUserUsername(String username);
 
-    Optional<Rating> findByArtworkArtistAndArtworkIdAndRatingId(String username, Long artworkId, Long ratingId);
+    Optional<Rating> findByArtworkArtistAndArtworkArtworkIdAndRatingId(String username, Long artworkId, Long ratingId);
 
 }

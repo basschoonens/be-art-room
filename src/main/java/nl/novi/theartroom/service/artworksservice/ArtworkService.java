@@ -43,6 +43,8 @@ public class ArtworkService {
         this.artworkArtistDtoMapper = artworkArtistDtoMapper;
     }
 
+    // UNAUTHENTICATED ARTWORKS METHOD
+
     public List<ArtworkOutputUserDto> getAllArtworks() {
         List<Artwork> artworks = artworkRepository.findAll();
         return artworks.stream()
@@ -55,6 +57,8 @@ public class ArtworkService {
                 .orElseThrow(() -> new ArtworkNotFoundException("Artwork with id " + id + " not found."));
         return artworkUserDtoMapper.toArtworkUserDto(artwork);
     }
+
+    // ARTIST ARTWORKS METHOD
 
     public List<ArtworkOutputArtistAdminDto> getArtworksByArtist(String username) {
         User user = userService.getUserByUsername(username);
@@ -72,7 +76,7 @@ public class ArtworkService {
             User user = userService.getUserByUsername(username);
             artwork.setUser(user);
             Artwork savedArtwork = artworkRepository.save(artwork);
-            return savedArtwork.getId();
+            return savedArtwork.getArtworkId();
         } catch (MappingException e) {
             throw new MappingException("Error mapping artwork to the database", e);
         } catch (DataAccessException e) {
@@ -103,16 +107,35 @@ public class ArtworkService {
         }
     }
 
-    public void deleteArtwork(Long id) {
+    public void deleteArtworkForArtist(Long id) {
         Optional<Artwork> artworkFound = artworkRepository.findById(id);
         if (artworkFound.isEmpty()) {
             throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
         } else {
-            artworkRepository.delete(artworkFound.get());
+            Artwork artwork = artworkFound.get();
+            if (artwork.getArtworkImage() != null) {
+                uploadRepository.delete(artwork.getArtworkImage());
+            }
+            artworkRepository.delete(artwork);
         }
     }
 
     // Image methods
+
+    @Transactional
+    public Artwork addOrUpdateImageToArtwork(String filename, Long artworkId) {
+        Optional<Artwork> optionalArtwork = artworkRepository.findById(artworkId);
+        Optional<ArtworkImage> optionalPhoto = uploadRepository.findByFileName(filename);
+
+        if (optionalArtwork.isPresent() && optionalPhoto.isPresent()) {
+            ArtworkImage photo = optionalPhoto.get();
+            Artwork artwork = optionalArtwork.get();
+            artwork.setArtworkImage(photo);
+            return artworkRepository.save(artwork);
+        } else {
+            throw new RecordNotFoundException("Artwork or Photo not found.");
+        }
+    }
 
     @Transactional
     public Resource getImageFromArtwork(Long artworkId) {
@@ -127,18 +150,34 @@ public class ArtworkService {
         return photoService.downLoadFile(photo.getFileName());
     }
 
-    @Transactional
-    public Artwork assignImageToArtwork(String filename, Long artworkId) {
-        Optional<Artwork> optionalArtwork = artworkRepository.findById(artworkId);
-        Optional<ArtworkImage> optionalPhoto = uploadRepository.findByFileName(filename);
+    // ADMIN ARTWORKS METHOD
 
-        if (optionalArtwork.isPresent() && optionalPhoto.isPresent()) {
-            ArtworkImage photo = optionalPhoto.get();
-            Artwork artwork = optionalArtwork.get();
-            artwork.setArtworkImage(photo);
-            return artworkRepository.save(artwork);
+    public void updateArtworkForAdmin(Long id, ArtworkInputDto dto) {
+        try {
+            Optional<Artwork> artworkFound = artworkRepository.findById(id);
+            if (artworkFound.isEmpty()) {
+                throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
+            }
+            Artwork existingArtwork = artworkFound.get();
+            Artwork updatedArtwork = artworkInputDtoMapper.toArtwork(dto, existingArtwork);
+            artworkRepository.save(updatedArtwork);
+        } catch (MappingException e) {
+            throw new MappingException("Error mapping artwork to the database", e);
+        } catch (DataAccessException e) {
+            throw new DatabaseException("Error saving artwork to the database", e);
+        }
+    }
+
+    public void deleteArtworkForAdmin(Long id) {
+        Optional<Artwork> artworkFound = artworkRepository.findById(id);
+        if (artworkFound.isEmpty()) {
+            throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
         } else {
-            throw new RecordNotFoundException("Artwork or Photo not found.");
+            Artwork artwork = artworkFound.get();
+            if (artwork.getArtworkImage() != null) {
+                uploadRepository.delete(artwork.getArtworkImage());
+            }
+            artworkRepository.delete(artwork);
         }
     }
 

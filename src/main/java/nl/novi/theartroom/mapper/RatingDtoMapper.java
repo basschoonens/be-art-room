@@ -38,7 +38,7 @@ public class RatingDtoMapper {
         dto.setRatingId(rating.getRatingId());
         dto.setRating(rating.getRating());
         dto.setComment(rating.getComment());
-        dto.setArtworkId(rating.getArtwork().getId());
+        dto.setArtworkId(rating.getArtwork().getArtworkId());
         dto.setArtworkTitle(rating.getArtwork().getTitle());
         dto.setArtworkArtist(rating.getArtwork().getArtist());
         return dto;

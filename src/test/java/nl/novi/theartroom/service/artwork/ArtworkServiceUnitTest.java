@@ -70,7 +70,7 @@ class ArtworkServiceUnitTest {
     }
 
     @Test
-    void deleteArtwork() {
+    void deleteArtworkForArtist() {
 
         // Arrange
 
@@ -92,7 +92,7 @@ class ArtworkServiceUnitTest {
     }
 
     @Test
-    void assignImageToArtwork() {
+    void addOrUpdateImageToArtwork() {
 
         // Arrange
 

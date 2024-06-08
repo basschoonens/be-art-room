@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class ArtworkInputDtoMapper {
 
     public Artwork toArtwork(ArtworkInputDto dto) {
-        if (dto.getId() == null) {
+        if (dto.getArtworkId() == null) {
             return createArtwork(dto);
         } else {
             return updateArtwork(dto, new Artwork());

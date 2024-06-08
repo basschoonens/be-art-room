@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ArtworkOutputArtistAdminDto {
 
-    private Long id;
+    private Long artworkId;
     private String title;
     private String artist;
     private String description;
@@ -28,8 +28,8 @@ public class ArtworkOutputArtistAdminDto {
     public ArtworkOutputArtistAdminDto() {
     }
 
-    public ArtworkOutputArtistAdminDto(Long id, String title, String artist, String description, LocalDate dateCreated, String edition, ArtworkImage image, String artworkType, List<RatingUserDto> ratings, double averageRating, double totalAmountOfRatings, double sellingPrice, PaintingOutputDto paintingData, DrawingOutputDto drawingData) {
-        this.id = id;
+    public ArtworkOutputArtistAdminDto(Long artworkId, String title, String artist, String description, LocalDate dateCreated, String edition, ArtworkImage image, String artworkType, List<RatingUserDto> ratings, double averageRating, double totalAmountOfRatings, double sellingPrice, PaintingOutputDto paintingData, DrawingOutputDto drawingData) {
+        this.artworkId = artworkId;
         this.title = title;
         this.artist = artist;
         this.description = description;
@@ -45,12 +45,12 @@ public class ArtworkOutputArtistAdminDto {
         this.drawingData = drawingData;
     }
 
-    public Long getId() {
-        return id;
+    public Long getArtworkId() {
+        return artworkId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setArtworkId(Long artworkId) {
+        this.artworkId = artworkId;
     }
 
     public String getTitle() {
