@@ -6,8 +6,6 @@ import nl.novi.theartroom.model.Rating;
 import nl.novi.theartroom.service.RatingService;
 import nl.novi.theartroom.service.userservice.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,18 +25,15 @@ public class RatingController {
         this.userService = userService;
     }
 
-    // USER RATINGS METHOD
-
     // Ratings by artwork id method
 
     @GetMapping("/{artworkId}/ratings")
     public ResponseEntity<List<RatingUserDto>> getAllRatingsForArtwork(@PathVariable Long artworkId) {
         List<RatingUserDto> ratings = ratingService.getAllRatingsForArtwork(artworkId);
-
         return ResponseEntity.ok(ratings);
     }
 
-    // All ratings done by user with artworkdetails method
+    // USER RATINGS METHOD
 
     @GetMapping("/user")
     public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsForArtworksDoneByUser() {
@@ -47,7 +42,7 @@ public class RatingController {
         return ResponseEntity.ok(ratings);
     }
 
-    @PostMapping("/{artworkId}/user")
+    @PostMapping("/user/{artworkId}")
     public ResponseEntity<Void> addOrUpdateRatingToArtworkByUser(@PathVariable Long artworkId, @RequestBody RatingUserDto ratingUserDto) {
         String username = userService.getCurrentLoggedInUsername();
         RatingOutputWithArtworkDto ratingDto = ratingService.addOrUpdateRatingToArtwork(username, artworkId, ratingUserDto);
@@ -60,10 +55,10 @@ public class RatingController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("/{artworkId}/user")
+    @DeleteMapping("/user/{artworkId}")
     public ResponseEntity<Void> deleteRatingToArtworkDoneByUser(@PathVariable Long artworkId) {
         String username = userService.getCurrentLoggedInUsername();
-        ratingService.deleteRatingByUsernameAndArtworkId(username, artworkId);
+        ratingService.deleteRatingToArtworkDoneByUser(username, artworkId);
         return ResponseEntity.noContent().build();
     }
 
@@ -73,47 +68,54 @@ public class RatingController {
     // All ratings for an artist by artwork id method
 
     @GetMapping("/artist")
-    public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsForArtist() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-
-        List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatingsForArtist(username);
-
+    public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsForAllArtworksByArtist() {
+        String username = userService.getCurrentLoggedInUsername();
+        List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatingsForAllArtworksByArtist(username);
         return ResponseEntity.ok(ratings);
     }
 
-    @GetMapping("/{artworkId}/ratings/artist")
-    public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsForArtworkWithArtworkDetails(@PathVariable Long artworkId) {
-        List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatingsForArtworkWithArtworkDetails(artworkId);
-
-        return ResponseEntity.ok(ratings);
+    @PutMapping("/artist/{artworkId}/{ratingId}")
+    public ResponseEntity<Void> updateRatingByArtistAndArtworkId(@PathVariable Long artworkId, @PathVariable Long ratingId, @RequestBody RatingUserDto rating) {
+        String username = userService.getCurrentLoggedInUsername();
+        ratingService.updateRatingByArtistAndArtworkId(username, artworkId, ratingId, rating);
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{artworkId}/ratings/{ratingId}")
-    public ResponseEntity<Void> deleteRatingByArtistAdmin(@PathVariable Long artworkId, @PathVariable Long ratingId) {
-        ratingService.deleteRatingByArtworkIdAndRatingId(artworkId, ratingId);
+    @DeleteMapping("/artist/{artworkId}/{ratingId}")
+    public ResponseEntity<Void> deleteRatingByArtistAndArtworkId(@PathVariable Long artworkId, @PathVariable Long ratingId) {
+        String username = userService.getCurrentLoggedInUsername();
+        ratingService.deleteRatingByArtistAndArtworkId(username, artworkId, ratingId);
         return ResponseEntity.noContent().build();
     }
 
     // ADMIN METHODS
     // All ratings for the admin done by users with artwork details method
 
-    // Met deze methode kan de admin alle ratings inzien
+    @GetMapping("/admin")
+    public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsForAdmin() {
+        List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatingsForAdmin();
+        return ResponseEntity.ok(ratings);
+    }
+
+    @PutMapping("/admin/{ratingId}")
+    public ResponseEntity<Void> updateRatingForAdmin(@PathVariable Long ratingId, @RequestBody RatingUserDto rating) {
+        ratingService.updateRatingForAdmin(ratingId, rating);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/admin/{ratingId}")
+    public ResponseEntity<Void> deleteRatingByAdmin(@PathVariable Long ratingId) {
+        ratingService.deleteRatingForAdmin(ratingId);
+        return ResponseEntity.noContent().build();
+    }
+
+    // CRUD OPERATIONS FOR RATING
+
     @GetMapping()
     public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatings() {
         List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatings();
         return ResponseEntity.ok(ratings);
     }
-
-//    Deze heb ik volgens mij niet nodig
-//    @GetMapping("/admin")
-//    public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsForAdmin(@PathVariable Long artworkId) {
-//        List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatingsForArtworkWithArtworkDetails(artworkId);
-//
-//        return ResponseEntity.ok(ratings);
-//    }
-
-    // CRUD OPERATIONS FOR RATING
 
     @GetMapping("/{ratingId}")
     public ResponseEntity<RatingOutputWithArtworkDto> getRatingById(@PathVariable Long ratingId) {
@@ -144,5 +146,4 @@ public class RatingController {
         ratingService.deleteRating(ratingId);
         return ResponseEntity.noContent().build();
     }
-
 }

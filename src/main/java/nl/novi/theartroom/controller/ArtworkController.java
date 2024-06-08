@@ -13,8 +13,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -38,6 +36,8 @@ import java.util.Objects;
             this.userService = userService;
         }
 
+        // USER ARTWORKS METHOD
+
         @GetMapping()
         public ResponseEntity<List<ArtworkOutputUserDto>> getAllArtworks() {
             List<ArtworkOutputUserDto> artworks = artworkService.getAllArtworks();
@@ -49,6 +49,8 @@ import java.util.Objects;
             ArtworkOutputUserDto artwork = artworkService.getArtworkById(id);
             return ResponseEntity.ok(artwork);
         }
+
+        // ARTIST ARTWORKS METHOD
 
         @GetMapping("/user/artworks")
         public ResponseEntity<List<ArtworkOutputArtistAdminDto>> getArtworksByArtist() {
@@ -69,14 +71,8 @@ import java.util.Objects;
             return ResponseEntity.created(location).build();
         }
 
-//        @PutMapping("/{id}")
-//        public ResponseEntity<Void> updateArtwork(@PathVariable Long id, @RequestBody @Valid ArtworkInputDto artwork) {
-//            artworkService.updateArtworkForArtist(id, artwork);
-//            return ResponseEntity.noContent().build();
-//        }
-
         @PutMapping("/{id}")
-        public ResponseEntity<Void> updateArtwork(@PathVariable Long id, @RequestBody @Valid ArtworkInputDto artwork) {
+        public ResponseEntity<Void> updateArtworkForArtist(@PathVariable Long id, @RequestBody @Valid ArtworkInputDto artwork) {
             String username = userService.getCurrentLoggedInUsername();
             artworkService.updateArtworkForArtist(id, artwork, username);
             return ResponseEntity.noContent().build();

@@ -80,16 +80,6 @@ public class ArtworkService {
         }
     }
 
-//    @Transactional
-//    public void updateArtworkForArtist(Long id, ArtworkInputDto dto) {
-//        Optional<Artwork> artworkFound = artworkRepository.findById(id);
-//        if (artworkFound.isEmpty()) {
-//            throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
-//        } else {
-//            artworkRepository.save(artworkInputDtoMapper.toArtwork(dto, artworkFound.get()));
-//        }
-//    }
-
     @Transactional
     public void updateArtworkForArtist(Long id, ArtworkInputDto dto, String username) {
         try {

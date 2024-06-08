@@ -57,25 +57,12 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
-    //TODO: Wellicht in de toekomst automatisch de rol van user toevoegen
-
-//    @PostMapping(value = "/artist")
-//    public ResponseEntity<UserDto> createArtist(@RequestBody UserDto dto) {
-//        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-//        String newUsername = userService.createUser(dto);
-//        userService.addAuthority(newUsername, "ROLE_ARTIST");
-//        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-//                .buildAndExpand(newUsername).toUri();
-//
-//        return ResponseEntity.created(location).build();
-//    }
-
     // added 17-05
     @PostMapping(value = "/artist")
     public ResponseEntity<UserDto> createArtist(@RequestBody UserDto dto) {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         String newUsername = userService.createUser(dto);
-        userService.addAuthority(newUsername, dto.getAuthority());
+        userService.addAuthority(newUsername, "ROLE_ARTIST");
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
                 .buildAndExpand(newUsername).toUri();
 

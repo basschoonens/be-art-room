@@ -11,11 +11,8 @@ import java.util.Optional;
 @Repository
 public interface ArtworkRepository extends JpaRepository<Artwork, Long> {
 
-    Optional<Artwork> findById(long id);
-
     List<Artwork> findAllByUser(User user);
 
     List<Artwork> findByArtist(String artist);
 
-    List<Artwork> findByUser(User user);
 }
