@@ -51,7 +51,7 @@ public class SpringSecurityConfig {
     // TODO RequestMatchers goed instellen
 
     @Bean
-    protected SecurityFilterChain filter (HttpSecurity http) throws Exception {
+    protected SecurityFilterChain filter(HttpSecurity http) throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable())
@@ -59,21 +59,22 @@ public class SpringSecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth ->
                         auth
-                .requestMatchers("/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/artworks/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/users/*").permitAll()
-                                // Ratings toegankelijkheid goed instellen.
-                .requestMatchers(HttpMethod.GET, "/ratings").hasAnyRole("ARTIST", "ADMIN")
-                .requestMatchers(HttpMethod.GET, "/ratings/{artworkId}/ratings").hasAnyRole("ARTIST", "ADMIN")
-                .requestMatchers(HttpMethod.POST, "/ratings/{artworkId}/ratings").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/ratings/**").hasAnyRole("USER", "ARTIST", "ADMIN")
-                .requestMatchers("/order").hasAnyRole("USER", "ARTIST", "ADMIN")
-                .requestMatchers(HttpMethod.POST, "/artworks/**").hasAnyRole("ARTIST", "ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/artworks/**").hasAnyRole("ARTIST", "ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/artworks/**").hasAnyRole("ARTIST", "ADMIN")
-                .requestMatchers("/authenticated").authenticated()
-                .requestMatchers("/authenticate").permitAll()
-                .anyRequest().denyAll()
+//                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/ratings/artwork/{artworkId}").permitAll()
+                                .requestMatchers("/ratings/user/**").hasRole("USER")
+                                .requestMatchers("/ratings/artist/**").hasRole("ARTIST")
+                                .requestMatchers("/ratings/admin/**").hasRole("ADMIN")
+
+
+                                .requestMatchers(HttpMethod.GET, "/artworks/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/users/*").permitAll()
+                                .requestMatchers("/order").hasAnyRole("USER", "ARTIST", "ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/artworks/**").hasAnyRole("ARTIST", "ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/artworks/**").hasAnyRole("ARTIST", "ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/artworks/**").hasAnyRole("ARTIST", "ADMIN")
+                                .requestMatchers("/authenticated").authenticated()
+                                .requestMatchers("/authenticate").permitAll()
+                                .anyRequest().denyAll()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

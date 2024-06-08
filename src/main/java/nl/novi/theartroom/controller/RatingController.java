@@ -25,9 +25,9 @@ public class RatingController {
         this.userService = userService;
     }
 
-    // Ratings by artwork id method
+    // Ratings by artwork id method for all users
 
-    @GetMapping("/{artworkId}/ratings")
+    @GetMapping("/artwork/{artworkId}")
     public ResponseEntity<List<RatingUserDto>> getAllRatingsForArtwork(@PathVariable Long artworkId) {
         List<RatingUserDto> ratings = ratingService.getAllRatingsForArtwork(artworkId);
         return ResponseEntity.ok(ratings);
@@ -63,9 +63,6 @@ public class RatingController {
     }
 
     // ARTIST RATING METHODS
-    // Artist moet per artwork alle ratings kunnen inzien en/of verwijderen.
-
-    // All ratings for an artist by artwork id method
 
     @GetMapping("/artist")
     public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsForAllArtworksByArtist() {
@@ -109,7 +106,7 @@ public class RatingController {
         return ResponseEntity.noContent().build();
     }
 
-    // CRUD OPERATIONS FOR RATING
+    // CRUD OPERATIONS FOR RATING (FOR TESTING PURPOSES, NOT USED IN THE APPLICATION)
 
     @GetMapping()
     public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatings() {
