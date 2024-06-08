@@ -33,7 +33,7 @@ public class Artwork {
     private String artworkType;
     // Boolean forSale
 
-    @OneToMany(mappedBy = "artwork")
+    @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     List<Rating> ratings = new ArrayList<>();
 

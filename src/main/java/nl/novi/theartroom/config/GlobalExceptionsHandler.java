@@ -25,6 +25,11 @@ public class GlobalExceptionsHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(InvalidArtworkTypeException.class)
+    public ResponseEntity<String> handleInvalidArtworkTypeException(InvalidArtworkTypeException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<String> handleOrderNotFoundException(OrderNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
@@ -33,6 +38,11 @@ public class GlobalExceptionsHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<String> handleUnauthorizedAccessException(UnauthorizedAccessException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(RatingNotFoundException.class)

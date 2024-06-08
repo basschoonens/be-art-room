@@ -80,4 +80,6 @@ public class SpringSecurityConfig {
         return http.build();
     }
 
+//    .access("hasRole('USER') or hasRole('ARTIST') or hasRole('ADMIN')") kan ik ook gebruiken.
+
 }

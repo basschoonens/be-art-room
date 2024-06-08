@@ -1,7 +1,7 @@
 package nl.novi.theartroom.service.artworksservice;
 
 import jakarta.transaction.Transactional;
-import nl.novi.theartroom.dto.artworkdto.ArtworkOutputArtistDto;
+import nl.novi.theartroom.dto.artworkdto.ArtworkOutputArtistAdminDto;
 import nl.novi.theartroom.dto.artworkdto.ArtworkOutputUserDto;
 import nl.novi.theartroom.dto.artworkdto.ArtworkInputDto;
 import nl.novi.theartroom.exception.*;
@@ -56,7 +56,7 @@ public class ArtworkService {
         return artworkUserDtoMapper.toArtworkUserDto(artwork);
     }
 
-    public List<ArtworkOutputArtistDto> getArtworksByArtist(String username) {
+    public List<ArtworkOutputArtistAdminDto> getArtworksByArtist(String username) {
         User user = userService.getUserByUsername(username);
         List<Artwork> artworks = artworkRepository.findAllByUser(user);
 
@@ -80,13 +80,36 @@ public class ArtworkService {
         }
     }
 
+//    @Transactional
+//    public void updateArtworkForArtist(Long id, ArtworkInputDto dto) {
+//        Optional<Artwork> artworkFound = artworkRepository.findById(id);
+//        if (artworkFound.isEmpty()) {
+//            throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
+//        } else {
+//            artworkRepository.save(artworkInputDtoMapper.toArtwork(dto, artworkFound.get()));
+//        }
+//    }
+
     @Transactional
-    public void updateArtworkForArtist(Long id, ArtworkInputDto dto) {
-        Optional<Artwork> artworkFound = artworkRepository.findById(id);
-        if (artworkFound.isEmpty()) {
-            throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
-        } else {
-            artworkRepository.save(artworkInputDtoMapper.toArtwork(dto, artworkFound.get()));
+    public void updateArtworkForArtist(Long id, ArtworkInputDto dto, String username) {
+        try {
+            Optional<Artwork> artworkFound = artworkRepository.findById(id);
+            if (artworkFound.isEmpty()) {
+                throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
+            }
+            Artwork existingArtwork = artworkFound.get();
+            if (!existingArtwork.getUser().getUsername().equals(username)) {
+                throw new UnauthorizedAccessException("User not authorized to update this artwork");
+            }
+            if (!existingArtwork.getArtworkType().equals(dto.getArtworkType())) {
+                throw new InvalidArtworkTypeException("Artwork type cannot be changed.");
+            }
+            Artwork updatedArtwork = artworkInputDtoMapper.toArtwork(dto, existingArtwork);
+            artworkRepository.save(updatedArtwork);
+        } catch (MappingException e) {
+            throw new MappingException("Error mapping artwork to the database", e);
+        } catch (DataAccessException e) {
+            throw new DatabaseException("Error saving artwork to the database", e);
         }
     }
 

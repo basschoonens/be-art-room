@@ -5,6 +5,7 @@ import nl.novi.theartroom.dto.ratingdto.RatingUserDto;
 import nl.novi.theartroom.exception.ArtworkNotFoundException;
 import nl.novi.theartroom.exception.RatingNotFoundException;
 import nl.novi.theartroom.exception.RecordNotFoundException;
+import nl.novi.theartroom.exception.UnauthorizedAccessException;
 import nl.novi.theartroom.mapper.RatingDtoMapper;
 import nl.novi.theartroom.model.artworks.Artwork;
 import nl.novi.theartroom.model.Rating;
@@ -48,29 +49,6 @@ public class RatingService {
         List<Rating> ratings = ratingRepository.findRatingsListByUserUsername(username);
         return ratingDtoMapper.toRatingDtoWithArtworkDtoList(ratings);
     }
-
-//    public Rating addOrUpdateRatingToArtwork(String username, Long artworkId, RatingUserDto ratingUserDto) {
-//        Optional<Rating> existingRatingOptional = ratingRepository.findByUserUsernameAndArtworkId(username, artworkId);
-//
-//        User user = userRepository.findById(username)
-//                .orElseThrow(() -> new RecordNotFoundException("User with username " + username + " not found."));
-//
-//        Rating rating;
-//        if (existingRatingOptional.isPresent()) {
-//            rating = existingRatingOptional.get();
-//            rating.setRating(ratingUserDto.getRating());
-//            rating.setComment(ratingUserDto.getComment());
-//            ratingRepository.save(rating);
-//        } else {
-//            Artwork artwork = artworkRepository.findById(artworkId)
-//                    .orElseThrow(() -> new RecordNotFoundException("Artwork with id " + artworkId + " not found."));
-//            rating = ratingDtoMapper.toRatingDto(ratingUserDto);
-//            rating.setUser(user);
-//            rating.setArtwork(artwork);
-//            ratingRepository.save(rating);
-//        }
-//        return rating;
-//    }
 
     public RatingOutputWithArtworkDto addOrUpdateRatingToArtwork(String username, Long artworkId, RatingUserDto ratingUserDto) {
         User user = userService.getUserByUsername(username);

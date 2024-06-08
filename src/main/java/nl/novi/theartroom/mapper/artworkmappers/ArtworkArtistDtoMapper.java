@@ -1,6 +1,6 @@
 package nl.novi.theartroom.mapper.artworkmappers;
 
-import nl.novi.theartroom.dto.artworkdto.ArtworkOutputArtistDto;
+import nl.novi.theartroom.dto.artworkdto.ArtworkOutputArtistAdminDto;
 import nl.novi.theartroom.dto.artworkdto.DrawingOutputDto;
 import nl.novi.theartroom.dto.artworkdto.PaintingOutputDto;
 import nl.novi.theartroom.helper.PriceCalculationHelper;
@@ -21,32 +21,32 @@ public class ArtworkArtistDtoMapper {
         this.priceCalculationHelper = priceCalculationHelper;
     }
 
-    public ArtworkOutputArtistDto toArtworkArtistDto(Artwork artwork) {
-        ArtworkOutputArtistDto artworkOutputArtistDto = new ArtworkOutputArtistDto();
-        artworkOutputArtistDto.setId(artwork.getId());
-        artworkOutputArtistDto.setTitle(artwork.getTitle());
-        artworkOutputArtistDto.setArtist(artwork.getArtist());
-        artworkOutputArtistDto.setDescription(artwork.getDescription());
-        artworkOutputArtistDto.setDateCreated(artwork.getDateCreated());
-        artworkOutputArtistDto.setGalleryBuyingPrice(artwork.getGalleryBuyingPrice());
-        artworkOutputArtistDto.setEdition(artwork.getEdition());
-        artworkOutputArtistDto.setArtworkType(artwork.getArtworkType());
+    public ArtworkOutputArtistAdminDto toArtworkArtistDto(Artwork artwork) {
+        ArtworkOutputArtistAdminDto artworkOutputArtistAdminDto = new ArtworkOutputArtistAdminDto();
+        artworkOutputArtistAdminDto.setId(artwork.getId());
+        artworkOutputArtistAdminDto.setTitle(artwork.getTitle());
+        artworkOutputArtistAdminDto.setArtist(artwork.getArtist());
+        artworkOutputArtistAdminDto.setDescription(artwork.getDescription());
+        artworkOutputArtistAdminDto.setDateCreated(artwork.getDateCreated());
+        artworkOutputArtistAdminDto.setGalleryBuyingPrice(artwork.getGalleryBuyingPrice());
+        artworkOutputArtistAdminDto.setEdition(artwork.getEdition());
+        artworkOutputArtistAdminDto.setArtworkType(artwork.getArtworkType());
 
         if ("painting".equalsIgnoreCase(artwork.getArtworkType())) {
             PaintingOutputDto paintingDto = new PaintingOutputDto();
             mapPaintingFields((Painting) artwork, paintingDto);
-            artworkOutputArtistDto.setPaintingData(paintingDto);
+            artworkOutputArtistAdminDto.setPaintingData(paintingDto);
         } else if ("drawing".equalsIgnoreCase(artwork.getArtworkType())) {
             DrawingOutputDto drawingDto = new DrawingOutputDto();
             mapDrawingFields((Drawing) artwork, drawingDto);
-            artworkOutputArtistDto.setDrawingData(drawingDto);
+            artworkOutputArtistAdminDto.setDrawingData(drawingDto);
         }
 
-        artworkOutputArtistDto.setAverageRating(ratingCalculationHelper.calculateAverageRatingForArtwork(artwork.getId()));
-        artworkOutputArtistDto.setTotalAmountOfRatings(ratingCalculationHelper.countRatingsForArtwork(artwork.getId()));
-        artworkOutputArtistDto.setSellingPrice(priceCalculationHelper.calculateSellingPrice(artwork));
+        artworkOutputArtistAdminDto.setAverageRating(ratingCalculationHelper.calculateAverageRatingForArtwork(artwork.getId()));
+        artworkOutputArtistAdminDto.setTotalAmountOfRatings(ratingCalculationHelper.countRatingsForArtwork(artwork.getId()));
+        artworkOutputArtistAdminDto.setSellingPrice(priceCalculationHelper.calculateSellingPrice(artwork));
 
-        return artworkOutputArtistDto;
+        return artworkOutputArtistAdminDto;
     }
 
     private void mapDrawingFields(Drawing drawing, DrawingOutputDto drawingOutputDto) {

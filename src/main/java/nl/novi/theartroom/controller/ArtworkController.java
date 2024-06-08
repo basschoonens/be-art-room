@@ -3,12 +3,12 @@ package nl.novi.theartroom.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import nl.novi.theartroom.dto.artworkdto.ArtworkInputDto;
-import nl.novi.theartroom.dto.artworkdto.ArtworkOutputArtistDto;
+import nl.novi.theartroom.dto.artworkdto.ArtworkOutputArtistAdminDto;
 import nl.novi.theartroom.dto.artworkdto.ArtworkOutputUserDto;
-import nl.novi.theartroom.exception.UserNotFoundException;
 import nl.novi.theartroom.service.artworksservice.ArtworkImageService;
 import nl.novi.theartroom.service.artworksservice.ArtworkService;
 import nl.novi.theartroom.model.artworks.Artwork;
+import nl.novi.theartroom.service.userservice.UserService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -30,10 +30,12 @@ import java.util.Objects;
 
         private final ArtworkService artworkService;
         private final ArtworkImageService artworkImageService;
+        private final UserService userService;
 
-        public ArtworkController(ArtworkService artworkService, ArtworkImageService artworkImageService) {
+        public ArtworkController(ArtworkService artworkService, ArtworkImageService artworkImageService, UserService userService) {
             this.artworkService = artworkService;
             this.artworkImageService = artworkImageService;
+            this.userService = userService;
         }
 
         @GetMapping()
@@ -48,16 +50,17 @@ import java.util.Objects;
             return ResponseEntity.ok(artwork);
         }
 
+        @GetMapping("/user/artworks")
+        public ResponseEntity<List<ArtworkOutputArtistAdminDto>> getArtworksByArtist() {
+            String username = userService.getCurrentLoggedInUsername();
+            List<ArtworkOutputArtistAdminDto> artworks = artworkService.getArtworksByArtist(username);
+            return ResponseEntity.ok(artworks);
+        }
+
         @PostMapping()
-        public ResponseEntity<Void> addArtwork(@RequestBody @Valid ArtworkInputDto artwork) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth == null || !auth.isAuthenticated()) {
-                throw new UserNotFoundException("User not authenticated");
-            }
-            String username = auth.getName();
-
+        public ResponseEntity<Void> createArtworkForArtist(@RequestBody @Valid ArtworkInputDto artwork) {
+            String username = userService.getCurrentLoggedInUsername();
             Long newArtworkId = artworkService.createArtworkForArtist(artwork, username);
-
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
                     .buildAndExpand(newArtworkId)
@@ -66,19 +69,16 @@ import java.util.Objects;
             return ResponseEntity.created(location).build();
         }
 
-        @GetMapping("/user/artworks")
-        public ResponseEntity<List<ArtworkOutputArtistDto>> getArtworksForArtist() {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String username = auth.getName();
-
-            List<ArtworkOutputArtistDto> artworks = artworkService.getArtworksByArtist(username);
-
-            return ResponseEntity.ok(artworks);
-        }
+//        @PutMapping("/{id}")
+//        public ResponseEntity<Void> updateArtwork(@PathVariable Long id, @RequestBody @Valid ArtworkInputDto artwork) {
+//            artworkService.updateArtworkForArtist(id, artwork);
+//            return ResponseEntity.noContent().build();
+//        }
 
         @PutMapping("/{id}")
         public ResponseEntity<Void> updateArtwork(@PathVariable Long id, @RequestBody @Valid ArtworkInputDto artwork) {
-            artworkService.updateArtworkForArtist(id, artwork);
+            String username = userService.getCurrentLoggedInUsername();
+            artworkService.updateArtworkForArtist(id, artwork, username);
             return ResponseEntity.noContent().build();
         }
 

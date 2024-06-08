@@ -5,7 +5,6 @@ import nl.novi.theartroom.dto.ratingdto.RatingUserDto;
 import nl.novi.theartroom.model.Rating;
 import nl.novi.theartroom.service.RatingService;
 import nl.novi.theartroom.service.userservice.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +22,6 @@ public class RatingController {
 
     private final UserService userService;
 
-    @Autowired
     public RatingController(RatingService ratingService, UserService userService) {
         this.ratingService = ratingService;
         this.userService = userService;
@@ -42,19 +40,18 @@ public class RatingController {
 
     // All ratings done by user with artworkdetails method
 
-    @GetMapping("/user/artwork")
-    public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsWithArtworkByUser() {
+    @GetMapping("/user")
+    public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsForArtworksDoneByUser() {
         String username = userService.getCurrentLoggedInUsername();
         List<RatingOutputWithArtworkDto> ratings = ratingService.getAllRatingsByUserWithArtworkDetails(username);
         return ResponseEntity.ok(ratings);
     }
 
-    @PostMapping("/{artworkId}/ratings")
+    @PostMapping("/{artworkId}/user")
     public ResponseEntity<Void> addOrUpdateRatingToArtworkByUser(@PathVariable Long artworkId, @RequestBody RatingUserDto ratingUserDto) {
         String username = userService.getCurrentLoggedInUsername();
         RatingOutputWithArtworkDto ratingDto = ratingService.addOrUpdateRatingToArtwork(username, artworkId, ratingUserDto);
 
-        // Construct the URI for the created/updated resource
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{ratingId}")
                 .buildAndExpand(ratingDto.getRatingId())
@@ -63,8 +60,8 @@ public class RatingController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("/{artworkId}/ratings")
-    public ResponseEntity<Void> deleteRatingToArtworkByUser(@PathVariable Long artworkId) {
+    @DeleteMapping("/{artworkId}/user")
+    public ResponseEntity<Void> deleteRatingToArtworkDoneByUser(@PathVariable Long artworkId) {
         String username = userService.getCurrentLoggedInUsername();
         ratingService.deleteRatingByUsernameAndArtworkId(username, artworkId);
         return ResponseEntity.noContent().build();

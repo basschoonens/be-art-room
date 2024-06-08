@@ -91,9 +91,10 @@ public class UserService {
 
     public String getCurrentLoggedInUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            return authentication.getName();
+        if (authentication == null || !authentication.isAuthenticated() ||
+                "anonymousUser".equals(authentication.getName())) {
+            throw new UserNotFoundException("User not authenticated");
         }
-        return null;
+        return authentication.getName();
     }
 }

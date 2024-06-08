@@ -6,7 +6,7 @@ import nl.novi.theartroom.model.artworks.ArtworkImage;
 import java.time.LocalDate;
 import java.util.List;
 
-public class ArtworkOutputArtistDto {
+public class ArtworkOutputArtistAdminDto {
 
     private Long id;
     private String title;
@@ -25,10 +25,10 @@ public class ArtworkOutputArtistDto {
     private DrawingOutputDto drawingData;
 
 
-    public ArtworkOutputArtistDto() {
+    public ArtworkOutputArtistAdminDto() {
     }
 
-    public ArtworkOutputArtistDto(Long id, String title, String artist, String description, LocalDate dateCreated, String edition, ArtworkImage image, String artworkType, List<RatingUserDto> ratings, double averageRating, double totalAmountOfRatings, double sellingPrice, PaintingOutputDto paintingData, DrawingOutputDto drawingData) {
+    public ArtworkOutputArtistAdminDto(Long id, String title, String artist, String description, LocalDate dateCreated, String edition, ArtworkImage image, String artworkType, List<RatingUserDto> ratings, double averageRating, double totalAmountOfRatings, double sellingPrice, PaintingOutputDto paintingData, DrawingOutputDto drawingData) {
         this.id = id;
         this.title = title;
         this.artist = artist;

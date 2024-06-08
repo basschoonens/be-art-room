@@ -18,9 +18,11 @@ class RatingCalculationHelperUnitTest {
     @Mock
     private RatingRepository ratingRepository;
 
+    // RatingCalculationHelper niet mocken, want die willen we testen. @MockBean ??
     @InjectMocks
     private RatingCalculationHelper ratingCalculationHelper;
 
+    // als je vaker dezelfde data gebruikt kun je deze gebruiken.
     @BeforeEach
     void setUp() {
     }
