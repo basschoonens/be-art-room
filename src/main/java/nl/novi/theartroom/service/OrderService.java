@@ -3,22 +3,15 @@ package nl.novi.theartroom.service;
 import jakarta.transaction.Transactional;
 import nl.novi.theartroom.dto.orderdto.OrderInputDto;
 import nl.novi.theartroom.dto.orderdto.OrderOutputDto;
-import nl.novi.theartroom.exception.DatabaseException;
-import nl.novi.theartroom.exception.MappingException;
-import nl.novi.theartroom.exception.OrderNotFoundException;
-import nl.novi.theartroom.exception.UserNotFoundException;
+import nl.novi.theartroom.exception.*;
 import nl.novi.theartroom.mapper.OrderDtoMapper;
-import nl.novi.theartroom.mapper.artworkmappers.ArtworkUserDtoMapper;
-import nl.novi.theartroom.model.artworks.Artwork;
 import nl.novi.theartroom.model.Order;
 import nl.novi.theartroom.model.users.User;
 import nl.novi.theartroom.repository.ArtworkRepository;
 import nl.novi.theartroom.repository.OrderRepository;
-import nl.novi.theartroom.repository.UserRepository;
 import nl.novi.theartroom.service.userservice.UserService;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +30,57 @@ public class OrderService {
         this.userService = userService;
     }
 
+    // USER METHOD
+
+    public List<OrderOutputDto> getOrdersForUser(String username) {
+        return orderRepository.findAllByUserUsername(username).stream()
+                .map(orderDtoMapper::toOrderDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public OrderOutputDto createOrderForUser(String username, OrderInputDto orderInputDto) {
+        try {
+            Order order = orderDtoMapper.toOrder(orderInputDto);
+            User user = userService.getUserByUsername(username);
+            order.setUser(user);
+            order.setOrderStatus("NEW");
+            order.setOrderNumber("ORD" + System.currentTimeMillis());
+            return orderDtoMapper.toOrderDto(orderRepository.save(order));
+        } catch (MappingException e) {
+            throw new MappingException("Error mapping order to the database", e);
+        } catch (DatabaseException e) {
+            throw new DatabaseException("Error saving order to the database", e);
+        }
+    }
+
+    // ADMIN METHOD
+
+    public List<OrderOutputDto> getAllOrdersForAdmin() {
+        return orderRepository.findAll().stream()
+                .map(orderDtoMapper::toOrderDto)
+                .collect(Collectors.toList());
+    }
+
+    public OrderOutputDto getOrderByIdForAdmin(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException("Order with " + id + " not found"));
+        return orderDtoMapper.toOrderDto(order);
+    }
+
+    public OrderOutputDto approveOrderForAdmin(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException("Order with " + id + " not found"));
+        order.setOrderStatus("APPROVED");
+        return orderDtoMapper.toOrderDto(orderRepository.save(order));
+    }
+
+    public void deleteOrderForAdmin(Long id) {
+        orderRepository.deleteById(id);
+    }
+
+    // CRUD METHOD FOR TESTING
+
     public List<OrderOutputDto> getAllOrders() {
         return orderRepository.findAll().stream()
                 .map(orderDtoMapper::toOrderDto)
@@ -50,13 +94,12 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderOutputDto createOrderForUser(String username, OrderInputDto orderInputDto) {
+    public OrderOutputDto createOrder(OrderInputDto orderInputDto) {
         try {
-            User user = userService.getUserByUsername(username);
             Order order = orderDtoMapper.toOrder(orderInputDto);
-            order.setUser(user);
-            order = saveOrderWithArtworks(order, orderInputDto.getArtworkIds());
-            return orderDtoMapper.toOrderDto(order);
+            order.setOrderStatus("PENDING");
+            Order savedOrder = orderRepository.save(order);
+            return orderDtoMapper.toOrderDto(savedOrder);
         } catch (MappingException e) {
             throw new MappingException("Error mapping order to the database", e);
         } catch (DatabaseException e) {
@@ -67,29 +110,19 @@ public class OrderService {
     @Transactional
     public OrderOutputDto updateOrder(Long id, OrderInputDto orderInputDto) {
         try {
-            Order order = orderDtoMapper.toOrder(orderInputDto);
-            order.setOrderId(id);
-            order = orderRepository.save(order);
-            return orderDtoMapper.toOrderDto(order);
-        } catch (OrderNotFoundException e) {
-            throw new OrderNotFoundException("Error updating order with id " + id, e);
+            Order order = orderRepository.findById(id)
+                    .orElseThrow(() -> new OrderNotFoundException("Order with " + id + " not found"));
+            orderDtoMapper.updateOrderFromDto(order, orderInputDto);
+            Order savedOrder = orderRepository.save(order);
+            return orderDtoMapper.toOrderDto(savedOrder);
+        } catch (MappingException e) {
+            throw new MappingException("Error mapping order to the database", e);
+        } catch (DatabaseException e) {
+            throw new DatabaseException("Error saving order to the database", e);
         }
     }
 
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
-    }
-
-    public List<OrderOutputDto> getOrdersForUser(String username) {
-        User user = userService.getUserByUsername(username);
-        return orderRepository.findAllByUser(user).stream()
-                .map(orderDtoMapper::toOrderDto)
-                .collect(Collectors.toList());
-    }
-
-    private Order saveOrderWithArtworks(Order order, List<Long> artworkIds) {
-        List<Artwork> artworks = artworkRepository.findAllById(artworkIds);
-        order.setArtworks(new HashSet<>(artworks));
-        return orderRepository.save(order);
     }
 }

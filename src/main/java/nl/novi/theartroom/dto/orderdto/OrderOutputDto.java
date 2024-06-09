@@ -4,6 +4,7 @@ import jakarta.validation.constraints.*;
 import nl.novi.theartroom.dto.artworkdto.ArtworkOutputUserDto;
 
 import java.util.List;
+import java.util.Set;
 
 public class OrderOutputDto {
 
@@ -38,12 +39,15 @@ public class OrderOutputDto {
     @NotBlank(message = "City is mandatory")
     private String city;
 
-    private List<ArtworkOutputUserDto> artworks;
+    @NotNull(message = "Artworks are mandatory")
+    @Size(min = 1, message = "At least one artwork is required")
+    private Set<ArtworkOutputUserDto> artworks;
+
 
     public OrderOutputDto() {
     }
 
-    public OrderOutputDto(long orderId, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String name, String address, String postalCode, String city, List<ArtworkOutputUserDto> artworks) {
+    public OrderOutputDto(long orderId, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String name, String address, String postalCode, String city, Set<ArtworkOutputUserDto> artworks) {
         this.orderId = orderId;
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
@@ -137,11 +141,11 @@ public class OrderOutputDto {
         this.city = city;
     }
 
-    public List<ArtworkOutputUserDto> getArtworks() {
+    public Set<ArtworkOutputUserDto> getArtworks() {
         return artworks;
     }
 
-    public void setArtworks(List<ArtworkOutputUserDto> artworks) {
+    public void setArtworks(Set<ArtworkOutputUserDto> artworks) {
         this.artworks = artworks;
     }
 }

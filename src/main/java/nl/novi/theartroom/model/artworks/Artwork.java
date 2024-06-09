@@ -42,7 +42,7 @@ public class Artwork {
     @JsonIgnore
     private User user;
 
-    @ManyToMany(mappedBy = "artworks")
+    @ManyToMany(mappedBy = "artworks", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Order> orders = new HashSet<>();
 

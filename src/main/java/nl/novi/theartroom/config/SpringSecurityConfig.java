@@ -68,6 +68,8 @@ public class SpringSecurityConfig {
                                         .requestMatchers("/ratings/user/**").hasRole("USER")
                                         .requestMatchers("/ratings/artist/**").hasRole("ARTIST")
                                         .requestMatchers("/ratings/admin/**").hasRole("ADMIN")
+                                        .requestMatchers("/orders/user/**").hasRole("USER")
+                                        .requestMatchers("/orders/admin/**").hasRole("ADMIN")
                                         .requestMatchers(HttpMethod.POST, "/users/*").permitAll()
                                         .requestMatchers("/authenticated").authenticated()
                                         .requestMatchers("/authenticate").permitAll()

@@ -1,5 +1,6 @@
 package nl.novi.theartroom.controller;
 
+import jakarta.validation.Valid;
 import nl.novi.theartroom.dto.orderdto.OrderInputDto;
 import nl.novi.theartroom.dto.orderdto.OrderOutputDto;
 import nl.novi.theartroom.service.OrderService;
@@ -21,11 +22,46 @@ public class OrderController {
         this.userService = userService;
     }
 
+    // USER METHODS
+
     @GetMapping("/user")
     public List<OrderOutputDto> getOrdersForUser() {
         String username = userService.getCurrentLoggedInUsername();
         return orderService.getOrdersForUser(username);
     }
+
+    @PostMapping("/user")
+    public ResponseEntity<OrderOutputDto> createOrderForUser(@RequestBody @Valid OrderInputDto orderInputDto) {
+        String username = userService.getCurrentLoggedInUsername();
+        OrderOutputDto createdOrder = orderService.createOrderForUser(username, orderInputDto);
+        return ResponseEntity.ok(createdOrder);
+    }
+
+    // ADMIN METHODS
+
+    @GetMapping("/admin")
+    public List<OrderOutputDto> getAllOrdersForAdmin() {
+        return orderService.getAllOrdersForAdmin();
+    }
+
+    @GetMapping("/admin/{id}")
+    public ResponseEntity<OrderOutputDto> getOrderByIdForAdmin(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.getOrderByIdForAdmin(id));
+    }
+
+    @PutMapping("/admin/{id}")
+    public ResponseEntity<OrderOutputDto> approveOrderForAdmin(@PathVariable Long id) {
+        OrderOutputDto updatedOrder = orderService.approveOrderForAdmin(id);
+        return ResponseEntity.ok(updatedOrder);
+    }
+
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<Void> deleteOrderFor(@PathVariable Long id) {
+        orderService.deleteOrderForAdmin(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // CRUD METHODS FOR TESTING
 
     @GetMapping
     public List<OrderOutputDto> getAllOrders() {
@@ -38,14 +74,13 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderOutputDto> createOrderForUser(@RequestBody OrderInputDto orderInputDto) {
-        String username = userService.getCurrentLoggedInUsername();
-        OrderOutputDto createdOrder = orderService.createOrderForUser(username, orderInputDto);
+    public ResponseEntity<OrderOutputDto> createOrder(@RequestBody @Valid OrderInputDto orderInputDto) {
+        OrderOutputDto createdOrder = orderService.createOrder(orderInputDto);
         return ResponseEntity.ok(createdOrder);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderOutputDto> updateOrder(@PathVariable Long id, @RequestBody OrderInputDto orderInputDto) {
+    public ResponseEntity<OrderOutputDto> updateOrder(@PathVariable Long id, @RequestBody @Valid OrderInputDto orderInputDto) {
         OrderOutputDto updatedOrder = orderService.updateOrder(id, orderInputDto);
         return ResponseEntity.ok(updatedOrder);
     }
@@ -55,4 +90,5 @@ public class OrderController {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
+
 }

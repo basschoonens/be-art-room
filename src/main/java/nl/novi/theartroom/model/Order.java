@@ -12,8 +12,10 @@ import java.util.Set;
 public class Order {
 
     @Id
+    @Column(name = "order_id")
+    @SequenceGenerator(name = "order_id_seq", sequenceName = "order_id_seq", initialValue = 1000, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private long orderId;
 
     private String orderNumber;
 
@@ -34,7 +36,7 @@ public class Order {
 
     private String city;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "order_artwork",
             joinColumns = @JoinColumn(name = "order_id"),
@@ -43,13 +45,13 @@ public class Order {
     private Set<Artwork> artworks = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name = "username", nullable = false)
+    @JoinColumn(name = "username", nullable = true)
     private User user;
 
     public Order() {
     }
 
-    public Order(Long orderId, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String name, String address, String postalCode, String city, Set<Artwork> artworks, User user) {
+    public Order(long orderId, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String name, String address, String postalCode, String city, Set<Artwork> artworks, User user) {
         this.orderId = orderId;
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
@@ -64,12 +66,12 @@ public class Order {
         this.user = user;
     }
 
-    public Long getOrderId() {
+    public long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long id) {
-        this.orderId = id;
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
     }
 
     public String getOrderNumber() {

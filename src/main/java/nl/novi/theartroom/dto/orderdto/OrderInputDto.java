@@ -1,7 +1,6 @@
 package nl.novi.theartroom.dto.orderdto;
 
 import jakarta.validation.constraints.*;
-import nl.novi.theartroom.dto.artworkdto.ArtworkOutputUserDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +38,14 @@ public class OrderInputDto {
     @NotBlank(message = "City is mandatory")
     private String city;
 
-    @NotNull(message = "Artwork IDs are mandatory")
-    private List<Long> artworkIds = new ArrayList<>();
+    @NotNull(message = "Artwork IDs must not be null")
+    @NotEmpty(message = "Artwork IDs must not be empty")
+    private List<Long> artworkId = new ArrayList<>();
 
     public OrderInputDto() {
     }
 
-    public OrderInputDto(long orderId, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String name, String address, String postalCode, String city, List<Long> artworkIds) {
+    public OrderInputDto(long orderId, String orderNumber, String orderDate, String orderStatus, String paymentMethod, double totalPrice, String name, String address, String postalCode, String city, List<Long> artworkId) {
         this.orderId = orderId;
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
@@ -56,7 +56,7 @@ public class OrderInputDto {
         this.address = address;
         this.postalCode = postalCode;
         this.city = city;
-        this.artworkIds = artworkIds;
+        this.artworkId = artworkId;
     }
 
     public long getOrderId() {
@@ -139,11 +139,11 @@ public class OrderInputDto {
         this.city = city;
     }
 
-    public List<Long> getArtworkIds() {
-        return artworkIds;
+    public List<Long> getArtworkId() {
+        return artworkId;
     }
 
-    public void setArtworkIds(List<Long> artworkIds) {
-        this.artworkIds = artworkIds;
+    public void setArtworkId(List<Long> artworkId) {
+        this.artworkId = artworkId;
     }
 }
