@@ -52,9 +52,9 @@ public class ArtworkService {
                 .collect(Collectors.toList());
     }
 
-    public ArtworkOutputUserDto getArtworkById(Long id) {
-        Artwork artwork = artworkRepository.findById(id)
-                .orElseThrow(() -> new ArtworkNotFoundException("Artwork with id " + id + " not found."));
+    public ArtworkOutputUserDto getArtworkById(Long artworkId) {
+        Artwork artwork = artworkRepository.findById(artworkId)
+                .orElseThrow(() -> new ArtworkNotFoundException("Artwork with artworkId " + artworkId + " not found."));
         return artworkUserDtoMapper.toArtworkUserDto(artwork);
     }
 
@@ -67,6 +67,18 @@ public class ArtworkService {
         return artworks.stream()
                 .map(artworkArtistDtoMapper::toArtworkArtistDto)
                 .collect(Collectors.toList());
+    }
+
+    public ArtworkOutputArtistAdminDto getArtworkByArtist(Long artworkId, String username) {
+        Optional<Artwork> artworkFound = artworkRepository.findById(artworkId);
+        if (artworkFound.isEmpty()) {
+            throw new ArtworkNotFoundException("Artwork with artworkId " + artworkId + " not found.");
+        }
+        Artwork artwork = artworkFound.get();
+        if (!artwork.getUser().getUsername().equals(username)) {
+            throw new UnauthorizedAccessException("User not authorized to view this artwork");
+        }
+        return artworkArtistDtoMapper.toArtworkArtistDto(artwork);
     }
 
     @Transactional
@@ -85,11 +97,11 @@ public class ArtworkService {
     }
 
     @Transactional
-    public void updateArtworkForArtist(Long id, ArtworkInputDto dto, String username) {
+    public void updateArtworkForArtist(Long artworkId, ArtworkInputDto dto, String username) {
         try {
-            Optional<Artwork> artworkFound = artworkRepository.findById(id);
+            Optional<Artwork> artworkFound = artworkRepository.findById(artworkId);
             if (artworkFound.isEmpty()) {
-                throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
+                throw new ArtworkNotFoundException("Artwork with artworkId " + artworkId + " not found.");
             }
             Artwork existingArtwork = artworkFound.get();
             if (!existingArtwork.getUser().getUsername().equals(username)) {
@@ -107,12 +119,15 @@ public class ArtworkService {
         }
     }
 
-    public void deleteArtworkForArtist(Long id) {
-        Optional<Artwork> artworkFound = artworkRepository.findById(id);
+    public void deleteArtworkForArtist(Long artworkId, String username) {
+        Optional<Artwork> artworkFound = artworkRepository.findById(artworkId);
         if (artworkFound.isEmpty()) {
-            throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
+            throw new ArtworkNotFoundException("Artwork with artworkId " + artworkId + " not found.");
         } else {
             Artwork artwork = artworkFound.get();
+            if (!artwork.getUser().getUsername().equals(username)) {
+                throw new UnauthorizedAccessException("User not authorized to delete this artwork");
+            }
             if (artwork.getArtworkImage() != null) {
                 uploadRepository.delete(artwork.getArtworkImage());
             }
@@ -138,7 +153,7 @@ public class ArtworkService {
     }
 
     @Transactional
-    public Resource getImageFromArtwork(Long artworkId) {
+    public Resource getImageForArtwork(Long artworkId) {
         Optional<Artwork> optionalArtwork = artworkRepository.findById(artworkId);
         if (optionalArtwork.isEmpty()) {
             throw new RecordNotFoundException("Artwork with artwork number " + artworkId + " not found.");
@@ -152,11 +167,11 @@ public class ArtworkService {
 
     // ADMIN ARTWORKS METHOD
 
-    public void updateArtworkForAdmin(Long id, ArtworkInputDto dto) {
+    public void updateArtworkForAdmin(Long artworkId, ArtworkInputDto dto) {
         try {
-            Optional<Artwork> artworkFound = artworkRepository.findById(id);
+            Optional<Artwork> artworkFound = artworkRepository.findById(artworkId);
             if (artworkFound.isEmpty()) {
-                throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
+                throw new ArtworkNotFoundException("Artwork with artworkId " + artworkId + " not found.");
             }
             Artwork existingArtwork = artworkFound.get();
             Artwork updatedArtwork = artworkInputDtoMapper.toArtwork(dto, existingArtwork);
@@ -168,10 +183,10 @@ public class ArtworkService {
         }
     }
 
-    public void deleteArtworkForAdmin(Long id) {
-        Optional<Artwork> artworkFound = artworkRepository.findById(id);
+    public void deleteArtworkForAdmin(Long artworkId) {
+        Optional<Artwork> artworkFound = artworkRepository.findById(artworkId);
         if (artworkFound.isEmpty()) {
-            throw new ArtworkNotFoundException("Artwork with id " + id + " not found.");
+            throw new ArtworkNotFoundException("Artwork with artworkId " + artworkId + " not found.");
         } else {
             Artwork artwork = artworkFound.get();
             if (artwork.getArtworkImage() != null) {
@@ -180,5 +195,4 @@ public class ArtworkService {
             artworkRepository.delete(artwork);
         }
     }
-
 }

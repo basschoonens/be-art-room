@@ -81,7 +81,7 @@ class ArtworkServiceUnitTest {
     }
 
     @Test
-    void getImageFromArtwork() {
+    void getImageForArtwork() {
 
         // Arrange
 

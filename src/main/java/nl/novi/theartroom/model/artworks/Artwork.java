@@ -27,7 +27,7 @@ public class Artwork {
     private LocalDate dateCreated;
     private Double galleryBuyingPrice;
     private String edition;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     ArtworkImage artworkImage;
 
     private String artworkType;

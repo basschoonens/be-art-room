@@ -52,14 +52,21 @@ import java.util.Objects;
 
         // ARTIST ARTWORKS METHOD
 
-        @GetMapping("/user/artworks")
+        @GetMapping("/artist/artworks")
         public ResponseEntity<List<ArtworkOutputArtistAdminDto>> getArtworksByArtist() {
             String username = userService.getCurrentLoggedInUsername();
             List<ArtworkOutputArtistAdminDto> artworks = artworkService.getArtworksByArtist(username);
             return ResponseEntity.ok(artworks);
         }
 
-        @PostMapping()
+        @GetMapping("/artist/{artworkId}")
+        public ResponseEntity<ArtworkOutputArtistAdminDto> getArtworkByArtist(@PathVariable Long artworkId) {
+            String username = userService.getCurrentLoggedInUsername();
+            ArtworkOutputArtistAdminDto artwork = artworkService.getArtworkByArtist(artworkId, username);
+            return ResponseEntity.ok(artwork);
+        }
+
+        @PostMapping("/artist")
         public ResponseEntity<Void> createArtworkForArtist(@RequestBody @Valid ArtworkInputDto artwork) {
             String username = userService.getCurrentLoggedInUsername();
             Long newArtworkId = artworkService.createArtworkForArtist(artwork, username);
@@ -71,25 +78,26 @@ import java.util.Objects;
             return ResponseEntity.created(location).build();
         }
 
-        @PutMapping("/{id}")
-        public ResponseEntity<Void> updateArtworkForArtist(@PathVariable Long id, @RequestBody @Valid ArtworkInputDto artwork) {
+        @PutMapping("artist/{artworkId}")
+        public ResponseEntity<Void> updateArtworkForArtist(@PathVariable Long artworkId, @RequestBody @Valid ArtworkInputDto artwork) {
             String username = userService.getCurrentLoggedInUsername();
-            artworkService.updateArtworkForArtist(id, artwork, username);
+            artworkService.updateArtworkForArtist(artworkId, artwork, username);
             return ResponseEntity.noContent().build();
         }
 
-        @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteArtworkForArtist(@PathVariable Long id) {
-            artworkService.deleteArtworkForArtist(id);
+        @DeleteMapping("/artist/{artworkId}")
+        public ResponseEntity<Void> deleteArtworkForArtist(@PathVariable Long artworkId) {
+            String username = userService.getCurrentLoggedInUsername();
+            artworkService.deleteArtworkForArtist(artworkId, username);
             return ResponseEntity.noContent().build();
         }
 
-        @PostMapping("/{id}/image")
-        public ResponseEntity<Artwork> addOrUpdateImageToArtwork(@PathVariable("id") Long artworkId, @RequestBody MultipartFile file)
+        @PostMapping("/artist/{artworkId}/image")
+        public ResponseEntity<Artwork> addOrUpdateImageToArtwork(@PathVariable("artworkId") Long artworkId, @RequestParam("file") MultipartFile file)
                 throws IOException {
             String url = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/artworks/")
-                    .path(Objects.requireNonNull(artworkId.toString()))
+                    .path(artworkId.toString())
                     .path("/image")
                     .toUriString();
             String fileName = artworkImageService.storeFile(file);
@@ -98,9 +106,9 @@ import java.util.Objects;
             return ResponseEntity.created(URI.create(url)).body(artwork);
         }
 
-        @GetMapping("/{id}/image")
-        public ResponseEntity<Resource> getArtworkImage(@PathVariable("id") Long artworkId, HttpServletRequest request){
-            Resource resource = artworkService.getImageFromArtwork(artworkId);
+        @GetMapping("/{artworkId}/image")
+        public ResponseEntity<Resource> getImageForArtwork(@PathVariable("artworkId") Long artworkId, HttpServletRequest request){
+            Resource resource = artworkService.getImageForArtwork(artworkId);
 
             String mimeType;
 
@@ -119,20 +127,16 @@ import java.util.Objects;
 
         // ADMIN ARTWORKS METHOD
 
-        @PutMapping("/{id}")
-        public ResponseEntity<Void> updateArtworkForAdmin(@PathVariable Long id, @RequestBody @Valid ArtworkInputDto artwork) {
-            String username = userService.getCurrentLoggedInUsername();
-            artworkService.updateArtworkForArtist(id, artwork, username);
+        @PutMapping("/admin/{artworkId}")
+        public ResponseEntity<Void> updateArtworkForAdmin(@PathVariable Long artworkId, @RequestBody @Valid ArtworkInputDto artwork) {
+            artworkService.updateArtworkForAdmin(artworkId, artwork);
             return ResponseEntity.noContent().build();
         }
 
-        @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteArtworkForAdmin(@PathVariable Long id) {
-            artworkService.deleteArtworkForArtist(id);
+        @DeleteMapping("/admin/{artworkId}")
+        public ResponseEntity<Void> deleteArtworkForAdmin(@PathVariable Long artworkId) {
+            artworkService.deleteArtworkForAdmin(artworkId);
             return ResponseEntity.noContent().build();
         }
-
-
-
 }
 
