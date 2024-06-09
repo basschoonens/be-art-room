@@ -1,7 +1,5 @@
 package nl.novi.theartroom.dto.userdto;
 
-//TODO Authority omzetten naar Roles
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -17,7 +15,6 @@ public class UserDto {
     @Email(message = "Email should be valid")
     public String email;
 
-    // added 17-05
     public String authority;
 
     public UserDto() {

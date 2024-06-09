@@ -2,6 +2,7 @@ package nl.novi.theartroom.controller;
 
 import nl.novi.theartroom.dto.userdto.UserDto;
 import nl.novi.theartroom.exception.BadRequestException;
+import nl.novi.theartroom.exception.UnauthorizedAccessException;
 import nl.novi.theartroom.service.userservice.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,7 @@ public class UserController {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private UserDto userDto;
 
     public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
@@ -27,23 +29,15 @@ public class UserController {
 
     @GetMapping(value = "")
     public ResponseEntity<List<UserDto>> getUsers() {
-
         List<UserDto> userDtos = userService.getUsers();
-
         return ResponseEntity.ok().body(userDtos);
     }
 
     @GetMapping(value = "/{username}")
     public ResponseEntity<UserDto> getUser(@PathVariable("username") String username) {
-
         UserDto optionalUser = userService.getUser(username);
-
-
         return ResponseEntity.ok().body(optionalUser);
-
     }
-
-    // TODO de password Encoder naar de service verplaatsen.
 
     @PostMapping(value = "/user")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {
@@ -57,12 +51,12 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
-    // added 17-05
     @PostMapping(value = "/artist")
     public ResponseEntity<UserDto> createArtist(@RequestBody UserDto dto) {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         String newUsername = userService.createUser(dto);
         userService.addAuthority(newUsername, "ROLE_ARTIST");
+
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
                 .buildAndExpand(newUsername).toUri();
 
@@ -70,10 +64,16 @@ public class UserController {
     }
 
     @PutMapping(value = "/{username}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("username") String username, @RequestBody UserDto dto) {
-
+    public ResponseEntity<UserDto> updateUserPassword(@PathVariable("username") String username, @RequestBody UserDto dto) {
+        String currentUsername = userService.getCurrentLoggedInUsername();
+        if (!currentUsername.equals(username)) {
+            throw new UnauthorizedAccessException("You are not authorized to update this user.");
+        }
+        if(dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            String encryptedPassword = passwordEncoder.encode(dto.getPassword());
+            dto.setPassword(encryptedPassword);
+        }
         userService.updateUser(username, dto);
-
         return ResponseEntity.noContent().build();
     }
 
@@ -105,5 +105,4 @@ public class UserController {
         userService.removeAuthority(username, authority);
         return ResponseEntity.noContent().build();
     }
-
 }
