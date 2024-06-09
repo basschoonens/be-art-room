@@ -33,14 +33,12 @@ public class ArtworkInputDto {
     private String artworkType;
 
     // Painting fields
-    private String paintingPaintType;
     private String paintingSurface;
     private String paintingMaterial;
     private Integer paintingDimensionsWidthInCm;
     private Integer paintingDimensionsHeightInCm;
 
     // Drawing fields
-    private String drawingDrawType;
     private String drawingSurface;
     private String drawingMaterial;
     private Integer drawingDimensionsWidthInCm;
@@ -53,7 +51,7 @@ public class ArtworkInputDto {
     public ArtworkInputDto() {
     }
 
-    public ArtworkInputDto(Long artworkId, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String artworkType, String paintingPaintType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingDrawType, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm, MultipartFile file, String username) {
+    public ArtworkInputDto(Long artworkId, String title, String artist, String description, LocalDate dateCreated, Double galleryBuyingPrice, String edition, String artworkType, String paintingSurface, String paintingMaterial, Integer paintingDimensionsWidthInCm, Integer paintingDimensionsHeightInCm, String drawingSurface, String drawingMaterial, Integer drawingDimensionsWidthInCm, Integer drawingDimensionsHeightInCm, MultipartFile file, String username) {
         this.artworkId = artworkId;
         this.title = title;
         this.artist = artist;
@@ -62,12 +60,10 @@ public class ArtworkInputDto {
         this.galleryBuyingPrice = galleryBuyingPrice;
         this.edition = edition;
         this.artworkType = artworkType;
-        this.paintingPaintType = paintingPaintType;
         this.paintingSurface = paintingSurface;
         this.paintingMaterial = paintingMaterial;
         this.paintingDimensionsWidthInCm = paintingDimensionsWidthInCm;
         this.paintingDimensionsHeightInCm = paintingDimensionsHeightInCm;
-        this.drawingDrawType = drawingDrawType;
         this.drawingSurface = drawingSurface;
         this.drawingMaterial = drawingMaterial;
         this.drawingDimensionsWidthInCm = drawingDimensionsWidthInCm;
@@ -132,28 +128,12 @@ public class ArtworkInputDto {
         this.edition = edition;
     }
 
-//    public String getImageUrl() {
-//        return imageUrl;
-//    }
-//
-//    public void setImageUrl(String imageUrl) {
-//        this.imageUrl = imageUrl;
-//    }
-
     public String getArtworkType() {
         return artworkType;
     }
 
     public void setArtworkType(String artworkType) {
         this.artworkType = artworkType;
-    }
-
-    public String getPaintingPaintType() {
-        return paintingPaintType;
-    }
-
-    public void setPaintingPaintType(String paintingPaintType) {
-        this.paintingPaintType = paintingPaintType;
     }
 
     public String getPaintingSurface() {
@@ -186,14 +166,6 @@ public class ArtworkInputDto {
 
     public void setPaintingDimensionsHeightInCm(Integer paintingDimensionsHeightInCm) {
         this.paintingDimensionsHeightInCm = paintingDimensionsHeightInCm;
-    }
-
-    public String getDrawingDrawType() {
-        return drawingDrawType;
-    }
-
-    public void setDrawingDrawType(String drawingDrawType) {
-        this.drawingDrawType = drawingDrawType;
     }
 
     public String getDrawingSurface() {

@@ -17,15 +17,6 @@ public class Rating {
     @GeneratedValue
     private Long ratingId;
 
-    //    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "artlover_id", nullable = false)
-//    private Artlover artlover;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "artist_id", nullable = false)
-//    private Artist artist;
-
-    // TODO Koppeling user/artwork/rating
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "artwork_id")
     @JsonIgnore
@@ -36,7 +27,8 @@ public class Rating {
     private User user;
 
     // Als je buiten de range van 1 - 5 gaat, krijg je een validation exception !!
-    @Min(1) @Max(5)
+    @Min(1)
+    @Max(5)
     private int rating;
 
     private String comment;

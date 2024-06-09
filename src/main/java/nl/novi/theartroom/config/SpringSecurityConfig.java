@@ -17,9 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/*  Deze security is niet de enige manier om het te doen.
-    In de andere branch van deze github repo staat een ander voorbeeld
- */
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
@@ -47,8 +44,6 @@ public class SpringSecurityConfig {
         auth.setUserDetailsService(customUserDetailsService);
         return new ProviderManager(auth);
     }
-
-    // TODO RequestMatchers goed instellen
 
     @Bean
     protected SecurityFilterChain filter(HttpSecurity http) throws Exception {

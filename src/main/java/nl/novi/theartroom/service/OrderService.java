@@ -7,7 +7,6 @@ import nl.novi.theartroom.exception.*;
 import nl.novi.theartroom.mapper.OrderDtoMapper;
 import nl.novi.theartroom.model.Order;
 import nl.novi.theartroom.model.users.User;
-import nl.novi.theartroom.repository.ArtworkRepository;
 import nl.novi.theartroom.repository.OrderRepository;
 import nl.novi.theartroom.service.userservice.UserService;
 import org.springframework.stereotype.Service;
@@ -20,13 +19,12 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderDtoMapper orderDtoMapper;
-    private final ArtworkRepository artworkRepository;
     private final UserService userService;
 
-    public OrderService(OrderRepository orderRepository, OrderDtoMapper orderDtoMapper, ArtworkRepository artworkRepository, UserService userService) {
+    public OrderService(OrderRepository orderRepository, OrderDtoMapper orderDtoMapper, UserService userService) {
         this.orderRepository = orderRepository;
         this.orderDtoMapper = orderDtoMapper;
-        this.artworkRepository = artworkRepository;
+
         this.userService = userService;
     }
 

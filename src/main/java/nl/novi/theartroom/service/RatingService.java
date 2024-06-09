@@ -36,8 +36,6 @@ public class RatingService {
 
     // USER RATINGS METHODS
 
-    // Ratings by artwork id method
-
     public List<RatingUserDto> getAllRatingsForArtwork(Long artworkId) {
         List<Rating> ratings = ratingRepository.findRatingsListByArtworkArtworkId(artworkId);
         return ratingDtoMapper.toRatingDtoList(ratings);
@@ -82,8 +80,6 @@ public class RatingService {
     }
 
     // ARTIST RATING METHODS
-
-    // Get all ratings for an artist method
 
     public List<RatingOutputWithArtworkDto> getAllRatingsForAllArtworksByArtist(String username) {
         List<Artwork> artworks = artworkRepository.findByArtist(username);

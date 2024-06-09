@@ -5,7 +5,7 @@ import nl.novi.theartroom.dto.artworkdto.ArtworkOutputArtistAdminDto;
 import nl.novi.theartroom.dto.artworkdto.ArtworkOutputUserDto;
 import nl.novi.theartroom.dto.artworkdto.ArtworkInputDto;
 import nl.novi.theartroom.exception.*;
-import nl.novi.theartroom.mapper.artworkmappers.ArtworkArtistDtoMapper;
+import nl.novi.theartroom.mapper.artworkmappers.ArtworkArtistAdminDtoMapper;
 import nl.novi.theartroom.mapper.artworkmappers.ArtworkUserDtoMapper;
 import nl.novi.theartroom.mapper.artworkmappers.ArtworkInputDtoMapper;
 import nl.novi.theartroom.model.artworks.Artwork;
@@ -31,16 +31,16 @@ public class ArtworkService {
     private final UserService userService;
     private final ArtworkInputDtoMapper artworkInputDtoMapper;
     private final ArtworkUserDtoMapper artworkUserDtoMapper;
-    private final ArtworkArtistDtoMapper artworkArtistDtoMapper;
+    private final ArtworkArtistAdminDtoMapper artworkArtistAdminDtoMapper;
 
-    public ArtworkService(ArtworkRepository artworkRepository, FileUploadRepository uploadRepository, ArtworkImageService photoService, UserService userService, ArtworkInputDtoMapper artworkInputDtoMapper, ArtworkUserDtoMapper artworkUserDtoMapper, ArtworkArtistDtoMapper artworkArtistDtoMapper) {
+    public ArtworkService(ArtworkRepository artworkRepository, FileUploadRepository uploadRepository, ArtworkImageService photoService, UserService userService, ArtworkInputDtoMapper artworkInputDtoMapper, ArtworkUserDtoMapper artworkUserDtoMapper, ArtworkArtistAdminDtoMapper artworkArtistAdminDtoMapper) {
         this.artworkRepository = artworkRepository;
         this.uploadRepository = uploadRepository;
         this.photoService = photoService;
         this.userService = userService;
         this.artworkInputDtoMapper = artworkInputDtoMapper;
         this.artworkUserDtoMapper = artworkUserDtoMapper;
-        this.artworkArtistDtoMapper = artworkArtistDtoMapper;
+        this.artworkArtistAdminDtoMapper = artworkArtistAdminDtoMapper;
     }
 
     // UNAUTHENTICATED ARTWORKS METHOD
@@ -65,7 +65,7 @@ public class ArtworkService {
         List<Artwork> artworks = artworkRepository.findAllByUser(user);
 
         return artworks.stream()
-                .map(artworkArtistDtoMapper::toArtworkArtistDto)
+                .map(artworkArtistAdminDtoMapper::toArtworkArtistDto)
                 .collect(Collectors.toList());
     }
 
@@ -78,7 +78,7 @@ public class ArtworkService {
         if (!artwork.getUser().getUsername().equals(username)) {
             throw new UnauthorizedAccessException("User not authorized to view this artwork");
         }
-        return artworkArtistDtoMapper.toArtworkArtistDto(artwork);
+        return artworkArtistAdminDtoMapper.toArtworkArtistDto(artwork);
     }
 
     @Transactional

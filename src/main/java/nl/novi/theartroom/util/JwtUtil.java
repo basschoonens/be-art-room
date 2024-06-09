@@ -1,4 +1,5 @@
 package nl.novi.theartroom.util;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,9 +17,6 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-//    private final static String SECRET_KEY = System.getenv("jwt.secretKey");
-
-    // De secret key moet minimaal 256 bits lang zijn, of grofweg 45 characters
     private final static String SECRET_KEY = "aGllcmVlbm5pZXV3d2FjaHR3b29yZHZvb3J0aGVhcnRyb29t";
 
     private Key getSigningKey() {
@@ -58,8 +56,8 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 10))
-                .signWith(getSigningKey() ,SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 3))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 

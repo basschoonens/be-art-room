@@ -3,7 +3,6 @@ package nl.novi.theartroom.dto.orderdto;
 import jakarta.validation.constraints.*;
 import nl.novi.theartroom.dto.artworkdto.ArtworkOutputUserDto;
 
-import java.util.List;
 import java.util.Set;
 
 public class OrderOutputDto {

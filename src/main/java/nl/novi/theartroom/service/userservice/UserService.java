@@ -39,7 +39,7 @@ public class UserService {
 
     public UserDto getUser(String username) {
         Optional<User> user = userRepository.findById(username);
-        if (user.isPresent()){
+        if (user.isPresent()) {
             return userDtoMapper.fromUser(user.get());
         } else {
             throw new UsernameNotFoundException(username);

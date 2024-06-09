@@ -19,7 +19,6 @@ public class Order {
 
     private String orderNumber;
 
-    //TODO Aanpassen naar LocalDate
     private String orderDate;
 
     private String orderStatus;

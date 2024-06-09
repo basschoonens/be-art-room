@@ -1,6 +1,5 @@
 package nl.novi.theartroom.dto.ratingdto;
 
-
 public class RatingOutputWithArtworkDto {
 
     private Long ratingId;

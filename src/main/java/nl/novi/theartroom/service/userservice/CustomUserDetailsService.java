@@ -1,17 +1,13 @@
 package nl.novi.theartroom.service.userservice;
 
-
 import nl.novi.theartroom.exception.UserNotFoundException;
 import nl.novi.theartroom.model.users.Authority;
 import nl.novi.theartroom.model.users.User;
 import nl.novi.theartroom.repository.UserRepository;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,18 +21,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
-    //TODO Exception hier aanpassen
 
     @Override
     public UserDetails loadUserByUsername(String username) {
         Optional<User> user = userRepository.findById(username);
         if (user.isEmpty()) {
-            throw new RuntimeException("User not found with username: " + username);
+            throw new UserNotFoundException("User not found with username: " + username);
         }
         User foundUser = user.get();
 
@@ -44,7 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         Set<Authority> authorities = foundUser.getAuthorities();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        for (Authority authority: authorities) {
+        for (Authority authority : authorities) {
             grantedAuthorities.add(new SimpleGrantedAuthority(authority.getAuthority()));
         }
 

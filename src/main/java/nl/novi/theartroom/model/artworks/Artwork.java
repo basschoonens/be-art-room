@@ -19,7 +19,7 @@ public class Artwork {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "artwork_id_seq")
-    @SequenceGenerator(name = "artwork_id_seq", sequenceName = "artwork_id_seq",initialValue = 1055, allocationSize = 1)
+    @SequenceGenerator(name = "artwork_id_seq", sequenceName = "artwork_id_seq", initialValue = 1055, allocationSize = 1)
     private Long artworkId;
     private String title;
     private String artist;
@@ -31,7 +31,6 @@ public class Artwork {
     ArtworkImage artworkImage;
 
     private String artworkType;
-    // Boolean forSale
 
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore

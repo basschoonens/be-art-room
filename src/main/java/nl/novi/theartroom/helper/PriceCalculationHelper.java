@@ -9,5 +9,4 @@ public class PriceCalculationHelper {
     public double calculateSellingPrice(Artwork artwork) {
         return artwork.getGalleryBuyingPrice() * 1.25;
     }
-
 }

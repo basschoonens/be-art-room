@@ -11,12 +11,12 @@ import nl.novi.theartroom.model.artworks.Painting;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ArtworkArtistDtoMapper {
+public class ArtworkArtistAdminDtoMapper {
 
     private final RatingCalculationHelper ratingCalculationHelper;
     private final PriceCalculationHelper priceCalculationHelper;
 
-    public ArtworkArtistDtoMapper(RatingCalculationHelper ratingCalculationHelper, PriceCalculationHelper priceCalculationHelper) {
+    public ArtworkArtistAdminDtoMapper(RatingCalculationHelper ratingCalculationHelper, PriceCalculationHelper priceCalculationHelper) {
         this.ratingCalculationHelper = ratingCalculationHelper;
         this.priceCalculationHelper = priceCalculationHelper;
     }

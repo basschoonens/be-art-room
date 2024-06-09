@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDtoMapper {
 
-    public UserDto fromUser(User user){
+    public UserDto fromUser(User user) {
 
         var dto = new UserDto();
 

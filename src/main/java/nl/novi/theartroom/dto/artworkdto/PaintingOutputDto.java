@@ -2,7 +2,6 @@ package nl.novi.theartroom.dto.artworkdto;
 
 public class PaintingOutputDto {
 
-//    private String paintingPaintType;
     private String paintingSurface;
     private String paintingMaterial;
     private Integer paintingDimensionsWidthInCm;

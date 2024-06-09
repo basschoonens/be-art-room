@@ -29,6 +29,4 @@ public class RatingCalculationHelper {
         List<Rating> ratings = ratingRepository.findRatingsListByArtworkArtworkId(artworkId);
         return ratings.size();
     }
-
-
 }

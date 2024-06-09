@@ -69,7 +69,7 @@ public class UserController {
         if (!currentUsername.equals(username)) {
             throw new UnauthorizedAccessException("You are not authorized to update this user.");
         }
-        if(dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
             String encryptedPassword = passwordEncoder.encode(dto.getPassword());
             dto.setPassword(encryptedPassword);
         }
@@ -94,8 +94,7 @@ public class UserController {
             String authorityName = (String) fields.get("authority");
             userService.addAuthority(username, authorityName);
             return ResponseEntity.noContent().build();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new BadRequestException();
         }
     }

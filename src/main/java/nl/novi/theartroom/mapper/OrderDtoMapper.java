@@ -3,7 +3,6 @@ package nl.novi.theartroom.mapper;
 import nl.novi.theartroom.dto.orderdto.OrderInputDto;
 import nl.novi.theartroom.dto.orderdto.OrderOutputDto;
 import nl.novi.theartroom.exception.ArtworkNotFoundException;
-import nl.novi.theartroom.exception.MappingException;
 import nl.novi.theartroom.mapper.artworkmappers.ArtworkUserDtoMapper;
 import nl.novi.theartroom.model.Order;
 import nl.novi.theartroom.model.artworks.Artwork;

@@ -11,6 +11,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidArtworkType {
     String message() default "Invalid artwork type";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }
