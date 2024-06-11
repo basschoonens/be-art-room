@@ -7,7 +7,9 @@ import nl.novi.theartroom.service.OrderService;
 import nl.novi.theartroom.service.userservice.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -25,23 +27,31 @@ public class OrderController {
     // USER METHODS
 
     @GetMapping("/user")
-    public List<OrderOutputDto> getOrdersForUser() {
+    public ResponseEntity<List<OrderOutputDto>> getOrdersForUser() {
         String username = userService.getCurrentLoggedInUsername();
-        return orderService.getOrdersForUser(username);
+        List<OrderOutputDto> orders = orderService.getOrdersForUser(username);
+        return ResponseEntity.ok(orders);
     }
 
     @PostMapping("/user")
     public ResponseEntity<OrderOutputDto> createOrderForUser(@RequestBody @Valid OrderInputDto orderInputDto) {
         String username = userService.getCurrentLoggedInUsername();
         OrderOutputDto createdOrder = orderService.createOrderForUser(username, orderInputDto);
-        return ResponseEntity.ok(createdOrder);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdOrder.getOrderId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(createdOrder);
     }
 
     // ADMIN METHODS
 
     @GetMapping("/admin")
-    public List<OrderOutputDto> getAllOrdersForAdmin() {
-        return orderService.getAllOrdersForAdmin();
+    public ResponseEntity<List<OrderOutputDto>> getAllOrdersForAdmin() {
+        List<OrderOutputDto> orders = orderService.getAllOrdersForAdmin();
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/admin/{id}")
@@ -64,8 +74,9 @@ public class OrderController {
     // CRUD METHODS FOR TESTING
 
     @GetMapping
-    public List<OrderOutputDto> getAllOrders() {
-        return orderService.getAllOrders();
+    public ResponseEntity<List<OrderOutputDto>> getAllOrders() {
+        List<OrderOutputDto> orders = orderService.getAllOrders();
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/{id}")
@@ -76,7 +87,12 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<OrderOutputDto> createOrder(@RequestBody @Valid OrderInputDto orderInputDto) {
         OrderOutputDto createdOrder = orderService.createOrder(orderInputDto);
-        return ResponseEntity.ok(createdOrder);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdOrder.getOrderId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(createdOrder);
     }
 
     @PutMapping("/{id}")
