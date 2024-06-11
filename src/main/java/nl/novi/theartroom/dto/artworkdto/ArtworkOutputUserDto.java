@@ -1,6 +1,6 @@
 package nl.novi.theartroom.dto.artworkdto;
 
-import nl.novi.theartroom.dto.ratingdto.RatingUserDto;
+import nl.novi.theartroom.dto.ratingdto.RatingInputUserDto;
 import nl.novi.theartroom.model.artworks.ArtworkImage;
 
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ public class ArtworkOutputUserDto {
     private String edition;
     private ArtworkImage image;
     private String artworkType;
-    private List<RatingUserDto> ratings;
+    private List<RatingInputUserDto> ratings;
     private double averageRating;
     private double totalAmountOfRatings;
     private double sellingPrice;
@@ -26,7 +26,7 @@ public class ArtworkOutputUserDto {
     public ArtworkOutputUserDto() {
     }
 
-    public ArtworkOutputUserDto(Long artworkId, String title, String artist, String description, LocalDate dateCreated, String edition, ArtworkImage image, String artworkType, List<RatingUserDto> ratings, double averageRating, double totalAmountOfRatings, double sellingPrice, PaintingOutputDto paintingData, DrawingOutputDto drawingData) {
+    public ArtworkOutputUserDto(Long artworkId, String title, String artist, String description, LocalDate dateCreated, String edition, ArtworkImage image, String artworkType, List<RatingInputUserDto> ratings, double averageRating, double totalAmountOfRatings, double sellingPrice, PaintingOutputDto paintingData, DrawingOutputDto drawingData) {
         this.artworkId = artworkId;
         this.title = title;
         this.artist = artist;
@@ -123,11 +123,11 @@ public class ArtworkOutputUserDto {
         this.drawingData = drawingData;
     }
 
-    public List<RatingUserDto> getRatings() {
+    public List<RatingInputUserDto> getRatings() {
         return ratings;
     }
 
-    public void setRatings(List<RatingUserDto> ratings) {
+    public void setRatings(List<RatingInputUserDto> ratings) {
         this.ratings = ratings;
     }
 

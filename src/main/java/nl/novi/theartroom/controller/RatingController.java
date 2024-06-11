@@ -1,7 +1,7 @@
 package nl.novi.theartroom.controller;
 
 import nl.novi.theartroom.dto.ratingdto.RatingOutputWithArtworkDto;
-import nl.novi.theartroom.dto.ratingdto.RatingUserDto;
+import nl.novi.theartroom.dto.ratingdto.RatingInputUserDto;
 import nl.novi.theartroom.model.Rating;
 import nl.novi.theartroom.service.RatingService;
 import nl.novi.theartroom.service.userservice.UserService;
@@ -28,8 +28,8 @@ public class RatingController {
     // Ratings by artwork id method for all users
 
     @GetMapping("/artwork/{artworkId}")
-    public ResponseEntity<List<RatingUserDto>> getAllRatingsForArtwork(@PathVariable Long artworkId) {
-        List<RatingUserDto> ratings = ratingService.getAllRatingsForArtwork(artworkId);
+    public ResponseEntity<List<RatingInputUserDto>> getAllRatingsForArtwork(@PathVariable Long artworkId) {
+        List<RatingInputUserDto> ratings = ratingService.getAllRatingsForArtwork(artworkId);
         return ResponseEntity.ok(ratings);
     }
 
@@ -43,9 +43,9 @@ public class RatingController {
     }
 
     @PostMapping("/user/{artworkId}")
-    public ResponseEntity<Void> addOrUpdateRatingToArtworkByUser(@PathVariable Long artworkId, @RequestBody RatingUserDto ratingUserDto) {
+    public ResponseEntity<Void> addOrUpdateRatingToArtworkByUser(@PathVariable Long artworkId, @RequestBody RatingInputUserDto ratingInputUserDto) {
         String username = userService.getCurrentLoggedInUsername();
-        RatingOutputWithArtworkDto ratingDto = ratingService.addOrUpdateRatingToArtwork(username, artworkId, ratingUserDto);
+        RatingOutputWithArtworkDto ratingDto = ratingService.addOrUpdateRatingToArtwork(username, artworkId, ratingInputUserDto);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{ratingId}")
@@ -72,7 +72,7 @@ public class RatingController {
     }
 
     @PutMapping("/artist/{artworkId}/{ratingId}")
-    public ResponseEntity<Void> updateRatingByArtistAndArtworkId(@PathVariable Long artworkId, @PathVariable Long ratingId, @RequestBody RatingUserDto rating) {
+    public ResponseEntity<Void> updateRatingByArtistAndArtworkId(@PathVariable Long artworkId, @PathVariable Long ratingId, @RequestBody RatingInputUserDto rating) {
         String username = userService.getCurrentLoggedInUsername();
         ratingService.updateRatingByArtistAndArtworkId(username, artworkId, ratingId, rating);
         return ResponseEntity.noContent().build();
@@ -95,7 +95,7 @@ public class RatingController {
     }
 
     @PutMapping("/admin/{ratingId}")
-    public ResponseEntity<Void> updateRatingForAdmin(@PathVariable Long ratingId, @RequestBody RatingUserDto rating) {
+    public ResponseEntity<Void> updateRatingForAdmin(@PathVariable Long ratingId, @RequestBody RatingInputUserDto rating) {
         ratingService.updateRatingForAdmin(ratingId, rating);
         return ResponseEntity.noContent().build();
     }
@@ -121,7 +121,7 @@ public class RatingController {
     }
 
     @PostMapping()
-    public ResponseEntity<Void> addRating(@RequestBody RatingUserDto rating) {
+    public ResponseEntity<Void> addRating(@RequestBody RatingInputUserDto rating) {
         Rating newRating = ratingService.addRating(rating);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -133,7 +133,7 @@ public class RatingController {
     }
 
     @PutMapping("/{ratingId}")
-    public ResponseEntity<Void> updateRating(@PathVariable Long ratingId, @RequestBody RatingUserDto rating) {
+    public ResponseEntity<Void> updateRating(@PathVariable Long ratingId, @RequestBody RatingInputUserDto rating) {
         ratingService.updateRating(ratingId, rating);
         return ResponseEntity.noContent().build();
     }

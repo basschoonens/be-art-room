@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
-public class RatingUserDto {
+public class RatingInputUserDto {
 
     private Long ratingId;
 
@@ -15,10 +15,10 @@ public class RatingUserDto {
     @Size(message = "Comment should not exceed 500 characters", max = 500)
     private String comment;
 
-    public RatingUserDto() {
+    public RatingInputUserDto() {
     }
 
-    public RatingUserDto(Long ratingId, Integer rating, String comment) {
+    public RatingInputUserDto(Long ratingId, Integer rating, String comment) {
         this.ratingId = ratingId;
         this.rating = rating;
         this.comment = comment;

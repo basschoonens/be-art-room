@@ -3,7 +3,7 @@ package nl.novi.theartroom.mapper.artworkmappers;
 import nl.novi.theartroom.dto.artworkdto.ArtworkOutputUserDto;
 import nl.novi.theartroom.dto.artworkdto.DrawingOutputDto;
 import nl.novi.theartroom.dto.artworkdto.PaintingOutputDto;
-import nl.novi.theartroom.dto.ratingdto.RatingUserDto;
+import nl.novi.theartroom.dto.ratingdto.RatingInputUserDto;
 import nl.novi.theartroom.helper.PriceCalculationHelper;
 import nl.novi.theartroom.helper.RatingCalculationHelper;
 import nl.novi.theartroom.mapper.RatingDtoMapper;
@@ -42,8 +42,8 @@ public class ArtworkUserDtoMapper {
 
         if (artwork.getRatings() != null) {
             RatingDtoMapper ratingDtoMapper = new RatingDtoMapper();
-            List<RatingUserDto> ratingUserDtos = ratingDtoMapper.toRatingDtoList(artwork.getRatings());
-            artworkOutputUserDto.setRatings(ratingUserDtos);
+            List<RatingInputUserDto> ratingInputUserDtos = ratingDtoMapper.toRatingDtoList(artwork.getRatings());
+            artworkOutputUserDto.setRatings(ratingInputUserDtos);
         }
 
         if ("painting".equalsIgnoreCase(artwork.getArtworkType())) {

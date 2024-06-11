@@ -1,7 +1,7 @@
 package nl.novi.theartroom.mapper;
 
 import nl.novi.theartroom.dto.ratingdto.RatingOutputWithArtworkDto;
-import nl.novi.theartroom.dto.ratingdto.RatingUserDto;
+import nl.novi.theartroom.dto.ratingdto.RatingInputUserDto;
 import nl.novi.theartroom.model.Rating;
 import org.springframework.stereotype.Service;
 
@@ -11,25 +11,25 @@ import java.util.stream.Collectors;
 @Service
 public class RatingDtoMapper {
 
-    public Rating toRating(RatingUserDto ratingUserDto) {
+    public Rating toRating(RatingInputUserDto ratingInputUserDto) {
         Rating rating = new Rating();
-        rating.setRatingId(ratingUserDto.getRatingId());
-        rating.setRating(ratingUserDto.getRating());
-        rating.setComment(ratingUserDto.getComment());
+        rating.setRatingId(ratingInputUserDto.getRatingId());
+        rating.setRating(ratingInputUserDto.getRating());
+        rating.setComment(ratingInputUserDto.getComment());
 
         return rating;
     }
 
-    public RatingUserDto toRatingDto(Rating rating) {
-        RatingUserDto ratingUserDto = new RatingUserDto();
-        ratingUserDto.setRatingId(rating.getRatingId());
-        ratingUserDto.setRating(rating.getRating());
-        ratingUserDto.setComment(rating.getComment());
+    public RatingInputUserDto toRatingDto(Rating rating) {
+        RatingInputUserDto ratingInputUserDto = new RatingInputUserDto();
+        ratingInputUserDto.setRatingId(rating.getRatingId());
+        ratingInputUserDto.setRating(rating.getRating());
+        ratingInputUserDto.setComment(rating.getComment());
 
-        return ratingUserDto;
+        return ratingInputUserDto;
     }
 
-    public List<RatingUserDto> toRatingDtoList(List<Rating> ratings) {
+    public List<RatingInputUserDto> toRatingDtoList(List<Rating> ratings) {
         return ratings.stream().map(this::toRatingDto).collect(Collectors.toList());
     }
 
