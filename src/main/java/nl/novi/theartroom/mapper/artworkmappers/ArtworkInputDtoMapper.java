@@ -1,6 +1,8 @@
 package nl.novi.theartroom.mapper.artworkmappers;
 
 import nl.novi.theartroom.dto.artworkdto.ArtworkInputDto;
+import nl.novi.theartroom.exception.InvalidArtworkTypeException;
+import nl.novi.theartroom.exception.MappingException;
 import nl.novi.theartroom.model.artworks.Artwork;
 import nl.novi.theartroom.model.artworks.Drawing;
 import nl.novi.theartroom.model.artworks.Painting;
@@ -19,7 +21,7 @@ public class ArtworkInputDtoMapper {
 
     public Artwork toArtwork(ArtworkInputDto dto, Artwork existingArtwork) {
         if (existingArtwork == null) {
-            throw new IllegalArgumentException("Existing artwork cannot be null for update operation.");
+            throw new MappingException("Existing artwork cannot be null for update operation.");
         }
         return updateArtwork(dto, existingArtwork);
     }
@@ -31,7 +33,7 @@ public class ArtworkInputDtoMapper {
         } else if ("drawing".equalsIgnoreCase(dto.getArtworkType())) {
             artwork = mapToDrawing(dto, new Drawing());
         } else {
-            throw new IllegalArgumentException("Invalid artwork type: " + dto.getArtworkType());
+            throw new InvalidArtworkTypeException("Invalid artwork type: " + dto.getArtworkType());
         }
         setCommonFields(artwork, dto);
         return artwork;
@@ -44,7 +46,7 @@ public class ArtworkInputDtoMapper {
         } else if (artwork instanceof Drawing) {
             return mapToDrawing(dto, (Drawing) artwork);
         } else {
-            throw new IllegalArgumentException("Invalid artwork type: " + dto.getArtworkType());
+            throw new InvalidArtworkTypeException("Invalid artwork type: " + dto.getArtworkType());
         }
     }
 

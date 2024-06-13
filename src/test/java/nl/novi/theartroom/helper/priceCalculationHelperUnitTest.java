@@ -5,7 +5,7 @@ import nl.novi.theartroom.model.artworks.Artwork;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PriceCalculationHelperUnitTest {
+class priceCalculationHelperUnitTest {
 
     @Test
     void calculateSellingPriceWithFractionalGalleryBuyingPrice() {

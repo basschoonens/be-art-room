@@ -117,7 +117,7 @@ public class RatingService {
         }
     }
 
-    //Admin Methods
+    //ADMIN METHODS
 
     public List<RatingOutputWithArtworkDto> getAllRatingsForAdmin() {
         List<Rating> ratings = ratingRepository.findAll();

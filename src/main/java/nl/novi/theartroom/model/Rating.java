@@ -26,7 +26,6 @@ public class Rating {
     @JoinColumn(name = "user_username")
     private User user;
 
-    // Als je buiten de range van 1 - 5 gaat, krijg je een validation exception !!
     @Min(1)
     @Max(5)
     private int rating;

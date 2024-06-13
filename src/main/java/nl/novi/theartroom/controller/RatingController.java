@@ -1,5 +1,6 @@
 package nl.novi.theartroom.controller;
 
+import jakarta.validation.Valid;
 import nl.novi.theartroom.dto.ratingdto.RatingOutputWithArtworkDto;
 import nl.novi.theartroom.dto.ratingdto.RatingInputUserDto;
 import nl.novi.theartroom.model.Rating;
@@ -25,7 +26,7 @@ public class RatingController {
         this.userService = userService;
     }
 
-    // Ratings by artwork id method for all users
+    // UNAUTHENTICATED RATINGS METHOD
 
     @GetMapping("/artwork/{artworkId}")
     public ResponseEntity<List<RatingInputUserDto>> getAllRatingsForArtwork(@PathVariable Long artworkId) {
@@ -43,7 +44,7 @@ public class RatingController {
     }
 
     @PostMapping("/user/{artworkId}")
-    public ResponseEntity<Void> addOrUpdateRatingToArtworkByUser(@PathVariable Long artworkId, @RequestBody RatingInputUserDto ratingInputUserDto) {
+    public ResponseEntity<Void> addOrUpdateRatingToArtworkByUser(@PathVariable Long artworkId, @RequestBody @Valid RatingInputUserDto ratingInputUserDto) {
         String username = userService.getCurrentLoggedInUsername();
         RatingOutputWithArtworkDto ratingDto = ratingService.addOrUpdateRatingToArtwork(username, artworkId, ratingInputUserDto);
 
@@ -72,7 +73,7 @@ public class RatingController {
     }
 
     @PutMapping("/artist/{artworkId}/{ratingId}")
-    public ResponseEntity<Void> updateRatingByArtistAndArtworkId(@PathVariable Long artworkId, @PathVariable Long ratingId, @RequestBody RatingInputUserDto rating) {
+    public ResponseEntity<Void> updateRatingByArtistAndArtworkId(@PathVariable Long artworkId, @PathVariable Long ratingId, @RequestBody @Valid RatingInputUserDto rating) {
         String username = userService.getCurrentLoggedInUsername();
         ratingService.updateRatingByArtistAndArtworkId(username, artworkId, ratingId, rating);
         return ResponseEntity.noContent().build();
@@ -95,7 +96,7 @@ public class RatingController {
     }
 
     @PutMapping("/admin/{ratingId}")
-    public ResponseEntity<Void> updateRatingForAdmin(@PathVariable Long ratingId, @RequestBody RatingInputUserDto rating) {
+    public ResponseEntity<Void> updateRatingForAdmin(@PathVariable Long ratingId, @RequestBody @Valid RatingInputUserDto rating) {
         ratingService.updateRatingForAdmin(ratingId, rating);
         return ResponseEntity.noContent().build();
     }

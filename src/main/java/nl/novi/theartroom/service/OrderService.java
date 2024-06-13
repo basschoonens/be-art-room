@@ -28,7 +28,7 @@ public class OrderService {
         this.userService = userService;
     }
 
-    // USER METHOD
+    // USER METHODS
 
     public List<OrderOutputDto> getOrdersForUser(String username) {
         return orderRepository.findAllByUserUsername(username).stream()
@@ -42,8 +42,6 @@ public class OrderService {
             Order order = orderDtoMapper.toOrder(orderInputDto);
             User user = userService.getUserByUsername(username);
             order.setUser(user);
-            order.setOrderStatus("NEW");
-            order.setOrderNumber("ORD" + System.currentTimeMillis());
             return orderDtoMapper.toOrderDto(orderRepository.save(order));
         } catch (MappingException e) {
             throw new MappingException("Error mapping order to the database", e);
@@ -52,7 +50,7 @@ public class OrderService {
         }
     }
 
-    // ADMIN METHOD
+    // ADMIN METHODS
 
     public List<OrderOutputDto> getAllOrdersForAdmin() {
         return orderRepository.findAll().stream()
@@ -77,7 +75,7 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    // CRUD METHOD FOR TESTING
+    // CRUD METHODS FOR TESTING (NOT USED IN THE APPLICATION)
 
     public List<OrderOutputDto> getAllOrders() {
         return orderRepository.findAll().stream()
@@ -95,7 +93,6 @@ public class OrderService {
     public OrderOutputDto createOrder(OrderInputDto orderInputDto) {
         try {
             Order order = orderDtoMapper.toOrder(orderInputDto);
-            order.setOrderStatus("PENDING");
             Order savedOrder = orderRepository.save(order);
             return orderDtoMapper.toOrderDto(savedOrder);
         } catch (MappingException e) {

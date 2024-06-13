@@ -35,7 +35,7 @@ public class ArtworkController {
         this.userService = userService;
     }
 
-    // UNAUTHENTICATED ARTWORKS METHOD
+    // UNAUTHENTICATED ARTWORKS METHODS
 
     @GetMapping()
     public ResponseEntity<List<ArtworkOutputUserDto>> getAllArtworks() {
@@ -43,10 +43,29 @@ public class ArtworkController {
         return ResponseEntity.ok(artworks);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ArtworkOutputUserDto> getArtworkById(@PathVariable Long id) {
-        ArtworkOutputUserDto artwork = artworkService.getArtworkById(id);
+    @GetMapping("/{artworkId}")
+    public ResponseEntity<ArtworkOutputUserDto> getArtworkById(@PathVariable Long artworkId) {
+        ArtworkOutputUserDto artwork = artworkService.getArtworkById(artworkId);
         return ResponseEntity.ok(artwork);
+    }
+
+    @GetMapping("/{artworkId}/image")
+    public ResponseEntity<Resource> getImageForArtwork(@PathVariable("artworkId") Long artworkId, HttpServletRequest request) {
+        Resource resource = artworkService.getImageForArtwork(artworkId);
+
+        String mimeType;
+
+        try {
+            mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException e) {
+            mimeType = MediaType.IMAGE_JPEG_VALUE;
+        }
+
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.parseMediaType(mimeType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename())
+                .body(resource);
     }
 
     // ARTIST ARTWORKS METHOD
@@ -70,7 +89,7 @@ public class ArtworkController {
         String username = userService.getCurrentLoggedInUsername();
         Long newArtworkId = artworkService.createArtworkForArtist(artwork, username);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
+                .path("/{artworkId}")
                 .buildAndExpand(newArtworkId)
                 .toUri();
 
@@ -94,34 +113,17 @@ public class ArtworkController {
     @PostMapping("/artist/{artworkId}/image")
     public ResponseEntity<Artwork> addOrUpdateImageToArtwork(@PathVariable("artworkId") Long artworkId, @RequestParam("file") MultipartFile file)
             throws IOException {
+
         String url = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/artworks/")
                 .path(artworkId.toString())
                 .path("/image")
                 .toUriString();
+
         String fileName = artworkImageService.storeFile(file);
         Artwork artwork = artworkService.addOrUpdateImageToArtwork(fileName, artworkId);
 
         return ResponseEntity.created(URI.create(url)).body(artwork);
-    }
-
-    @GetMapping("/{artworkId}/image")
-    public ResponseEntity<Resource> getImageForArtwork(@PathVariable("artworkId") Long artworkId, HttpServletRequest request) {
-        Resource resource = artworkService.getImageForArtwork(artworkId);
-
-        String mimeType;
-
-        try {
-            mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException e) {
-            mimeType = MediaType.IMAGE_JPEG_VALUE;
-        }
-
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.parseMediaType(mimeType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename())
-                .body(resource);
     }
 
     // ADMIN ARTWORKS METHOD

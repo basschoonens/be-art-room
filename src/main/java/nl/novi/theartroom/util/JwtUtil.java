@@ -17,8 +17,6 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    private final static String SECRET_KEY = "aGllcmVlbm5pZXV3d2FjaHR3b29yZHZvb3J0aGVhcnRyb29t";
-
     private Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);

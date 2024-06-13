@@ -54,6 +54,8 @@ public class OrderDtoMapper {
     }
 
     public void updateOrderFromDto(Order order, OrderInputDto orderInputDto) {
+        order.setOrderId(orderInputDto.getOrderId());
+        order.setOrderNumber(orderInputDto.getOrderNumber());
         order.setOrderStatus(orderInputDto.getOrderStatus());
         order.setPaymentMethod(orderInputDto.getPaymentMethod());
         order.setTotalPrice(orderInputDto.getTotalPrice());
@@ -62,8 +64,8 @@ public class OrderDtoMapper {
         order.setPostalCode(orderInputDto.getPostalCode());
         order.setCity(orderInputDto.getCity());
         Set<Artwork> artworks = orderInputDto.getArtworkId().stream()
-                .map(id -> artworkRepository.findById(id)
-                        .orElseThrow(() -> new ArtworkNotFoundException("Artwork not found with ID: " + id)))
+                .map(artworkId -> artworkRepository.findById(artworkId)
+                        .orElseThrow(() -> new ArtworkNotFoundException("Artwork not found with ID: " + artworkId)))
                 .collect(Collectors.toSet());
         order.setArtworks(artworks);
         artworks.forEach(artwork -> artwork.getOrders().add(order));
