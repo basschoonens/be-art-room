@@ -4,6 +4,7 @@ import nl.novi.theartroom.dto.userdto.UserDto;
 import nl.novi.theartroom.exception.BadRequestException;
 import nl.novi.theartroom.exception.UnauthorizedAccessException;
 import nl.novi.theartroom.service.userservice.UserService;
+import nl.novi.theartroom.util.UriBuilderUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -44,9 +45,7 @@ public class UserController {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         String newUsername = userService.createUser(dto);
         userService.addAuthority(newUsername, "ROLE_USER");
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-                .buildAndExpand(newUsername).toUri();
+        URI location = UriBuilderUtil.buildUriBasedOnStringId(newUsername, "/{username}");
 
         return ResponseEntity.created(location).build();
     }
@@ -56,9 +55,7 @@ public class UserController {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         String newUsername = userService.createUser(dto);
         userService.addAuthority(newUsername, "ROLE_ARTIST");
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-                .buildAndExpand(newUsername).toUri();
+        URI location = UriBuilderUtil.buildUriBasedOnStringId(newUsername, "/{username}");
 
         return ResponseEntity.created(location).build();
     }

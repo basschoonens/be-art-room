@@ -9,6 +9,7 @@ import nl.novi.theartroom.service.artworksservice.ArtworkImageService;
 import nl.novi.theartroom.service.artworksservice.ArtworkService;
 import nl.novi.theartroom.model.artworks.Artwork;
 import nl.novi.theartroom.service.userservice.UserService;
+import nl.novi.theartroom.util.UriBuilderUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -52,7 +53,6 @@ public class ArtworkController {
     @GetMapping("/{artworkId}/image")
     public ResponseEntity<Resource> getImageForArtwork(@PathVariable("artworkId") Long artworkId, HttpServletRequest request) {
         Resource resource = artworkService.getImageForArtwork(artworkId);
-
         String mimeType;
 
         try {
@@ -70,7 +70,7 @@ public class ArtworkController {
 
     // ARTIST ARTWORKS METHOD
 
-    @GetMapping("/artist/artworks")
+    @GetMapping("/artist")
     public ResponseEntity<List<ArtworkOutputArtistAdminDto>> getArtworksByArtist() {
         String username = userService.getCurrentLoggedInUsername();
         List<ArtworkOutputArtistAdminDto> artworks = artworkService.getArtworksByArtist(username);
@@ -88,10 +88,7 @@ public class ArtworkController {
     public ResponseEntity<Void> createArtworkForArtist(@RequestBody @Valid ArtworkInputDto artwork) {
         String username = userService.getCurrentLoggedInUsername();
         Long newArtworkId = artworkService.createArtworkForArtist(artwork, username);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{artworkId}")
-                .buildAndExpand(newArtworkId)
-                .toUri();
+        URI location = UriBuilderUtil.buildUriBasedOnLongId(newArtworkId, "/{artworkId}");
 
         return ResponseEntity.created(location).build();
     }

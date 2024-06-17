@@ -14,7 +14,8 @@ import nl.novi.theartroom.model.users.User;
 public class Rating {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rating_id_seq")
+    @SequenceGenerator(name = "rating_id_seq", sequenceName = "rating_id_seq", initialValue = 2000, allocationSize = 1)
     private Long ratingId;
 
     @ManyToOne(fetch = FetchType.EAGER)

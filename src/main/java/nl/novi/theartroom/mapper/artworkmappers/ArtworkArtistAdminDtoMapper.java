@@ -30,6 +30,7 @@ public class ArtworkArtistAdminDtoMapper {
         artworkOutputArtistAdminDto.setDateCreated(artwork.getDateCreated());
         artworkOutputArtistAdminDto.setGalleryBuyingPrice(artwork.getGalleryBuyingPrice());
         artworkOutputArtistAdminDto.setEdition(artwork.getEdition());
+        artworkOutputArtistAdminDto.setImage(artwork.getArtworkImage());
         artworkOutputArtistAdminDto.setArtworkType(artwork.getArtworkType());
 
         if ("painting".equalsIgnoreCase(artwork.getArtworkType())) {

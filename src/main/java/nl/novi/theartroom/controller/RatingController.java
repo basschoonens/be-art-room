@@ -6,9 +6,9 @@ import nl.novi.theartroom.dto.ratingdto.RatingInputUserDto;
 import nl.novi.theartroom.model.Rating;
 import nl.novi.theartroom.service.RatingService;
 import nl.novi.theartroom.service.userservice.UserService;
+import nl.novi.theartroom.util.UriBuilderUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -47,11 +47,7 @@ public class RatingController {
     public ResponseEntity<Void> addOrUpdateRatingToArtworkByUser(@PathVariable Long artworkId, @RequestBody @Valid RatingInputUserDto ratingInputUserDto) {
         String username = userService.getCurrentLoggedInUsername();
         RatingOutputWithArtworkDto ratingDto = ratingService.addOrUpdateRatingToArtwork(username, artworkId, ratingInputUserDto);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{ratingId}")
-                .buildAndExpand(ratingDto.getRatingId())
-                .toUri();
+        URI location = UriBuilderUtil.buildUriBasedOnLongId(ratingDto.getRatingId(), "/{ratingId}");
 
         return ResponseEntity.created(location).build();
     }
@@ -124,11 +120,7 @@ public class RatingController {
     @PostMapping()
     public ResponseEntity<Void> addRating(@RequestBody RatingInputUserDto rating) {
         Rating newRating = ratingService.addRating(rating);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{ratingId}")
-                .buildAndExpand(newRating.getRatingId())
-                .toUri();
+        URI location = UriBuilderUtil.buildUriBasedOnLongId(newRating.getRatingId(), "/{ratingId}");
 
         return ResponseEntity.created(location).build();
     }

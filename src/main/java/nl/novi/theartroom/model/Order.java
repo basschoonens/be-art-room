@@ -13,8 +13,8 @@ public class Order {
 
     @Id
     @Column(name = "order_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_seq")
     @SequenceGenerator(name = "order_id_seq", sequenceName = "order_id_seq", initialValue = 1000, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderId;
 
     private String orderNumber;

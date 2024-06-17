@@ -5,9 +5,9 @@ import nl.novi.theartroom.dto.orderdto.OrderInputDto;
 import nl.novi.theartroom.dto.orderdto.OrderOutputDto;
 import nl.novi.theartroom.service.OrderService;
 import nl.novi.theartroom.service.userservice.UserService;
+import nl.novi.theartroom.util.UriBuilderUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -37,12 +37,7 @@ public class OrderController {
     public ResponseEntity<OrderOutputDto> createOrderForUser(@RequestBody @Valid OrderInputDto orderInputDto) {
         String username = userService.getCurrentLoggedInUsername();
         OrderOutputDto createdOrder = orderService.createOrderForUser(username, orderInputDto);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(createdOrder.getOrderId())
-                .toUri();
-
+        URI location = UriBuilderUtil.buildUriBasedOnLongId(createdOrder.getOrderId(), "/{orderId}");
         return ResponseEntity.created(location).body(createdOrder);
     }
 
@@ -54,20 +49,20 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/admin/{id}")
-    public ResponseEntity<OrderOutputDto> getOrderByIdForAdmin(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.getOrderByIdForAdmin(id));
+    @GetMapping("/admin/{orderId}")
+    public ResponseEntity<OrderOutputDto> getOrderByIdForAdmin(@PathVariable Long orderId) {
+        return ResponseEntity.ok(orderService.getOrderByIdForAdmin(orderId));
     }
 
-    @PutMapping("/admin/{id}")
-    public ResponseEntity<OrderOutputDto> approveOrderForAdmin(@PathVariable Long id) {
-        OrderOutputDto updatedOrder = orderService.approveOrderForAdmin(id);
+    @PutMapping("/admin/{orderId}")
+    public ResponseEntity<OrderOutputDto> approveOrderForAdmin(@PathVariable Long orderId) {
+        OrderOutputDto updatedOrder = orderService.approveOrderForAdmin(orderId);
         return ResponseEntity.ok(updatedOrder);
     }
 
-    @DeleteMapping("/admin/{id}")
-    public ResponseEntity<Void> deleteOrderFor(@PathVariable Long id) {
-        orderService.deleteOrderForAdmin(id);
+    @DeleteMapping("/admin/{orderId}")
+    public ResponseEntity<Void> deleteOrderFor(@PathVariable Long orderId) {
+        orderService.deleteOrderForAdmin(orderId);
         return ResponseEntity.noContent().build();
     }
 
@@ -79,31 +74,27 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<OrderOutputDto> getOrderById(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.getOrderById(id));
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderOutputDto> getOrderById(@PathVariable Long orderId) {
+        return ResponseEntity.ok(orderService.getOrderById(orderId));
     }
 
     @PostMapping
     public ResponseEntity<OrderOutputDto> createOrder(@RequestBody @Valid OrderInputDto orderInputDto) {
         OrderOutputDto createdOrder = orderService.createOrder(orderInputDto);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(createdOrder.getOrderId())
-                .toUri();
-
+        URI location = UriBuilderUtil.buildUriBasedOnLongId(createdOrder.getOrderId(), "/{orderId}");
         return ResponseEntity.created(location).body(createdOrder);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<OrderOutputDto> updateOrder(@PathVariable Long id, @RequestBody @Valid OrderInputDto orderInputDto) {
-        OrderOutputDto updatedOrder = orderService.updateOrder(id, orderInputDto);
+    @PutMapping("/{orderId}")
+    public ResponseEntity<OrderOutputDto> updateOrder(@PathVariable Long orderId, @RequestBody @Valid OrderInputDto orderInputDto) {
+        OrderOutputDto updatedOrder = orderService.updateOrder(orderId, orderInputDto);
         return ResponseEntity.ok(updatedOrder);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
+        orderService.deleteOrder(orderId);
         return ResponseEntity.noContent().build();
     }
 }

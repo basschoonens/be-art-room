@@ -57,6 +57,7 @@ public class SpringSecurityConfig {
 //                                .requestMatchers("/**").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/artworks", "/artworks/{artworkId}", "/artworks/{artworkId}/image").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/artworks/artist/{artworkId}/image").hasAnyRole("ARTIST", "ADMIN")
+                                        .requestMatchers(HttpMethod.GET, "/artworks").hasAnyRole("ARTIST", "ADMIN")
                                         .requestMatchers("/artworks/artist/**").hasAnyRole("ARTIST", "ADMIN")
                                         .requestMatchers("/artworks/admin/**").hasRole("ADMIN")
                                         .requestMatchers("/ratings/artwork/{artworkId}").permitAll()

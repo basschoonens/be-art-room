@@ -28,13 +28,13 @@ public class Artwork {
     private Double galleryBuyingPrice;
     private String edition;
     @OneToOne(cascade = CascadeType.ALL)
-    ArtworkImage artworkImage;
+    private ArtworkImage artworkImage;
 
     private String artworkType;
 
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    List<Rating> ratings = new ArrayList<>();
+    private List<Rating> ratings = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username", nullable = true)
