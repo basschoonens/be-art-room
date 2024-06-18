@@ -4,7 +4,11 @@ import jakarta.transaction.Transactional;
 import nl.novi.theartroom.dto.artworkdto.ArtworkOutputArtistAdminDto;
 import nl.novi.theartroom.dto.artworkdto.ArtworkOutputUserDto;
 import nl.novi.theartroom.dto.artworkdto.ArtworkInputDto;
-import nl.novi.theartroom.exception.*;
+import nl.novi.theartroom.exception.database.DatabaseException;
+import nl.novi.theartroom.exception.model.ArtworkNotFoundException;
+import nl.novi.theartroom.exception.model.InvalidArtworkTypeException;
+import nl.novi.theartroom.exception.auth.UnauthorizedAccessException;
+import nl.novi.theartroom.exception.util.MappingException;
 import nl.novi.theartroom.mapper.artworkmappers.ArtworkArtistAdminDtoMapper;
 import nl.novi.theartroom.mapper.artworkmappers.ArtworkUserDtoMapper;
 import nl.novi.theartroom.mapper.artworkmappers.ArtworkInputDtoMapper;
@@ -148,7 +152,7 @@ public class ArtworkService {
             artwork.setArtworkImage(photo);
             return artworkRepository.save(artwork);
         } else {
-            throw new RecordNotFoundException("Artwork or Photo not found.");
+            throw new ArtworkNotFoundException("Artwork or Photo not found.");
         }
     }
 
@@ -156,11 +160,11 @@ public class ArtworkService {
     public Resource getImageForArtwork(Long artworkId) {
         Optional<Artwork> optionalArtwork = artworkRepository.findById(artworkId);
         if (optionalArtwork.isEmpty()) {
-            throw new RecordNotFoundException("Artwork with artwork number " + artworkId + " not found.");
+            throw new ArtworkNotFoundException("Artwork with artwork number " + artworkId + " not found.");
         }
         ArtworkImage photo = optionalArtwork.get().getArtworkImage();
         if (photo == null) {
-            throw new RecordNotFoundException("Artwork " + artworkId + " had no photo.");
+            throw new ArtworkNotFoundException("Artwork " + artworkId + " had no photo.");
         }
         return photoService.downLoadFile(photo.getFileName());
     }

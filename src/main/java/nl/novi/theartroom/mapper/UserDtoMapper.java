@@ -14,7 +14,12 @@ public class UserDtoMapper {
         dto.username = user.getUsername();
         dto.password = user.getPassword();
         dto.email = user.getEmail();
-        dto.authority = user.getAuthorities().iterator().next().getAuthority();
+        if (!user.getAuthorities().isEmpty()) {
+            dto.authority = user.getAuthorities().iterator().next().getAuthority();
+        } else {
+
+            dto.authority = "ROLE_USER";
+        }
 
         return dto;
     }

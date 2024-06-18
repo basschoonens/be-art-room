@@ -230,12 +230,16 @@ VALUES (1004, 4, 1002, 'Very impresive art');
 INSERT INTO users (username, password, email)
 VALUES ('user', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'user@test.nl');
 INSERT INTO users (username, password, email)
+VALUES ('artist', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'artist@test.nl');
+INSERT INTO users (username, password, email)
 VALUES ('admin', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'admin@test.nl');
 INSERT INTO users (username, password, email)
 VALUES ('Jane Doe', '$2a$12$IzA1Ja1LH4PSMoro9PeITO1etDlknPjSX1nLusgt1vi9c1uaEXdEK', 'janedoe@test.nl');
 
 INSERT INTO authorities (username, authority)
 VALUES ('user', 'ROLE_USER');
+INSERT INTO authorities (username, authority)
+VALUES ('artist', 'ROLE_ARTIST');
 INSERT INTO authorities (username, authority)
 VALUES ('admin', 'ROLE_ADMIN');
 INSERT INTO authorities (username, authority)

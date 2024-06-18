@@ -3,7 +3,11 @@ package nl.novi.theartroom.service.artworksservice;
 import nl.novi.theartroom.dto.artworkdto.ArtworkInputDto;
 import nl.novi.theartroom.dto.artworkdto.ArtworkOutputArtistAdminDto;
 import nl.novi.theartroom.dto.artworkdto.ArtworkOutputUserDto;
-import nl.novi.theartroom.exception.*;
+import nl.novi.theartroom.exception.database.DatabaseException;
+import nl.novi.theartroom.exception.model.ArtworkNotFoundException;
+import nl.novi.theartroom.exception.model.InvalidArtworkTypeException;
+import nl.novi.theartroom.exception.auth.UnauthorizedAccessException;
+import nl.novi.theartroom.exception.util.MappingException;
 import nl.novi.theartroom.mapper.artworkmappers.ArtworkArtistAdminDtoMapper;
 import nl.novi.theartroom.mapper.artworkmappers.ArtworkInputDtoMapper;
 import nl.novi.theartroom.mapper.artworkmappers.ArtworkUserDtoMapper;
@@ -353,7 +357,7 @@ class ArtworkServiceTest {
         when(artworkRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(RecordNotFoundException.class, () -> {
+        assertThrows(ArtworkNotFoundException.class, () -> {
             artworkService.addOrUpdateImageToArtwork("image.jpg", 1L);
         });
     }
@@ -377,7 +381,7 @@ class ArtworkServiceTest {
         when(artworkRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(RecordNotFoundException.class, () -> {
+        assertThrows(ArtworkNotFoundException.class, () -> {
             artworkService.getImageForArtwork(1L);
         });
     }
@@ -389,7 +393,7 @@ class ArtworkServiceTest {
         when(artworkRepository.findById(anyLong())).thenReturn(Optional.of(artwork));
 
         // Act & Assert
-        assertThrows(RecordNotFoundException.class, () -> {
+        assertThrows(ArtworkNotFoundException.class, () -> {
             artworkService.getImageForArtwork(1L);
         });
     }

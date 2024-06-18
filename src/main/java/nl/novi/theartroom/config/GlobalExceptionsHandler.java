@@ -1,6 +1,15 @@
 package nl.novi.theartroom.config;
 
 import nl.novi.theartroom.exception.*;
+import nl.novi.theartroom.exception.database.DatabaseException;
+import nl.novi.theartroom.exception.model.ArtworkNotFoundException;
+import nl.novi.theartroom.exception.model.InvalidArtworkTypeException;
+import nl.novi.theartroom.exception.model.OrderNotFoundException;
+import nl.novi.theartroom.exception.model.RatingNotFoundException;
+import nl.novi.theartroom.exception.auth.UnauthorizedAccessException;
+import nl.novi.theartroom.exception.model.UserNotFoundException;
+import nl.novi.theartroom.exception.util.BadRequestException;
+import nl.novi.theartroom.exception.util.MappingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

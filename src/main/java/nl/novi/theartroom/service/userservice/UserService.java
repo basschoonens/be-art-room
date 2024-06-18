@@ -2,7 +2,7 @@ package nl.novi.theartroom.service.userservice;
 
 import nl.novi.theartroom.dto.userdto.UserDto;
 import nl.novi.theartroom.exception.RecordNotFoundException;
-import nl.novi.theartroom.exception.UserNotFoundException;
+import nl.novi.theartroom.exception.model.UserNotFoundException;
 import nl.novi.theartroom.mapper.UserDtoMapper;
 import nl.novi.theartroom.model.users.Authority;
 import nl.novi.theartroom.model.users.User;

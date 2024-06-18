@@ -1,6 +1,6 @@
 package nl.novi.theartroom.service.userservice;
 
-import nl.novi.theartroom.exception.UserNotFoundException;
+import nl.novi.theartroom.exception.model.UserNotFoundException;
 import nl.novi.theartroom.model.users.Authority;
 import nl.novi.theartroom.model.users.User;
 import nl.novi.theartroom.repository.UserRepository;

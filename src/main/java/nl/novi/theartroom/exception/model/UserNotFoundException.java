@@ -1,10 +1,14 @@
-package nl.novi.theartroom.exception;
+package nl.novi.theartroom.exception.model;
 
 public class UserNotFoundException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
+    public UserNotFoundException() {
+        super();
+    }
 
     public UserNotFoundException(String username) {
         super("Cannot find user " + username);
     }
+
+
 }

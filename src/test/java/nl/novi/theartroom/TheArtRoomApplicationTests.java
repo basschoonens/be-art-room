@@ -7,9 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TheArtRoomApplicationTests {
 
     // TODO 1: Remove the @Test annotation from the contextLoads() method.
-//
-//    @Test
-//    void contextLoads() {
-//    }
+
+    @Test
+    void contextLoads() {
+    }
 
 }

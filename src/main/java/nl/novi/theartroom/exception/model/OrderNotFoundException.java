@@ -1,4 +1,4 @@
-package nl.novi.theartroom.exception;
+package nl.novi.theartroom.exception.model;
 
 public class OrderNotFoundException extends RuntimeException{
 

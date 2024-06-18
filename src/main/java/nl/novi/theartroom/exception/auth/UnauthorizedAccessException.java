@@ -1,4 +1,4 @@
-package nl.novi.theartroom.exception;
+package nl.novi.theartroom.exception.auth;
 
 public class UnauthorizedAccessException extends RuntimeException{
 

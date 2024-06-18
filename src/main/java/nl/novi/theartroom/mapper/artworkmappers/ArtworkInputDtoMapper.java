@@ -1,8 +1,8 @@
 package nl.novi.theartroom.mapper.artworkmappers;
 
 import nl.novi.theartroom.dto.artworkdto.ArtworkInputDto;
-import nl.novi.theartroom.exception.InvalidArtworkTypeException;
-import nl.novi.theartroom.exception.MappingException;
+import nl.novi.theartroom.exception.model.InvalidArtworkTypeException;
+import nl.novi.theartroom.exception.util.MappingException;
 import nl.novi.theartroom.model.artworks.Artwork;
 import nl.novi.theartroom.model.artworks.Drawing;
 import nl.novi.theartroom.model.artworks.Painting;

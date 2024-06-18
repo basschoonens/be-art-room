@@ -1,8 +1,7 @@
-package nl.novi.theartroom.exception;
+package nl.novi.theartroom.exception.util;
 
 public class BadRequestException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
     public BadRequestException() {
         super();
     }

@@ -1,4 +1,4 @@
-package nl.novi.theartroom.exception;
+package nl.novi.theartroom.exception.util;
 
 public class MappingException extends RuntimeException{
 

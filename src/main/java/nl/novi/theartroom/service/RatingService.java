@@ -2,10 +2,9 @@ package nl.novi.theartroom.service;
 
 import nl.novi.theartroom.dto.ratingdto.RatingOutputWithArtworkDto;
 import nl.novi.theartroom.dto.ratingdto.RatingInputUserDto;
-import nl.novi.theartroom.exception.ArtworkNotFoundException;
-import nl.novi.theartroom.exception.RatingNotFoundException;
-import nl.novi.theartroom.exception.RecordNotFoundException;
-import nl.novi.theartroom.exception.UnauthorizedAccessException;
+import nl.novi.theartroom.exception.model.ArtworkNotFoundException;
+import nl.novi.theartroom.exception.model.RatingNotFoundException;
+import nl.novi.theartroom.exception.auth.UnauthorizedAccessException;
 import nl.novi.theartroom.mapper.RatingDtoMapper;
 import nl.novi.theartroom.model.artworks.Artwork;
 import nl.novi.theartroom.model.Rating;
@@ -127,7 +126,7 @@ public class RatingService {
     public void updateRatingForAdmin(Long ratingId, RatingInputUserDto rating) {
         Optional<Rating> ratingFound = ratingRepository.findById(ratingId);
         if (ratingFound.isEmpty()) {
-            throw new RecordNotFoundException("Rating with id " + ratingId + " not found.");
+            throw new RatingNotFoundException("Rating with id " + ratingId + " not found.");
         } else {
             Rating ratingToUpdate = ratingFound.get();
             ratingToUpdate.setRating(rating.getRating());
@@ -163,7 +162,7 @@ public class RatingService {
     public void updateRating(Long ratingId, RatingInputUserDto ratingDto) {
         Optional<Rating> ratingFound = ratingRepository.findById(ratingId);
         if (ratingFound.isEmpty()) {
-            throw new RecordNotFoundException("Rating with id " + ratingId + " not found.");
+            throw new RatingNotFoundException("Rating with id " + ratingId + " not found.");
         } else {
             Rating ratingToUpdate = ratingFound.get();
             ratingToUpdate.setRating(ratingDto.getRating());

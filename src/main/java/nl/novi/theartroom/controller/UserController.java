@@ -1,14 +1,13 @@
 package nl.novi.theartroom.controller;
 
 import nl.novi.theartroom.dto.userdto.UserDto;
-import nl.novi.theartroom.exception.BadRequestException;
-import nl.novi.theartroom.exception.UnauthorizedAccessException;
+import nl.novi.theartroom.exception.util.BadRequestException;
+import nl.novi.theartroom.exception.auth.UnauthorizedAccessException;
 import nl.novi.theartroom.service.userservice.UserService;
 import nl.novi.theartroom.util.UriBuilderUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
