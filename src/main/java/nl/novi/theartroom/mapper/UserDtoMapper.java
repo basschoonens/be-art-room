@@ -27,7 +27,6 @@ public class UserDtoMapper {
     public User toUser(UserDto userDto) {
 
         var user = new User();
-
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setEmail(userDto.getEmail());

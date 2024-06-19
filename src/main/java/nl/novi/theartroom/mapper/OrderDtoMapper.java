@@ -54,9 +54,7 @@ public class OrderDtoMapper {
     }
 
     public void updateOrderFromDto(Order order, OrderInputDto orderInputDto) {
-        if (orderInputDto.getOrderId() != 0) {
-            order.setOrderId(orderInputDto.getOrderId());
-        }
+        order.setOrderId(orderInputDto.getOrderId());
         if (orderInputDto.getOrderDate() != null) {
             order.setOrderDate(orderInputDto.getOrderDate());
         }

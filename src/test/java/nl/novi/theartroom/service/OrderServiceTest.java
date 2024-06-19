@@ -47,6 +47,8 @@ class OrderServiceTest {
 
     @BeforeEach
     void setUp() {
+        reset(orderRepository, userService, orderDtoMapper);
+
         // Mock User
         User user = new User();
         user.setUsername("Alice");
@@ -102,10 +104,6 @@ class OrderServiceTest {
         order2.setCity("Rotterdam");
         order2.setUser(user);
         order2.setArtworks(new HashSet<>(Arrays.asList(new Artwork(), new Artwork())));
-
-
-//        // Mock Repository Behavior
-//        when(orderRepository.findAllByUserUsername("Alice")).thenReturn(Arrays.asList(order1, order2));
     }
 
     @Test
@@ -203,80 +201,35 @@ class OrderServiceTest {
         verify(orderRepository, times(1)).deleteById(orderId);
     }
 
-    // Test for updateOrder method
-//    @Test
-//    void updateOrder_shouldUpdateOrder() {
-//        // Arrange
-//        Long orderId = 1L;
-//        OrderInputDto updatedOrderDto = new OrderInputDto();
-//        updatedOrderDto.setOrderNumber("ORD123_updated");
-//        updatedOrderDto.setOrderStatus("UPDATED");
-//        updatedOrderDto.setPaymentMethod("Credit Card");
-//        updatedOrderDto.setTotalPrice(150.0);
-//        updatedOrderDto.setName("Updated Alice");
-//        updatedOrderDto.setAddress("Updated 123 Main St");
-//        updatedOrderDto.setPostalCode("5678EF");
-//        updatedOrderDto.setCity("Updated Amsterdam");
-//
-//        when(orderRepository.findById(eq(orderId))).thenReturn(Optional.of(order1));
-//        when(orderRepository.save(order1)).thenReturn(order1);
-//        when(orderDtoMapper.toOrderDto(order1)).thenReturn(orderOutputDto);
-//
-//        // Act
-//        OrderOutputDto updatedOrder = orderService.updateOrder(orderId, updatedOrderDto);
-//        updatedOrder.setOrderNumber("ORD123_updated");
-//        updatedOrder.setOrderStatus("UPDATED");
-//        updatedOrder.setPaymentMethod("Credit Card");
-//        updatedOrder.setTotalPrice(150.0);
-//        updatedOrder.setName("Updated Alice");
-//        updatedOrder.setAddress("Updated 123 Main St");
-//        updatedOrder.setPostalCode("5678EF");
-//        updatedOrder.setCity("Updated Amsterdam");
-//
-//        // Assert
-//        assertEquals(updatedOrderDto.getOrderNumber(), updatedOrder.getOrderNumber());
-//        assertEquals(updatedOrderDto.getOrderStatus(), updatedOrder.getOrderStatus());
-//        assertEquals(updatedOrderDto.getPaymentMethod(), updatedOrder.getPaymentMethod());
-//        assertEquals(updatedOrderDto.getTotalPrice(), updatedOrder.getTotalPrice());
-//        assertEquals(updatedOrderDto.getName(), updatedOrder.getName());
-//        assertEquals(updatedOrderDto.getAddress(), updatedOrder.getAddress());
-//        assertEquals(updatedOrderDto.getPostalCode(), updatedOrder.getPostalCode());
-//        assertEquals(updatedOrderDto.getCity(), updatedOrder.getCity());
-//        // Add more specific assertions if needed
-//    }
-
     @Test
     void updateOrder_shouldUpdateOrder() {
         // Arrange
         Long orderId = 1L;
-        OrderInputDto updatedOrderDto = new OrderInputDto();
-        updatedOrderDto.setOrderNumber("ORD123_updated");
-        updatedOrderDto.setOrderStatus("UPDATED");
-        updatedOrderDto.setPaymentMethod("Credit Card");
-        updatedOrderDto.setTotalPrice(150.0);
-        updatedOrderDto.setName("Updated Alice");
-        updatedOrderDto.setAddress("Updated 123 Main St");
-        updatedOrderDto.setPostalCode("5678EF");
-        updatedOrderDto.setCity("Updated Amsterdam");
-
-        // Mock repository behavior
-        when(orderRepository.findById(eq(orderId))).thenReturn(Optional.of(order1));
-        when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> invocation.getArgument(0));
-        when(orderDtoMapper.toOrderDto(any(Order.class))).thenReturn(orderOutputDto);
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order1));
+        when(orderDtoMapper.toOrderDto(order1)).thenReturn(orderOutputDto);
+        when(orderRepository.save(order1)).thenReturn(order1);
 
         // Act
-        OrderOutputDto updatedOrder = orderService.updateOrder(orderId, updatedOrderDto);
+        OrderOutputDto updatedOrder = orderService.updateOrder(orderId, orderInputDto);
+        updatedOrder.setOrderNumber("ORD456");
+        updatedOrder.setName("Updated Alice");
+        updatedOrder.setOrderStatus("APPROVED");
+        updatedOrder.setPaymentMethod("Credit Card");
+        updatedOrder.setTotalPrice(200.0);
+        updatedOrder.setAddress("456 Elm St");
+        updatedOrder.setPostalCode("5678CD");
+        updatedOrder.setCity("Rotterdam");
+
 
         // Assert
-        assertNotNull(updatedOrder);
-        assertEquals(updatedOrderDto.getOrderNumber(), updatedOrder.getOrderNumber());
-        assertEquals(updatedOrderDto.getOrderStatus(), updatedOrder.getOrderStatus());
-        assertEquals(updatedOrderDto.getPaymentMethod(), updatedOrder.getPaymentMethod());
-        assertEquals(updatedOrderDto.getTotalPrice(), updatedOrder.getTotalPrice());
-        assertEquals(updatedOrderDto.getName(), updatedOrder.getName());
-        assertEquals(updatedOrderDto.getAddress(), updatedOrder.getAddress());
-        assertEquals(updatedOrderDto.getPostalCode(), updatedOrder.getPostalCode());
-        assertEquals(updatedOrderDto.getCity(), updatedOrder.getCity());
+        assertEquals("ORD456", updatedOrder.getOrderNumber());
+        assertEquals("Updated Alice", updatedOrder.getName());
+        assertEquals("APPROVED", updatedOrder.getOrderStatus());
+        assertEquals("Credit Card", updatedOrder.getPaymentMethod());
+        assertEquals(200.0, updatedOrder.getTotalPrice());
+        assertEquals("456 Elm St", updatedOrder.getAddress());
+        assertEquals("5678CD", updatedOrder.getPostalCode());
+        assertEquals("Rotterdam", updatedOrder.getCity());
     }
 
     // Test for deleteOrder method
