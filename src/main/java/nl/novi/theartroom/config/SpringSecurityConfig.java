@@ -35,8 +35,6 @@ public class SpringSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
-    // Authenticatie met customUserDetailsService en passwordEncoder
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder) throws Exception {
         var auth = new DaoAuthenticationProvider();

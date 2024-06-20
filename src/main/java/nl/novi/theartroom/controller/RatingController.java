@@ -83,7 +83,6 @@ public class RatingController {
     }
 
     // ADMIN METHODS
-    // All ratings for the admin done by users with artwork details method
 
     @GetMapping("/admin")
     public ResponseEntity<List<RatingOutputWithArtworkDto>> getAllRatingsForAdmin() {

@@ -3,6 +3,8 @@ package nl.novi.theartroom.service;
 import nl.novi.theartroom.dto.artworkdto.ArtworkOutputUserDto;
 import nl.novi.theartroom.dto.orderdto.OrderInputDto;
 import nl.novi.theartroom.dto.orderdto.OrderOutputDto;
+import nl.novi.theartroom.exception.database.DatabaseException;
+import nl.novi.theartroom.exception.util.MappingException;
 import nl.novi.theartroom.mapper.OrderDtoMapper;
 import nl.novi.theartroom.model.Order;
 import nl.novi.theartroom.model.artworks.Artwork;
@@ -140,6 +142,29 @@ class OrderServiceTest {
         assertEquals(orderInputDto.getOrderNumber(), orderOutputDto.getOrderNumber());
     }
 
+    @Test
+    void createOrderForUser_shouldThrowMappingException() {
+        // Arrange
+        when(orderDtoMapper.toOrder(any()))
+                .thenThrow(new MappingException("Error mapping order to the database"));
+
+        // Act and Assert
+        assertThrows(MappingException.class, () -> orderService.createOrderForUser("Alice", orderInputDto));
+    }
+
+    // createOrderForUser should throw DatabaseException
+    @Test
+    void createOrderForUser_shouldThrowDatabaseException() {
+        // Arrange
+        when(orderDtoMapper.toOrder(any()))
+                .thenReturn(order1);
+        when(orderRepository.save(any()))
+                .thenThrow(new DatabaseException("Error saving order to the database"));
+
+        // Act and Assert
+        assertThrows(RuntimeException.class, () -> orderService.createOrderForUser("Alice", orderInputDto));
+    }
+
     // Test for getAllOrdersForAdmin method
     @Test
     void getAllOrdersForAdmin_shouldReturnListOfOrders() {
@@ -201,6 +226,77 @@ class OrderServiceTest {
         verify(orderRepository, times(1)).deleteById(orderId);
     }
 
+    // Test for getAllOrders method
+    @Test
+    void getAllOrders_shouldReturnListOfOrders() {
+        // Arrange
+        when(orderRepository.findAll()).thenReturn(Arrays.asList(order1, order2));
+
+        // Act
+        List<OrderOutputDto> orders = orderService.getAllOrders();
+
+        // Assert
+        assertNotNull(orders);
+        assertEquals(2, orders.size());
+    }
+
+    // Test for getOrderById method
+    @Test
+    void getOrderById_shouldReturnOrder() {
+        // Arrange
+        Long orderId = 1L;
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order1));
+        when(orderDtoMapper.toOrderDto(order1)).thenReturn(orderOutputDto);
+
+        // Act
+        OrderOutputDto order = orderService.getOrderById(orderId);
+
+        // Assert
+        assertNotNull(order);
+        assertEquals(orderId, order.getOrderId());
+    }
+
+    // Test for createOrder method
+    @Test
+    void createOrder_shouldReturnOrderId() {
+        // Arrange
+        when(orderDtoMapper.toOrder(any()))
+                .thenReturn(order1);
+        when(orderRepository.save(any()))
+                .thenReturn(order1);
+        when(orderDtoMapper.toOrderDto(any()))
+                .thenReturn(orderOutputDto);
+
+        // Act
+        OrderOutputDto orderOutputDto = orderService.createOrder(orderInputDto);
+
+        // Assert
+        assertNotNull(orderOutputDto);
+        assertEquals(orderInputDto.getOrderNumber(), orderOutputDto.getOrderNumber());
+    }
+
+    @Test
+    void createOrder_shouldThrowMappingException() {
+        // Arrange
+        when(orderDtoMapper.toOrder(any()))
+                .thenThrow(new MappingException("Error mapping order to the database"));
+
+        // Act and Assert
+        assertThrows(MappingException.class, () -> orderService.createOrder(orderInputDto));
+    }
+
+    @Test
+    void createOrder_shouldThrowDatabaseException() {
+        // Arrange
+        when(orderDtoMapper.toOrder(any()))
+                .thenReturn(order1);
+        when(orderRepository.save(any()))
+                .thenThrow(new DatabaseException("Error saving order to the database"));
+
+        // Act and Assert
+        assertThrows(RuntimeException.class, () -> orderService.createOrder(orderInputDto));
+    }
+
     @Test
     void updateOrder_shouldUpdateOrder() {
         // Arrange
@@ -220,7 +316,6 @@ class OrderServiceTest {
         updatedOrder.setPostalCode("5678CD");
         updatedOrder.setCity("Rotterdam");
 
-
         // Assert
         assertEquals("ORD456", updatedOrder.getOrderNumber());
         assertEquals("Updated Alice", updatedOrder.getName());
@@ -230,6 +325,30 @@ class OrderServiceTest {
         assertEquals("456 Elm St", updatedOrder.getAddress());
         assertEquals("5678CD", updatedOrder.getPostalCode());
         assertEquals("Rotterdam", updatedOrder.getCity());
+    }
+
+    @Test
+    void updateOrder_shouldThrowMappingException() {
+        // Arrange
+        Long orderId = 1L;
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order1));
+        when(orderRepository.save(order1))
+                .thenThrow(new MappingException("Error saving order to the database"));
+
+        // Act and Assert
+        assertThrows(MappingException.class, () -> orderService.updateOrder(orderId, orderInputDto));
+    }
+
+    @Test
+    void updateOrder_shouldThrowDatabaseException() {
+        // Arrange
+        Long orderId = 1L;
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order1));
+        when(orderRepository.save(order1))
+                .thenThrow(new DatabaseException("Error saving order to the database"));
+
+        // Act and Assert
+        assertThrows(DatabaseException.class, () -> orderService.updateOrder(orderId, orderInputDto));
     }
 
     // Test for deleteOrder method
@@ -244,4 +363,5 @@ class OrderServiceTest {
         // Assert
         verify(orderRepository, times(1)).deleteById(orderId);
     }
+
 }

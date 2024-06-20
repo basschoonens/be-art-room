@@ -139,7 +139,7 @@ public class ArtworkService {
         }
     }
 
-    // Image methods
+    // IMAGE METHODS
 
     @Transactional
     public Artwork addOrUpdateImageToArtwork(String filename, Long artworkId) {
