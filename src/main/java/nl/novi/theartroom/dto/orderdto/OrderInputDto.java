@@ -32,7 +32,7 @@ public class OrderInputDto {
     private String address;
 
     @NotBlank(message = "Postal code is mandatory")
-    @Pattern(regexp = "\\d{4}[A-Z]{2}", message = "Postal code should be in the format 1234AB")
+    @Pattern(regexp = "\\d{4}[A-Z]{2}|\\d{4} [A-Z]{2}", message = "Postal code should be in the format 1234AB or 1234 AB")
     private String postalCode;
 
     @NotBlank(message = "City is mandatory")

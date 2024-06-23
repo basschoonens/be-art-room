@@ -69,7 +69,7 @@ public class UserController {
             String encryptedPassword = passwordEncoder.encode(dto.getPassword());
             dto.setPassword(encryptedPassword);
         }
-        userService.updateUser(username, dto);
+        userService.updateUserPassword(username, dto);
         return ResponseEntity.noContent().build();
     }
 

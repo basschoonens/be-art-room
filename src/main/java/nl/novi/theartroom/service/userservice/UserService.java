@@ -2,6 +2,7 @@ package nl.novi.theartroom.service.userservice;
 
 import nl.novi.theartroom.dto.userdto.UserDto;
 import nl.novi.theartroom.exception.RecordNotFoundException;
+import nl.novi.theartroom.exception.auth.UsernameAlreadyExistsException;
 import nl.novi.theartroom.exception.model.UserNotFoundException;
 import nl.novi.theartroom.mapper.UserDtoMapper;
 import nl.novi.theartroom.model.users.Authority;
@@ -47,12 +48,15 @@ public class UserService {
     }
 
     public String createUser(UserDto userDto) {
+        if (userRepository.existsById(userDto.getUsername()))
+            throw new UsernameAlreadyExistsException("This username already exists, please choose another one.");
         User newUser = userRepository.save(userDtoMapper.toUser(userDto));
         return newUser.getUsername();
     }
 
-    public void updateUser(String username, UserDto newUser) {
-        if (!userRepository.existsById(username)) throw new RecordNotFoundException();
+    public void updateUserPassword(String username, UserDto newUser) {
+        if (!userRepository.existsById(username))
+            throw new RecordNotFoundException("User not found with username: " + username);
         User user = userRepository.findById(username).get();
         user.setPassword(newUser.getPassword());
         userRepository.save(user);
