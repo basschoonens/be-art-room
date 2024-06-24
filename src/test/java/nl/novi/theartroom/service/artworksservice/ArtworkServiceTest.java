@@ -81,6 +81,7 @@ class ArtworkServiceTest {
 
         artwork.setUser(user);
         artwork.setArtworkImage(artworkImage);
+        artwork.setArtist("artist");
 
         artworkInputDto = new ArtworkInputDto();
         artworkInputDto.setArtworkType("Painting");
@@ -305,12 +306,13 @@ class ArtworkServiceTest {
     void deleteArtworkForArtist_shouldDeleteArtwork() {
         // Arrange
         when(artworkRepository.findById(anyLong())).thenReturn(Optional.of(artwork));
+        doNothing().when(artworkRepository).delete(any());
 
         // Act
         artworkService.deleteArtworkForArtist(1L, "artist");
 
         // Assert
-        verify(artworkRepository, times(1)).delete(any(Artwork.class));
+        verify(artworkRepository, times(1)).delete(any());
     }
 
     @Test
@@ -328,6 +330,18 @@ class ArtworkServiceTest {
     void deleteArtworkForArtist_shouldThrowUnauthorizedAccessException() {
         // Arrange
         artwork.getUser().setUsername("otherArtist");
+        when(artworkRepository.findById(anyLong())).thenReturn(Optional.of(artwork));
+
+        // Act & Assert
+        assertThrows(UnauthorizedAccessException.class, () -> {
+            artworkService.deleteArtworkForArtist(1L, "artist");
+        });
+    }
+
+    @Test
+    void deleteArtworkForArtist_shouldThrowUnauthorizedAccessExceptionForDifferentArtist() {
+        // Arrange
+        artwork.setArtist("differentArtist");
         when(artworkRepository.findById(anyLong())).thenReturn(Optional.of(artwork));
 
         // Act & Assert
@@ -420,6 +434,24 @@ class ArtworkServiceTest {
         assertThrows(ArtworkNotFoundException.class, () -> {
             artworkService.updateArtworkForAdmin(1L, artworkInputDto);
         });
+    }
+
+    @Test
+    void updateArtworkForAdmin_shouldThrowInvalidArtworkTypeException() {
+        // Arrange
+        Artwork existingArtwork = new Artwork();
+        existingArtwork.setArtworkId(1L);
+        existingArtwork.setArtworkType("Painting");
+
+        when(artworkRepository.findById(anyLong())).thenReturn(Optional.of(existingArtwork));
+        artworkInputDto.setArtworkType("Sculpture");
+
+        // Act & Assert
+        assertThrows(InvalidArtworkTypeException.class, () -> {
+            artworkService.updateArtworkForAdmin(1L, artworkInputDto);
+        });
+
+        verify(artworkRepository, never()).save(any());
     }
 
     @Test
