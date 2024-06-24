@@ -329,7 +329,7 @@ class ArtworkServiceTest {
     @Test
     void deleteArtworkForArtist_shouldThrowUnauthorizedAccessException() {
         // Arrange
-        artwork.getUser().setUsername("otherArtist");
+        artwork.setArtist("otherArtist");
         when(artworkRepository.findById(anyLong())).thenReturn(Optional.of(artwork));
 
         // Act & Assert
