@@ -8,7 +8,11 @@ A 'the ArtRoom' frontend application was also made by me. Please find the reposi
 [https://github.com/basschoonens/frontend-the-art-room-eindopdracht](https://github.com/basschoonens/frontend-the-art-room-eindopdracht)
 
 Installation
+
+
 Download and install IntelliJ or any other appropriate IDE.
+
+
 Install PGAdmin 4
 
 Open de backend in IntelliJ IDEA:
