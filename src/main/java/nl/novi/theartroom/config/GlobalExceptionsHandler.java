@@ -1,6 +1,7 @@
 package nl.novi.theartroom.config;
 
 import nl.novi.theartroom.exception.*;
+import nl.novi.theartroom.exception.auth.UsernameAlreadyExistsException;
 import nl.novi.theartroom.exception.database.DatabaseException;
 import nl.novi.theartroom.exception.model.ArtworkNotFoundException;
 import nl.novi.theartroom.exception.model.InvalidArtworkTypeException;
@@ -49,6 +50,11 @@ public class GlobalExceptionsHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public ResponseEntity<String> handleUsernameAlreadyExistsException(UsernameAlreadyExistsException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(UnauthorizedAccessException.class)
     public ResponseEntity<String> handleUnauthorizedAccessException(UnauthorizedAccessException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
@@ -61,7 +67,7 @@ public class GlobalExceptionsHandler {
 
     @ExceptionHandler(MappingException.class)
     public ResponseEntity<String> handleMappingException(MappingException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(DatabaseException.class)

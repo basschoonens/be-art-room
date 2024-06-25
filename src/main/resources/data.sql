@@ -248,16 +248,16 @@ VALUES ('Jane Doe', 'ROLE_ARTIST');
 INSERT INTO artworks (artwork_id, title, artist, description, date_created, gallery_buying_price, edition,
                       artwork_image_file_name, artwork_type, username)
 VALUES (1047, 'Swan', 'Jane Doe', 'A painting of a swan flapping its wings while landing in the water.', '2017-10-28',
-        4600, 'single', '1047-swan-2893562.jpg', 'painting', 'Jane Doe'),
+        10600, 'Part of a series', '1047-swan-2893562.jpg', 'painting', 'Jane Doe'),
        (1051, 'Pelican', 'Jane Doe', 'Drawing in color of a beautiful pelican bird sitting on a log.', '2017-08-05',
-        5400, 'single', '1051-pelican-2585221.jpg', 'painting', 'Jane Doe'),
+        1400, 'Part of a series', '1051-pelican-2585221.jpg', 'painting', 'Jane Doe'),
        (1052, 'Tit', 'Jane Doe', 'Waterbased painting of a tit in the rain holding on to its branch', '2017-08-01',
-        6200, 'limited', '1052-tit-2566376.jpg', 'painting', 'Jane Doe'),
-       (1053, 'Soldier', 'Jane Doe', 'Soldier getting down on the ground and aiming his rifle.', '2018-07-09', 4300,
-        'limited', '1053-soldier-3524202.jpg', 'painting', 'Jane Doe'),
+        8200, 'Part of a series', '1052-tit-2566376.jpg', 'painting', 'Jane Doe'),
+       (1053, 'Soldier', 'Jane Doe', 'Soldier getting down on the ground and aiming his rifle.', '2018-07-09', 2000,
+        'Part of a series', '1053-soldier-3524202.jpg', 'painting', 'Jane Doe'),
        (1054, 'Fawn', 'Jane Doe',
-        'Fawn youngling drinking with its mother while the other fawn is relaxed in the grass', '2017-10-28', 4960,
-        'reproduction', '1054-fawn-2893471.jpg', 'painting', 'Jane Doe');
+        'Fawn youngling drinking with its mother while the other fawn is relaxed in the grass', '2017-10-28', 15060,
+        'Part of a series', '1054-fawn-2893471.jpg', 'painting', 'Jane Doe');
 
 
 INSERT INTO paintings (artwork_id, painting_surface, painting_material, painting_dimensions_width_in_cm,

@@ -127,42 +127,16 @@ public class ArtworkService {
         Optional<Artwork> artworkFound = artworkRepository.findById(artworkId);
         if (artworkFound.isEmpty()) {
             throw new ArtworkNotFoundException("Artwork with artworkId " + artworkId + " not found.");
-        } else {
-            Artwork artwork = artworkFound.get();
-            if (!artwork.getArtist().equals(username))
-                throw new UnauthorizedAccessException("User not authorized to delete this artwork");
-            if (!artwork.getUser().getUsername().equals(username)) {
-                throw new UnauthorizedAccessException("User not authorized to delete this artwork");
-            }
-            if (artwork.getArtworkImage() != null) {
-                uploadRepository.delete(artwork.getArtworkImage());
-            }
-            artworkRepository.delete(artwork);
         }
+        Artwork artwork = artworkFound.get();
+        if (!artwork.getArtist().equals(username)) {
+            throw new UnauthorizedAccessException("User not authorized to delete this artwork");
+        }
+        if (artwork.getArtworkImage() != null) {
+            uploadRepository.delete(artwork.getArtworkImage());
+        }
+        artworkRepository.delete(artwork);
     }
-
-//    public void deleteArtworkForArtist(Long artworkId, String username) {
-//        Optional<Artwork> artworkFound = artworkRepository.findById(artworkId);
-//
-//        if (artworkFound.isEmpty()) {
-//            throw new ArtworkNotFoundException("Artwork with artworkId " + artworkId + " not found.");
-//        }
-//
-//        Artwork artwork = artworkFound.get();
-//
-//        // Ensure the logged-in user is the artist
-//        if (!artwork.getArtist().equals(username)) {
-//            throw new UnauthorizedAccessException("User not authorized to delete this artwork");
-//        }
-//
-//        // Optionally, check if the artwork image exists and delete it from the repository
-//        if (artwork.getArtworkImage() != null) {
-//            uploadRepository.delete(artwork.getArtworkImage());
-//        }
-//
-//        // Finally, delete the artwork itself
-//        artworkRepository.delete(artwork);
-//    }
 
     // IMAGE METHODS
 

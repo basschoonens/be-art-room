@@ -81,6 +81,7 @@ class ArtworkServiceTest {
 
         artwork.setUser(user);
         artwork.setArtworkImage(artworkImage);
+        artwork.setArtist("artist");
 
         artworkInputDto = new ArtworkInputDto();
         artworkInputDto.setArtworkType("Painting");
@@ -92,7 +93,6 @@ class ArtworkServiceTest {
         artworkOutputArtistAdminDto.setArtworkId(1L);
     }
 
-    // Tests for getAllArtworks
     @Test
     void getAllArtworks_shouldReturnListOfArtworkOutputUserDtos() {
         // Arrange
@@ -107,7 +107,6 @@ class ArtworkServiceTest {
         assertEquals(1L, result.get(0).getArtworkId());
     }
 
-    // Tests for getArtworkById
     @Test
     void getArtworkById_shouldReturnArtworkOutputUserDto() {
         // Arrange
@@ -131,7 +130,6 @@ class ArtworkServiceTest {
         assertThrows(ArtworkNotFoundException.class, () -> artworkService.getArtworkById(1L));
     }
 
-    // Tests for getArtworksByArtist
     @Test
     void getArtworksByArtist_shouldReturnListOfArtworkOutputArtistAdminDtos() {
         // Arrange
@@ -147,7 +145,6 @@ class ArtworkServiceTest {
         assertEquals(1L, result.get(0).getArtworkId());
     }
 
-    // Tests for getArtworkByArtist
     @Test
     void getArtworkByArtist_shouldReturnArtworkOutputArtistAdminDto() {
         // Arrange
@@ -181,7 +178,6 @@ class ArtworkServiceTest {
         assertThrows(UnauthorizedAccessException.class, () -> artworkService.getArtworkByArtist(1L, "artist"));
     }
 
-    // Tests for createArtworkForArtist
     @Test
     void createArtworkForArtist_shouldReturnArtworkId() {
         // Arrange
@@ -221,7 +217,6 @@ class ArtworkServiceTest {
         assertThrows(DatabaseException.class, () -> artworkService.createArtworkForArtist(artworkInputDto, "artist"));
     }
 
-    // Tests for updateArtworkForArtist
     @Test
     void updateArtworkForArtist_shouldUpdateArtwork() {
         // Arrange
@@ -305,12 +300,13 @@ class ArtworkServiceTest {
     void deleteArtworkForArtist_shouldDeleteArtwork() {
         // Arrange
         when(artworkRepository.findById(anyLong())).thenReturn(Optional.of(artwork));
+        doNothing().when(artworkRepository).delete(any());
 
         // Act
         artworkService.deleteArtworkForArtist(1L, "artist");
 
         // Assert
-        verify(artworkRepository, times(1)).delete(any(Artwork.class));
+        verify(artworkRepository, times(1)).delete(any());
     }
 
     @Test
@@ -327,7 +323,19 @@ class ArtworkServiceTest {
     @Test
     void deleteArtworkForArtist_shouldThrowUnauthorizedAccessException() {
         // Arrange
-        artwork.getUser().setUsername("otherArtist");
+        artwork.setArtist("otherArtist");
+        when(artworkRepository.findById(anyLong())).thenReturn(Optional.of(artwork));
+
+        // Act & Assert
+        assertThrows(UnauthorizedAccessException.class, () -> {
+            artworkService.deleteArtworkForArtist(1L, "artist");
+        });
+    }
+
+    @Test
+    void deleteArtworkForArtist_shouldThrowUnauthorizedAccessExceptionForDifferentArtist() {
+        // Arrange
+        artwork.setArtist("differentArtist");
         when(artworkRepository.findById(anyLong())).thenReturn(Optional.of(artwork));
 
         // Act & Assert
@@ -420,6 +428,24 @@ class ArtworkServiceTest {
         assertThrows(ArtworkNotFoundException.class, () -> {
             artworkService.updateArtworkForAdmin(1L, artworkInputDto);
         });
+    }
+
+    @Test
+    void updateArtworkForAdmin_shouldThrowInvalidArtworkTypeException() {
+        // Arrange
+        Artwork existingArtwork = new Artwork();
+        existingArtwork.setArtworkId(1L);
+        existingArtwork.setArtworkType("Painting");
+
+        when(artworkRepository.findById(anyLong())).thenReturn(Optional.of(existingArtwork));
+        artworkInputDto.setArtworkType("Sculpture");
+
+        // Act & Assert
+        assertThrows(InvalidArtworkTypeException.class, () -> {
+            artworkService.updateArtworkForAdmin(1L, artworkInputDto);
+        });
+
+        verify(artworkRepository, never()).save(any());
     }
 
     @Test
