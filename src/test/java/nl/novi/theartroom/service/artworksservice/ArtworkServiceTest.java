@@ -93,7 +93,6 @@ class ArtworkServiceTest {
         artworkOutputArtistAdminDto.setArtworkId(1L);
     }
 
-    // Tests for getAllArtworks
     @Test
     void getAllArtworks_shouldReturnListOfArtworkOutputUserDtos() {
         // Arrange
@@ -108,7 +107,6 @@ class ArtworkServiceTest {
         assertEquals(1L, result.get(0).getArtworkId());
     }
 
-    // Tests for getArtworkById
     @Test
     void getArtworkById_shouldReturnArtworkOutputUserDto() {
         // Arrange
@@ -132,7 +130,6 @@ class ArtworkServiceTest {
         assertThrows(ArtworkNotFoundException.class, () -> artworkService.getArtworkById(1L));
     }
 
-    // Tests for getArtworksByArtist
     @Test
     void getArtworksByArtist_shouldReturnListOfArtworkOutputArtistAdminDtos() {
         // Arrange
@@ -148,7 +145,6 @@ class ArtworkServiceTest {
         assertEquals(1L, result.get(0).getArtworkId());
     }
 
-    // Tests for getArtworkByArtist
     @Test
     void getArtworkByArtist_shouldReturnArtworkOutputArtistAdminDto() {
         // Arrange
@@ -182,7 +178,6 @@ class ArtworkServiceTest {
         assertThrows(UnauthorizedAccessException.class, () -> artworkService.getArtworkByArtist(1L, "artist"));
     }
 
-    // Tests for createArtworkForArtist
     @Test
     void createArtworkForArtist_shouldReturnArtworkId() {
         // Arrange
@@ -222,7 +217,6 @@ class ArtworkServiceTest {
         assertThrows(DatabaseException.class, () -> artworkService.createArtworkForArtist(artworkInputDto, "artist"));
     }
 
-    // Tests for updateArtworkForArtist
     @Test
     void updateArtworkForArtist_shouldUpdateArtwork() {
         // Arrange

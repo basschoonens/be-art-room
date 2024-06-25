@@ -51,11 +51,9 @@ class OrderServiceTest {
     void setUp() {
         reset(orderRepository, userService, orderDtoMapper);
 
-        // Mock User
         User user = new User();
         user.setUsername("Alice");
 
-        // Mock OrderInputDto
         orderInputDto = new OrderInputDto();
         orderInputDto.setOrderNumber("ORD123");
         orderInputDto.setOrderStatus("NEW");
@@ -67,7 +65,6 @@ class OrderServiceTest {
         orderInputDto.setCity("Amsterdam");
         orderInputDto.setArtworkId(Arrays.asList(1L, 2L));
 
-        // Mock OrderOutputDto
         orderOutputDto = new OrderOutputDto();
         orderOutputDto.setOrderId(1L);
         orderOutputDto.setOrderNumber("ORD123");
@@ -80,7 +77,6 @@ class OrderServiceTest {
         orderOutputDto.setCity("Amsterdam");
         orderOutputDto.setArtworks(new HashSet<>(Arrays.asList(new ArtworkOutputUserDto(), new ArtworkOutputUserDto())));
 
-        // Mock Orders
         order1 = new Order();
         order1.setOrderId(1L);
         order1.setOrderNumber("ORD123");
@@ -122,7 +118,6 @@ class OrderServiceTest {
         assertEquals(2, orders.size());
     }
 
-    // Test for createOrderForUser method
     @Test
     void createOrderForUser_shouldReturnOrderId() {
         // Arrange
@@ -152,7 +147,6 @@ class OrderServiceTest {
         assertThrows(MappingException.class, () -> orderService.createOrderForUser("Alice", orderInputDto));
     }
 
-    // createOrderForUser should throw DatabaseException
     @Test
     void createOrderForUser_shouldThrowDatabaseException() {
         // Arrange
@@ -165,7 +159,6 @@ class OrderServiceTest {
         assertThrows(RuntimeException.class, () -> orderService.createOrderForUser("Alice", orderInputDto));
     }
 
-    // Test for getAllOrdersForAdmin method
     @Test
     void getAllOrdersForAdmin_shouldReturnListOfOrders() {
         // Arrange
@@ -179,7 +172,6 @@ class OrderServiceTest {
         assertEquals(2, orders.size());
     }
 
-    // Test for getOrderByIdForAdmin method
     @Test
     void getOrderByIdForAdmin_shouldReturnOrder() {
         // Arrange
@@ -195,7 +187,6 @@ class OrderServiceTest {
         assertEquals(orderId, order.getOrderId());
     }
 
-    // Test for approveOrderForAdmin method
     @Test
     void approveOrderForAdmin_shouldApproveOrder() {
         // Arrange
@@ -213,7 +204,6 @@ class OrderServiceTest {
         // Add more specific assertions if needed
     }
 
-    // Test for deleteOrderForAdmin method
     @Test
     void deleteOrderForAdmin_shouldDeleteOrder() {
         // Arrange
@@ -226,7 +216,6 @@ class OrderServiceTest {
         verify(orderRepository, times(1)).deleteById(orderId);
     }
 
-    // Test for getAllOrders method
     @Test
     void getAllOrders_shouldReturnListOfOrders() {
         // Arrange
@@ -240,7 +229,6 @@ class OrderServiceTest {
         assertEquals(2, orders.size());
     }
 
-    // Test for getOrderById method
     @Test
     void getOrderById_shouldReturnOrder() {
         // Arrange
@@ -256,7 +244,6 @@ class OrderServiceTest {
         assertEquals(orderId, order.getOrderId());
     }
 
-    // Test for createOrder method
     @Test
     void createOrder_shouldReturnOrderId() {
         // Arrange
@@ -351,7 +338,6 @@ class OrderServiceTest {
         assertThrows(DatabaseException.class, () -> orderService.updateOrder(orderId, orderInputDto));
     }
 
-    // Test for deleteOrder method
     @Test
     void deleteOrder_shouldDeleteOrder() {
         // Arrange

@@ -11,7 +11,6 @@ import nl.novi.theartroom.exception.auth.UnauthorizedAccessException;
 import nl.novi.theartroom.exception.model.UserNotFoundException;
 import nl.novi.theartroom.exception.util.BadRequestException;
 import nl.novi.theartroom.exception.util.MappingException;
-import nl.novi.theartroom.model.users.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

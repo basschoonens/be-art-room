@@ -42,10 +42,8 @@ public class OrderControllerIntegrationTest {
     @Test
     @WithMockUser(username = "Alice", roles = "USER")
     public void createOrderForUserIntegrationTest() throws Exception {
-        // Mock user service to return a fixed username
         when(userService.getCurrentLoggedInUsername()).thenReturn("Alice");
 
-        // Mock order service to return a fixed OrderOutputDto
         OrderOutputDto mockOrderOutputDto = new OrderOutputDto();
         mockOrderOutputDto.setOrderId(1L);
         mockOrderOutputDto.setOrderNumber("ORD987654");
@@ -60,7 +58,6 @@ public class OrderControllerIntegrationTest {
 
         when(orderService.createOrderForUser(any(String.class), any(OrderInputDto.class))).thenReturn(mockOrderOutputDto);
 
-        // Create an OrderInputDto for the request body
         OrderInputDto orderInputDto = new OrderInputDto();
         orderInputDto.setOrderNumber("ORD987654");
         orderInputDto.setOrderDate("2024-06-12");
@@ -73,7 +70,6 @@ public class OrderControllerIntegrationTest {
         orderInputDto.setCity("Utrecht");
         orderInputDto.setArtworkId(List.of(1L, 2L));
 
-        // Perform POST request to create an order
         mockMvc.perform(MockMvcRequestBuilders.post("/orders/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(orderInputDto)))
